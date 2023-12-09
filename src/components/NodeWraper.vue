@@ -1,0 +1,96 @@
+<template>
+    <div :id="node.id" :style="`left:${position.x}px; top: ${position.y}px;`" class="node-wraper" @mousedown="startDrag">
+        <Node :node="node" />
+    </div>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import { useNodeEditor } from "@/stores/nodeEditor"
+import Node from "@/components/Nodes/Node.vue"
+/* import VariableNode from './Nodes/VariableNode.vue'
+import PrintNode from './Nodes/PrintNode.vue'; */
+import { NodeComponent } from '@/types/NodeComponent';
+import { Position } from '@/types/Position';
+
+const props = defineProps<{
+    node: NodeComponent
+}>()
+
+const nodeEditorStore = useNodeEditor()
+
+const nodeStartingPosition = props.node.position
+const startPosition = reactive(new Position(0, 0));
+const currentPosition = reactive(nodeStartingPosition);
+const position = reactive(nodeStartingPosition);
+
+// Handle dragging responsiveness
+const dragStore = reactive({
+    isDragging: false,
+    enable() {
+        this.isDragging = true;
+    },
+    disable() {
+        this.isDragging = false;
+    },
+});
+
+function startDrag(event: MouseEvent) {
+    if (event.button === 1) return;
+    // Update the flag and record the initial mouse positions
+    const allowedClassNames = ["node-wraper", "node-header", "field"]
+    const target = event.target as HTMLElement;
+    if (!allowedClassNames.includes(target.className)) return
+
+    startPosition.x = event.clientX / nodeEditorStore.scale - currentPosition.x;
+    startPosition.y = event.clientY / nodeEditorStore.scale - currentPosition.y;
+
+    dragStore.enable()
+    document.body.classList.add('move-cursor');
+
+    // Add listeners for moving the node
+    window.addEventListener("mousemove", drag)
+    window.addEventListener("mouseup", endDrag)
+}
+
+function drag(event: MouseEvent) {
+    if (dragStore.isDragging) {
+        // Update the position values based on the mouse movement
+        currentPosition.x = event.clientX / nodeEditorStore.scale - startPosition.x;
+        currentPosition.y = event.clientY / nodeEditorStore.scale - startPosition.y;
+        position.x = currentPosition.x;
+        position.y = currentPosition.y;
+    }
+}
+
+function endDrag(event: MouseEvent) {
+    // Reset the dragging flag
+    dragStore.disable()
+    document.body.classList.remove('move-cursor');
+    // Remove listeners for moving the node
+    window.removeEventListener("mousemove", drag)
+    window.removeEventListener("mouseup", endDrag)
+}
+
+</script>
+
+
+<style scoped>
+.node-wraper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 20rem;
+    background-color: var(--primary-color);
+    border-radius: 0.1rem;
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--tertiary-color);
+    display: grid;
+    grid-template-columns: 1.25rem 1fr 1.25rem;
+    grid-auto-flow: row;
+    gap: 1rem 0;
+    padding-bottom: 1rem;
+    box-shadow: 0px 0px 100px rgba(0, 0, 0, 0.5);
+    user-select: none;
+}
+</style>

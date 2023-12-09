@@ -1,0 +1,52 @@
+@import './base.css';
+
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a {
+  font-family: 'RobotoMono', monospace;
+  color: var(--tertiary-color);
+}
+
+input,
+textarea {
+  font-family: 'RobotoMono', monospace;
+  font-weight: 600;
+  font-size: 1rem;
+  color: var(--tertiary-color);
+}
+
+span {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Custom styles */
+.panning-cursor {
+  cursor: grabbing;
+}
+
+.move-cursor {
+  cursor: move;
+}
+
+.primary-btn-c {
+  background-color: var(--input-color);
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  color: var(--primary-color);
+  border: none;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-radius: 0.1rem;
+  width: 100%;
+}
+
+.primary-btn-c:active {
+  background-color: rgb(4, 184, 184);
+}

@@ -1,0 +1,49 @@
+:root {
+  --primary-color: #232323;
+  --primary-accent-color: #323232;
+  --secondary-color: #454545;
+  --tertiary-color: #ffffff;
+  --accent-color: #6a6a6a;
+  --input-color: #439ebb;
+  --output-color: #aa43bb;
+  --bg-color: rgb(28, 28, 28);
+  --transparent-bg: rgb(28, 28, 28, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  font-weight: normal;
+}
+
+body {
+  overflow: hidden;
+  background-color: var(--bg-color);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
