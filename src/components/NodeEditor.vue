@@ -7,8 +7,8 @@
 
 <script setup lang="ts">
 import { useNodeEditor } from '@/stores/nodeEditor';
-import NodeWraper from './NodeWraper.vue';
-import LinksWraper from './Links/LinksWraper.vue';
+/* import NodeWraper from './NodeWraper.vue';
+import LinksWraper from './Links/LinksWraper.vue'; */
 
 const nodeEditorStore = useNodeEditor()
 

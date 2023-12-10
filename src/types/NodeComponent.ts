@@ -90,10 +90,42 @@ export class VariableNodeComponent extends NodeComponent {
   }
 
   initInterfaces(): void {
-    this.addInputInterfaceComponent(new InterfaceComponent(genId(), { label: 'value' }))
-    this.addInputInterfaceComponent(new InterfaceComponent(genId(), { label: 'value' }))
-    this.addOutputInterfaceComponent(
-      new InterfaceComponent(genId(), { label: 'value', component: 'DefaultTemplate' })
+    this.addInputInterfaceComponent(
+      new InterfaceComponent(genId(), { label: 'value', component: 'NumberInput', value: 2 })
+    )
+    this.addOutputInterfaceComponent(new InterfaceComponent(genId(), { label: 'output' }))
+    this.addOptionInterfaceComponent(
+      new InterfaceComponent(genId(), {
+        label: 'type',
+        component: 'DropDown',
+        value: 'number',
+        values: [
+          {
+            label: 'null',
+            icon: 'number'
+          },
+          {
+            label: 'boolean',
+            icon: 'number'
+          },
+          {
+            label: 'string',
+            icon: 'string'
+          },
+          {
+            label: 'number',
+            icon: 'number'
+          },
+          {
+            label: 'object',
+            icon: 'number'
+          },
+          {
+            label: 'array',
+            icon: 'number'
+          }
+        ]
+      })
     )
   }
 

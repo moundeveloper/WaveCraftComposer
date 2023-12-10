@@ -1,14 +1,13 @@
 <template>
     <div class="default-template-wraper">
-        {{ data.options.label || "Value" }}
+        {{ data?.options?.label || "Value" }}
     </div>
 </template>
 
 <script setup lang="ts">
-import type { ComponentOptions } from '@/types/InterfaceComponent';
-import type { FieldProps } from './types';
+import type { HElementProps } from './types';
 
-const props = defineProps<FieldProps>()
+defineProps<HElementProps>()
 </script>
 
 <style  scoped>

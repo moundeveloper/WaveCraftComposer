@@ -1,13 +1,16 @@
 <template>
     <div class="dropdown-wraper" ref="dropdownMenu">
         <div class="dropdown-header" @click="handleDropDown">
-            {{ data.options.label }}
+            {{ data.options?.label }}
             <span> {{ selected }}</span>
-            <img src="../../assets/icons/down-arrow-icon.svg" alt="">
+            <img src="../../assets/icons/down-arrow-icon.svg" alt="" />
         </div>
         <div v-show="currentState === states.OPENED" class="dropdown-body">
             <ul>
-                <li v-for="(value, i) in data.options.values" :key="i" @click="handleDropDownSelection(value)">{{ value }}
+                <li class="dropdown-option" v-for="(fieldOption, i) in data.options?.values" :key="i"
+                    @click="handleDropDownSelection(fieldOption.label)">
+                    <WaveCraftIcon v-if="fieldOption.icon !== undefined" :icon-name="fieldOption.icon" />
+                    {{ fieldOption.label }}
                 </li>
             </ul>
         </div>
@@ -15,56 +18,50 @@
 </template>
 
 <script setup lang="ts">
-import { InterfaceC } from '../../classes/Interface';
-import type { FieldProps } from "./types"
+import { defineProps, ref, onMounted, onBeforeUnmount } from 'vue';
+import type { DataProps } from './types';
+import WaveCraftIcon from "@/components/Shared/WaveCraftIcon.vue"
 
-const props = defineProps({
-    data: {
-        interface: InterfaceC,
-        options: {
-            label: String,
-            values: Array
-        }
-    },
-    updateHandler: Function
-})
+const props = defineProps<{
+    data: DataProps,
+    updateHandler: Function,
+}>();
 
 const states = {
-    CLOSED: "closed", OPENED: "opened"
-}
+    CLOSED: 'closed',
+    OPENED: 'opened',
+};
 
-const currentState = ref(states.CLOSED)
-const dropdownMenu = ref(null)
-const selected = ref(props.data.interface?.type || props.data.options.values[0])
+const currentState = ref(states.CLOSED);
+const dropdownMenu = ref<HTMLElement | null>(null);
+const selected = ref<string | null>(props.data.options?.value);
 
-const handleDropDown = (event) => {
-    if (event.target !== dropdownMenu)
-
+const handleDropDown = (event: MouseEvent) => {
+    if (event.target !== dropdownMenu.value)
         if (currentState.value === states.CLOSED) {
-            currentState.value = states.OPENED
-            return
+            currentState.value = states.OPENED;
+            return;
         }
+    currentState.value = states.CLOSED;
+};
 
-    currentState.value = states.CLOSED
-}
-
-const handleDropDownSelection = (value) => {
-    selected.value = value
-    currentState.value = states.CLOSED
+const handleDropDownSelection = (value: any) => {
+    selected.value = value;
+    currentState.value = states.CLOSED;
 
     if (props.data.interface) {
-        props.updateHandler({ interfaceId: props.data.interface.id, value: selected.value })
-        return
+        props.updateHandler({ interfaceId: props.data.interface.id, value: selected.value });
+        return;
     }
-    props.updateHandler(selected.value)
-}
+    props.updateHandler(selected.value);
+};
 
-const handleClickOutside = (event) => {
-    if (!dropdownMenu.value.contains(event.target)) {
+const handleClickOutside = (event: MouseEvent) => {
+    if (dropdownMenu.value === null) return
+    if (!dropdownMenu.value.contains(event.target as Node)) {
         currentState.value = states.CLOSED;
     }
-}
-
+};
 
 onMounted(() => {
     window.addEventListener('click', handleClickOutside);
@@ -73,19 +70,12 @@ onMounted(() => {
 onBeforeUnmount(() => {
     window.removeEventListener('click', handleClickOutside);
 });
-
-
 </script>
 
-<style  scoped>
-ul {
-    list-style: none;
-}
-
+<style scoped>
 img {
-    width: .8rem;
+    width: 0.8rem;
 }
-
 
 .dropdown-wraper {
     width: 100%;
@@ -118,12 +108,19 @@ img {
 ul {
     display: flex;
     flex-direction: column;
+    list-style: none;
+    padding: 0;
 }
 
 li {
     padding: 0.25rem 0.5rem;
     border-radius: 0.1rem;
     cursor: pointer;
+}
+
+.dropdown-option {
+    display: flex;
+    gap: 1rem;
 }
 
 li:hover {

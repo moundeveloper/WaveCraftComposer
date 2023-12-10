@@ -6,12 +6,10 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { useNodeEditor } from "@/stores/nodeEditor"
 import Node from "@/components/Nodes/Node.vue"
-/* import VariableNode from './Nodes/VariableNode.vue'
-import PrintNode from './Nodes/PrintNode.vue'; */
 import { NodeComponent } from '@/types/NodeComponent';
 import { Position } from '@/types/Position';
+import { useNodeEditor } from '@/stores/nodeEditor';
 
 const props = defineProps<{
     node: NodeComponent

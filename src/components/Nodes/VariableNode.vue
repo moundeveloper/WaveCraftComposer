@@ -9,16 +9,13 @@
 
 
     <!-- Output fields -->
-    <div v-for="outputInterface in  node.outputInterfaces " class="node-field right-field">
+    <div v-for="outputInterface in node.outputInterfaces " class="node-field right-field">
         <div class="field">
             <FieldWraper :field="{
                 data: {
                     interface: outputInterface,
                     options: outputInterface.options
-                }, updateHandler:
-                    () => {
-                        console.log(' cringe')
-                    }
+                }
             }" />
         </div>
         <div :id="outputInterface.id" class="interface out"></div>
@@ -27,13 +24,12 @@
     <!-- Fields -->
     <div v-for=" optionInterface  in  node.optionInterfaces " class="node-field">
         <div class="field">
-            <!--        <FieldWraper :field="{
-                fieldName: option.component,
+            <FieldWraper :field="{
                 data: {
-                    options: option.options
-                }, updateHandler:
-                    handleUpdatedBehaviour
-            }" /> -->
+                    interface: optionInterface,
+                    options: optionInterface.options
+                }
+            }" />
         </div>
     </div>
 
@@ -45,6 +41,8 @@
                 data: {
                     interface: inputInterface,
                     options: inputInterface.options
+                }, updateHandler: (something: any) => {
+                    console.log(something)
                 }
             }" />
         </div>
@@ -82,7 +80,6 @@ const allowNameEdit = ref(false)
 
 const handleEdit = () => {
     allowNameEdit.value = !allowNameEdit.value
-    console.log(allowNameEdit.value)
 }
 
 const handleKeyDown = (event: KeyboardEvent) => {

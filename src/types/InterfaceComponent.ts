@@ -1,10 +1,15 @@
 import { NodeComponent } from './NodeComponent'
 
+export interface DropDownFieldOptions {
+  label: string
+  icon?: string
+}
+
 export interface ComponentOptions {
   label: string
   component?: string
   value?: any
-  values?: Array<any>
+  values?: Array<DropDownFieldOptions>
 }
 
 export class InterfaceComponent {

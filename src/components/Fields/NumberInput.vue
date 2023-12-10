@@ -5,7 +5,7 @@
         </button>
         <div class="number-input-body" @mousedown="startDrag" @mousemove="handleDrag" @mouseup="stopDrag"
             @dblclick="handleDoubleClick">
-            <span>{{ data.options.label }}</span>
+            <span>{{ data.options?.label }}</span>
             <span>{{ computedValue }}</span>
         </div>
         <button @click="handleAdd">
@@ -17,25 +17,19 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, computed, nextTick, watch } from 'vue';
-import { InterfaceC } from '../../classes/Interface';
+import type { DataProps } from './types';
 
 
-const props = defineProps({
-    data: {
-        interface: InterfaceC,
-        options: {
-            label: String,
-            defaultValue: Number
-        }
-    },
-    updateHandler: Function
-})
+const props = defineProps<{
+    data: DataProps,
+    updateHandler: Function,
+}>();
 
-const currentValue = ref(props.data.options.defaultValue)
+const currentValue = ref(props.data.options?.value)
 const editable = ref(false)
-const editableElement = ref(null)
+const editableElement = ref<HTMLElement | null>(null)
 
 let isDragging = false
 let startX = 0;
@@ -55,28 +49,31 @@ const handleAdd = () => {
 const handleDoubleClick = () => {
     editable.value = !editable.value
     nextTick(() => {
+        if (editableElement.value === null) return
         editableElement.value.focus()
         selectElementContent(editableElement.value);
     })
 
 }
 
-const selectElementContent = (element) => {
+const selectElementContent = (element: HTMLElement) => {
     const range = document.createRange();
     range.selectNodeContents(element);
 
     const selection = window.getSelection();
+    if (selection === null) return
     selection.removeAllRanges();
     selection.addRange(range);
 };
 
 
-const handleKeyDown = (event) => {
+const handleKeyDown = (event: KeyboardEvent) => {
     if (event.keyCode === 13 || event.key === 'Enter') {
         event.preventDefault();
         if (event.target === editableElement.value) {
             const value = editableElement.value?.innerText
-            if (!isNaN(value)) {
+            if (value === undefined) return
+            if (!isNaN(parseInt(value))) {
                 currentValue.value = +value
             }
             editable.value = false
@@ -84,22 +81,23 @@ const handleKeyDown = (event) => {
     }
 }
 
-const handleClickOutside = (event) => {
+const handleClickOutside = (event: FocusEvent) => {
     const value = editableElement.value?.innerText
-    if (!isNaN(value)) {
+    if (value === undefined) return
+    if (!isNaN(parseInt(value))) {
         currentValue.value = +value
     }
     editable.value = false
 }
 
 
-const startDrag = (event) => {
+const startDrag = (event: MouseEvent) => {
     isDragging = true;
     startX = event.clientX;
     startValue = parseFloat(currentValue.value);
 };
 
-const handleDrag = (event) => {
+const handleDrag = (event: MouseEvent) => {
     if (!isDragging) return;
     const diffX = event.clientX - startX;
     const newValue = startValue + (diffX / 1000);

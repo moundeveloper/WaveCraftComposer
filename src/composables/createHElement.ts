@@ -5,8 +5,8 @@ interface HElementProps {
   updateHandler?: Function
 }
 
-export const createHField = (name: string, props: HElementProps) => {
-  return h(name, {
+export const createHField = (element: object, props: HElementProps) => {
+  return h(element, {
     data: props.data,
     updateHandler: props.updateHandler
   })
