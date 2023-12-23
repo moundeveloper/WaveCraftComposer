@@ -1,29 +1,31 @@
 <template>
     <svg class="path-wraper">
         <g fill="none" stroke="white" stroke-width="2">
-            <Link v-for="link in nodeEditorStore.links" :link="link" />
+            <Link v-for="link in nodeEditorStore.links" :link="link" :key="link.id" />
             <TemporaryLink v-if="isTemporaryLinkActive" :temporaryLinkData="temporaryLinkData" />
         </g>
     </svg>
 </template>
 
 <script setup lang="ts">
-import { onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { useNodeEditor } from '@/stores/nodeEditor';
-import { LinkBuilder } from '@/types/Link';
-import { genId } from '@/utils/utility';
-import type { InterfaceComponent } from '@/types/InterfaceComponent';
+import { LinkRulesValidator, NotSameInterfaceType, LinkRule, NotSameInterfaceNode, NotSameInterfaceInput } from '@/types/LinkRules/LinkRule';
+import { genId, removeElementFromList } from '@/utils/utility';
+import { InterfaceComponent } from '@/types/InterfaceComponent';
 import Link from './Link.vue';
 import TemporaryLink from './TemporaryLink.vue';
 import { Position } from '@/types/Position';
 import type { TemporaryLinkData } from "./types";
 import { getElementPositionOffset } from '@/utils/InterfaceElement';
+import { LinkBuilder } from '@/types/Link';
+import { useTerminal, Status } from '@/stores/terminal';
 
 interface LinkingInterfaces {
     sourceInterface: InterfaceComponent | undefined
     targetInterface: InterfaceComponent | undefined
 }
-
+const emits = defineEmits(['linkingSuccessfull', 'linkingFailed'])
 const nodeEditorStore = useNodeEditor()
 const isTemporaryLinkActive = ref(false)
 const temporaryLinkData = reactive<TemporaryLinkData>({
@@ -35,6 +37,14 @@ const linkingInterfaces = reactive<LinkingInterfaces>({
     sourceInterface: undefined,
     targetInterface: undefined
 })
+
+const terminalStore = useTerminal()
+
+// Prepare link validation
+const linkRuleValidator = new LinkRulesValidator()
+linkRuleValidator.registerLinkRule(new NotSameInterfaceType())
+linkRuleValidator.registerLinkRule(new NotSameInterfaceNode())
+linkRuleValidator.registerLinkRule(new NotSameInterfaceInput())
 
 const initLinking = (event: MouseEvent) => {
     if (event.button === 1) return;
@@ -52,8 +62,6 @@ const initLinking = (event: MouseEvent) => {
         temporaryLinkData.sourceInterface = linkingInterfaces.sourceInterface
         // Fixed starting position for temporary-link
         sourcePosition = getElementPositionOffset(linkTarget.targetInterfaceComponent?.id)
-        console.log(sourcePosition)
-        console.log(temporaryLinkData.startPostion)
     } else {
         linkingInterfaces.sourceInterface = nodeInterface
         temporaryLinkData.sourceInterface = linkingInterfaces.sourceInterface
@@ -75,14 +83,34 @@ const completeLinking = (event: MouseEvent) => {
     const target = event.target as HTMLElement;
     linkingInterfaces.targetInterface = nodeEditorStore.getInterfaceById(target.id)
 
-    if (linkingInterfaces.sourceInterface && linkingInterfaces.targetInterface) {
-        const link = new LinkBuilder().createLink(genId(), linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
-        console.log(link)
-        if (!link) return
-        nodeEditorStore.addLink(link)
-        return
-    }
+    if (linkingInterfaces.sourceInterface instanceof InterfaceComponent
+        && linkingInterfaces.targetInterface instanceof InterfaceComponent) {
+        const { allValid, successfullRules, failedRules } = linkRuleValidator.validateRules(linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
+        console.log(successfullRules)
+        successfullRules.forEach(rule => processSuccessfullRule(rule, successfullRules, linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface))
+        failedRules.forEach(rule => processFailedRule(rule, failedRules))
+        if (failedRules.length === 0) {
+            const link = new LinkBuilder().createLink(genId(), linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
+            nodeEditorStore.addLink(link)
+            successfullRules.forEach(rule => {
+                terminalStore.addLog({
+                    id: genId(),
+                    message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${linkingInterfaces.sourceInterface?.id}, target: ${linkingInterfaces.targetInterface?.id}`,
+                    status: Status.SUCCESS
+                })
+            })
 
+            return
+        }
+
+        failedRules.forEach(rule => {
+            terminalStore.addLog({
+                id: genId(),
+                message: rule.message(),
+                status: Status.ERROR
+            })
+        })
+    }
 }
 
 const notLinking = (event: MouseEvent) => {
@@ -92,10 +120,65 @@ const notLinking = (event: MouseEvent) => {
     temporaryLinkData.sourceInterface = undefined
 }
 
+
+const processSuccessfullRule = (rule: LinkRule, rules: LinkRule[], sourceInterfaceComponent: InterfaceComponent,
+    targetInterfaceComponent: InterfaceComponent) => {
+    switch (true) {
+        case rule instanceof NotSameInterfaceInput:
+            // Code for NotSameInterfaceInput
+            console.log("Processing successfull NotSameInterfaceInput");
+            console.log(nodeEditorStore.links)
+            nodeEditorStore.removeLinkByInterface(targetInterfaceComponent)
+            console.log(nodeEditorStore.links)
+            break;
+
+        case rule instanceof NotSameInterfaceNode:
+            // Code for NotSameInterfaceInput
+            console.log("Processing successfull NotSameInterfaceNode");
+            break;
+
+        case rule instanceof NotSameInterfaceType:
+            // Code for NotSameInterfaceInput
+            console.log("Processing successfull NotSameInterfaceType");
+            break;
+
+        default:
+            // Code for the base Rule class
+            console.log("No Rule subclass matches the rule");
+            break;
+    }
+}
+const processFailedRule = (rule: LinkRule, rules: LinkRule[]) => {
+    switch (true) {
+        case rule instanceof NotSameInterfaceInput:
+            // Code for NotSameInterfaceInput
+            console.log("Processing failed NotSameInterfaceInput");
+            removeElementFromList(rules, rule)
+            break;
+
+        case rule instanceof NotSameInterfaceNode:
+            // Code for NotSameInterfaceInput
+            console.log("Processing failed NotSameInterfaceNode");
+            break;
+
+        case rule instanceof NotSameInterfaceType:
+            // Code for NotSameInterfaceInput
+            console.log("Processing failed NotSameInterfaceType");
+            break;
+
+        default:
+            // Code for the base Rule class
+            console.log("No Rule subclass matches the rule");
+            break;
+    }
+}
+
+
 const togglePanZoom = (value: boolean) => {
     nodeEditorStore.canZoom = value
     nodeEditorStore.canPan = value
 }
+
 
 interface Element {
     removeEventListener(type: 'mousedown' | 'mouseup', listener: (event: MouseEvent) => any, options?: boolean | EventListenerOptions): void;

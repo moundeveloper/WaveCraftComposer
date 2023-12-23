@@ -1,24 +1,30 @@
 <script setup lang="ts">
-import NodeWraper from '@/components/NodeWraper.vue';
 import PanningZooming from '@/components/PanningZooming.vue';
 import NodeEditor from '@/components/NodeEditor.vue';
 import { useNodeEditor } from '@/stores/nodeEditor';
-import { VariableNodeComponent, PrintNodeComponent } from '@/types/NodeComponent';
-import { genId } from "@/utils/utility"
+import { NODE_TYPE } from '@/types/NodeComponent';
+import Terminal from '@/components/Widgets/Terminal/Terminal.vue';
+import { NodeFacotry } from '@/types/NodeFactory';
+import Dialog from '@/components/Dialog.vue';
+import { useMouse } from '@/composables/mouse'
+import AddNode from '@/components/Widgets/AddNode.vue';
 
 const nodeEditorStore = useNodeEditor()
 
-const nodeOne = new PrintNodeComponent(genId(), "pippo")
-const nodeVariable = new VariableNodeComponent(genId(), "giogio")
-const nodeVariable2 = new VariableNodeComponent(genId(), "mario")
+const nodeOne = NodeFacotry.createNode(NODE_TYPE.VARIABLE, { name: 'pippo' })
+const nodeVariable = NodeFacotry.createNode(NODE_TYPE.PRINT, { name: '' })
+const nodeVariable2 = NodeFacotry.createNode(NODE_TYPE.VARIABLE, { name: 'mario' })
+
 
 nodeOne.position.setPostion(300, 400)
 nodeVariable.position.setPostion(500, 300)
 nodeVariable2.position.setPostion(100, 200)
 
+
 nodeEditorStore.addNode(nodeOne)
 nodeEditorStore.addNode(nodeVariable)
 nodeEditorStore.addNode(nodeVariable2)
+const { x, y } = useMouse()
 
 </script>
 
@@ -27,6 +33,12 @@ nodeEditorStore.addNode(nodeVariable2)
     <PanningZooming>
       <NodeEditor />
     </PanningZooming>
+    <Terminal />
+    <Dialog :position="{ x, y }">
+      <template v-slot:activator="{ closeDialog }">
+        <AddNode :close-dialog="closeDialog" />
+      </template>
+    </Dialog>
   </main>
 </template>
 

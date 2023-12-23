@@ -7,7 +7,6 @@
         <img src="../../assets/icons/edit-icon.svg" alt="" @click="handleEdit">
     </div>
 
-
     <!-- Output fields -->
     <div v-for="outputInterface in node.outputInterfaces " class="node-field right-field">
         <div class="field">
@@ -28,7 +27,7 @@
                 data: {
                     interface: optionInterface,
                     options: optionInterface.options
-                }
+                }, updateHandler: handleVariableType
             }" />
         </div>
     </div>
@@ -81,6 +80,15 @@ const allowNameEdit = ref(false)
 const handleEdit = () => {
     allowNameEdit.value = !allowNameEdit.value
 }
+
+const handleVariableType = (type: any) => {
+    variableValues.variableType = type.value
+    if (props.node.variableStates === undefined) return
+    const variableState = props.node.variableStates.get(type.value)
+    if (variableState === undefined) return
+    props.node.setCurrentVariableState(variableState)
+}
+
 
 const handleKeyDown = (event: KeyboardEvent) => {
     if (event.keyCode === 13 || event.key === 'Enter') {

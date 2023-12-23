@@ -1,5 +1,7 @@
 <template>
-    <div :id="node.id" :style="`left:${position.x}px; top: ${position.y}px;`" class="node-wraper" @mousedown="startDrag">
+    <div :id="node.id"
+        :style="`left:${position.x}px; top: ${position.y}px; z-index: ${nodeEditorStore.getNode(node.id)?.zIndex};`"
+        class="node-wraper" @mousedown="startDrag">
         <Node :node="node" />
     </div>
 </template>
@@ -45,7 +47,7 @@ function startDrag(event: MouseEvent) {
 
     dragStore.enable()
     document.body.classList.add('move-cursor');
-
+    updateZIndex()
     // Add listeners for moving the node
     window.addEventListener("mousemove", drag)
     window.addEventListener("mouseup", endDrag)
@@ -69,6 +71,27 @@ function endDrag(event: MouseEvent) {
     window.removeEventListener("mousemove", drag)
     window.removeEventListener("mouseup", endDrag)
 }
+
+const updateZIndex = () => {
+    // Update z-index based on the clicked node
+    const validIndices: number[] = nodeEditorStore.nodes
+        .filter(node => node.zIndex !== null)
+        .map(node => node.zIndex as number);
+
+    const maxZIndex: number | undefined = validIndices.length > 0 ? Math.max(...validIndices) : undefined;
+
+    // Shift z-index values for all nodes
+    const nodeToUpdate = nodeEditorStore.getNode(props.node.id)
+    if (nodeToUpdate?.zIndex && props.node.zIndex) {
+        nodeToUpdate.zIndex = maxZIndex
+    }
+
+    nodeEditorStore.nodes.forEach(node => {
+        if (node.zIndex && node.id !== props.node.id) {
+            node.zIndex = Math.max(node.zIndex - 1, 1);
+        }
+    });
+};
 
 </script>
 

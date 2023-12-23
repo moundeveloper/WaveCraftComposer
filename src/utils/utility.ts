@@ -8,3 +8,8 @@ export const genId = (): string => {
     )
     .join('-')
 }
+
+export const removeElementFromList = (list: any[], element: any): void => {
+  const index = list.indexOf(element)
+  list.splice(index, 1)
+}

@@ -5,8 +5,8 @@
 <script setup lang="ts">
 import DropDown from './DropDown.vue';
 import NumberInput from '@/components/Fields/NumberInput.vue';
-/* import TextInput from './TextInput.vue';
-import ArrayItem from './ArrayItem.vue'; */
+import TextInput from './TextInput.vue';
+/* import ArrayItem from './ArrayItem.vue'; */
 import type { InterfaceComponent, ComponentOptions } from '@/types/InterfaceComponent';
 import { createHField } from '@/composables/createHElement';
 import type { HElementProps } from "./types"
@@ -24,9 +24,9 @@ const Field = () => {
         case 'DropDown':
             return createHField(DropDown, props.field);
             break;
-        /*     case 'TextInput':
-                return createHField(TextInput, props.field);
-                break; */
+        case 'TextInput':
+            return createHField(TextInput, props.field);
+            break;
         case "DefaultTemplate":
             return createHField(DefaultTemplate, props.field);
             break;

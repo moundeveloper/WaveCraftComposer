@@ -1,17 +1,17 @@
 <template>
     <div class="editor-wraper">
-        <NodeWraper v-for="node in nodeEditorStore.nodes" :node="node" />
+        <NodeWraper v-for="node in nodeEditorStore.nodes" :node="node" :key="node.id" />
         <LinksWraper />
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import { useNodeEditor } from '@/stores/nodeEditor';
-/* import NodeWraper from './NodeWraper.vue';
-import LinksWraper from './Links/LinksWraper.vue'; */
+import NodeWraper from './NodeWraper.vue';
+import LinksWraper from './Links/LinksWraper.vue';
 
 const nodeEditorStore = useNodeEditor()
-
 </script>
 
 

@@ -12,6 +12,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
   const nodes = ref<Array<NodeComponent>>([])
   const links = ref<Array<Link>>([])
   const panningPos = ref(new Position())
+  const zIndexMax = ref(1)
 
   // Actions
   const updateScale = (newScale: number) => {
@@ -23,8 +24,11 @@ export const useNodeEditor = defineStore('node-editor', () => {
   }
 
   const addNode = (node: NodeComponent) => {
+    node.zIndex = zIndexMax.value
     nodes.value.push(node)
+    zIndexMax.value++
   }
+
   const addLink = (link: Link) => {
     links.value.push(link)
   }
@@ -55,11 +59,14 @@ export const useNodeEditor = defineStore('node-editor', () => {
   const removeLinkByInterface = (interfaceComponent: InterfaceComponent) => {
     links.value = links.value.filter((link) => link.targetInterfaceComponent !== interfaceComponent)
     links.value = links.value.filter((link) => link.sourceInterfaceComponent !== interfaceComponent)
-    return
   }
 
   const getLinkInterfaceTarget = (interfaceComponent: InterfaceComponent) => {
     return links.value.find((link) => link.targetInterfaceComponent === interfaceComponent)
+  }
+
+  const getNode = (id: string) => {
+    return nodes.value.find((node) => node.id === id)
   }
 
   return {
@@ -75,6 +82,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     addLink,
     getInterfaceById,
     getLinkInterfaceTarget,
-    removeLinkByInterface
+    removeLinkByInterface,
+    getNode
   }
 })

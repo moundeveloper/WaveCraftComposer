@@ -18,7 +18,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import type { DataProps } from './types';
 import WaveCraftIcon from "@/components/Shared/WaveCraftIcon.vue"
 

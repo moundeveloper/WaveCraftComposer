@@ -1,6 +1,11 @@
 export const getElementByID = (id) => {
   return document.getElementById(id)
 }
+
+export const getElementHeightByID = (id) => {
+  return document.getElementById(id)?.clientHeight
+}
+
 export const getElementPosition = (element) => {
   const rect = element.getBoundingClientRect()
   return { x: rect.left, y: rect.top }

@@ -6,7 +6,8 @@
     </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { Position } from '@/types/Position';
 import { ref, onMounted, onUnmounted, } from 'vue';
 
 const dialog = ref()
@@ -14,18 +15,21 @@ const isDialogOpen = ref(false);
 const dialogLeft = ref(0)
 const dialogTop = ref(0)
 
-const props = defineProps({
-    position: { type: Object }
-})
+const props = defineProps<{
+    position: {
+        x: number,
+        y: number
+    }
+}>()
 
-const handleKeyDown = (event) => {
+const handleKeyDown = (event: KeyboardEvent) => {
     if (event.shiftKey && event.key === 'A') {
         event.preventDefault();
         openDialog();
     }
 };
 
-const handleMouseOutside = (event) => {
+const handleMouseOutside = (event: MouseEvent) => {
     closeDialog();
 };
 

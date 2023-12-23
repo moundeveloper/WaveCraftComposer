@@ -6,26 +6,30 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
-import { nodeEditor } from "../../stores/nodeEditor.js"
-import { InterfaceC } from '../../classes/Interface';
+import { useNodeEditor } from "../../stores/nodeEditor.js"
+import type { DataProps } from './types';
 
 const currentValue = ref('');
 
-const props = defineProps({
-    data: {
-        interface: InterfaceC,
-        options: Object
-    },
-    updateHandler: Function
-})
+
+const nodeEditor = useNodeEditor()
+
+const props = defineProps<{
+    data: DataProps,
+    updateHandler: Function,
+}>();
 
 
-const updateCurrentValue = (event) => {
-    currentValue.value = event.target.value;
-    props.updateHandler({ interfaceId: props.data.interface.id, value: currentValue.value })
+const updateCurrentValue = (event: Event) => {
+    if (event && 'target' in event) {
+        const target = event.target as HTMLInputElement;
+        currentValue.value = target.value;
+        props.updateHandler({ interfaceId: props.data.interface.id, value: currentValue.value });
+    }
 };
+
 
 </script>
 

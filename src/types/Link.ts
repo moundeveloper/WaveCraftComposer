@@ -34,8 +34,12 @@ export class Link {
     }
   }
 
-  getInputInterface(linkBuilder: LinkBuilder): InterfaceComponent {
-    if (linkBuilder.isInputInterface(this.sourceInterfaceComponent)) {
+  getInputInterface(): InterfaceComponent {
+    if (
+      this.sourceInterfaceComponent.parentNode?.inputInterfaces.includes(
+        this.sourceInterfaceComponent
+      )
+    ) {
       return this.sourceInterfaceComponent
     }
     return this.targetInterfaceComponent
@@ -72,44 +76,8 @@ export class LinkBuilder {
     id: string,
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
-  ): Link | null {
-    // Check if the interfaces can connect
-    if (this.checkValidInterfaces(sourceInterfaceComponent, targetInterfaceComponent)) {
-      console.log(
-        `It is not possible to connect interfaces of the same type between: ${sourceInterfaceComponent.id}-${targetInterfaceComponent.id}!`
-      )
-      return null
-    }
-
-    if (sourceInterfaceComponent.parentNode === targetInterfaceComponent.parentNode) {
-      console.log(
-        `It is not possible to connect interfaces within the same node: ${sourceInterfaceComponent.id}-${targetInterfaceComponent.id}!`
-      )
-      return null
-    }
-
+  ): Link {
     const link = new Link(id, sourceInterfaceComponent, targetInterfaceComponent)
-    // Variable Node?
-
     return link
-  }
-
-  checkValidInterfaces(
-    sourceInterfaceComponent: InterfaceComponent,
-    targetInterfaceComponent: InterfaceComponent
-  ) {
-    return (
-      this.isInputInterface(sourceInterfaceComponent) ===
-      this.isInputInterface(targetInterfaceComponent)
-    )
-  }
-
-  isInputInterface(interfaceComponent: InterfaceComponent) {
-    return interfaceComponent.parentNode?.inputInterfaces.includes(interfaceComponent)
-  }
-
-  isInputInterfaceAlreadyConnected(link: Link, links: Link[]) {
-    const inputInterface = link.getInputInterface(this)
-    return links.find((link) => link.getInputInterface(this) === inputInterface)
   }
 }

@@ -8,10 +8,10 @@
     </Teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 const showModal = ref(false)
-const modalBody = ref(null)
+const modalBody = ref()
 
 const openModal = () => {
     showModal.value = true
@@ -20,7 +20,8 @@ const closeModal = () => {
     showModal.value = false
 }
 
-const handleOutsideClick = (event) => {
+const handleOutsideClick = (event: MouseEvent) => {
+    if (!modalBody.value) return
     if (!modalBody.value.contains(event.target)) {
         closeModal()
     }

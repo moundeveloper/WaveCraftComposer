@@ -19,23 +19,23 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, nextTick } from "vue";
-import { NodeC, NodeVariableC, NodePrintC } from "../../classes/Node"
-import { nodeEditor } from "../../stores/nodeEditor";
-import Dialog from "../Dialog.vue";
-import Modal from "../Modal.vue";
+import { useNodeEditor } from "@/stores/nodeEditor";
+import Modal from "@/components/Modal.vue";
+import { NodeFacotry } from "@/types/NodeFactory";
 
-const modal = ref(null)
-const selectedType = ref(null)
+const modal = ref()
+const selectedType = ref()
 const nodeTypes = ["variable", "print"]
-const input = ref(null)
+const input = ref()
+const nodeEditorStore = useNodeEditor()
 
-const props = defineProps({
+const props = defineProps<{
     closeDialog: Function
-})
+}>()
 
-const handleOpenModal = (nodeType) => {
+const handleOpenModal = (nodeType: string) => {
     props.closeDialog()
     selectedType.value = nodeType
     if (nodeType !== "variable") {
@@ -48,29 +48,17 @@ const handleOpenModal = (nodeType) => {
     })
 }
 
-const handleKeyEnter = (event) => {
+const handleKeyEnter = (event: KeyboardEvent) => {
     if (event.keyCode === 13 || event.key === 'Enter') {
-
-        createNode(event)
-        event.target.value = ""
+        createNode()
+        input.value = ""
         modal.value.closeModal()
     }
 }
 
-const createNode = (event = null) => {
-    let newNode = null
-    switch (selectedType.value) {
-        case "variable":
-            newNode = new NodeVariableC(event.target.value)
-            break;
-        case "print":
-            newNode = new NodePrintC()
-            break;
-        default:
-            break;
-    }
-
-    nodeEditor.addNode(newNode)
+const createNode = () => {
+    const newNode = NodeFacotry.createNode(selectedType.value, { name: input.value })
+    nodeEditorStore.addNode(newNode)
 }
 
 </script>
