@@ -10,7 +10,8 @@
     "type-check": "vue-tsc --noEmit -p tsconfig.app.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
-    "test": "vitest"
+    "test": "vitest",
+    "uitest": "vitest --ui"
   },
   "dependencies": {
     "pinia": "^2.1.4",
@@ -26,6 +27,7 @@
     "@vue/eslint-config-prettier": "^8.0.0",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/tsconfig": "^0.4.0",
+    "cypress": "^13.6.4",
     "eslint": "^8.45.0",
     "eslint-plugin-vue": "^9.15.1",
     "npm-run-all": "^4.1.5",

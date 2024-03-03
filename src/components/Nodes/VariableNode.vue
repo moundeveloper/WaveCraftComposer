@@ -46,7 +46,7 @@
             }" />
         </div>
     </div>
-    <button v-if="variableValues.variableType === 'array'" class="primary-btn-c">add
+    <button v-if="variableValues.VariableType === 'array'" class="primary-btn-c">add
         array-item</button>
 </template>
 
@@ -54,7 +54,7 @@
 import FieldWraper from '../Fields/FieldWraper.vue';
 import { useNodeEditor } from '@/stores/nodeEditor';
 import type { VariableNodeComponent } from '@/types/NodeComponent';
-import { computed, reactive, ref, watch, watchEffect } from 'vue';
+import { computed, reactive, ref, watchEffect } from 'vue';
 
 const props = defineProps<{
     node: VariableNodeComponent
@@ -64,7 +64,7 @@ const nodeEditorStore = useNodeEditor()
 
 const variableValues = reactive({
     variableName: props.node.name,
-    variableType: props.node.variable.type,
+    VariableType: props.node.variable.type,
     variableBehaviour: 'const',
     data: {
         id: null,
@@ -72,7 +72,7 @@ const variableValues = reactive({
     }
 })
 
-const variableType = computed(() => props.node.variable.type)
+const VariableType = computed(() => props.node.variable.type)
 
 const variableNameContent = ref<HTMLElement>()
 const allowNameEdit = ref(false)
@@ -82,11 +82,12 @@ const handleEdit = () => {
 }
 
 const handleVariableType = (type: any) => {
-    variableValues.variableType = type.value
+    variableValues.VariableType = type.value
     if (props.node.variableStates === undefined) return
     const variableState = props.node.variableStates.get(type.value)
     if (variableState === undefined) return
     props.node.setCurrentVariableState(variableState)
+    console.log(nodeEditorStore.getNode(props.node.id))
 }
 
 
@@ -131,7 +132,6 @@ span {
     margin-right: auto;
     color: var(--primary-color);
     font-weight: 600;
-    user-select: text;
     text-transform: none;
 }
 

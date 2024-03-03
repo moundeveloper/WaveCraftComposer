@@ -3,15 +3,16 @@
         <h2>add node</h2>
         <p>select one of the available nodes</p>
         <div class="node-types">
-            <div class="node-type" v-for="(nodeType, i) in nodeTypes" @click="handleOpenModal(nodeType)">
-                <span>{{ nodeType }}</span>
+            <div class="node-type" v-for="(NodeType, i) in NodeTypes" @click="handleOpenModal(NodeType)">
+                <span>{{ NodeType }}</span>
             </div>
         </div>
         <Modal ref="modal">
             <template v-slot:activator="{ openModal, closeModal }">
                 <div class="modal-wraper-input">
                     <h2>Insert node name</h2>
-                    <input ref="input" type="text" placeholder="Node name" @keydown="handleKeyEnter">
+                    <input ref="inputComponent" v-model="inputValue" type="text" placeholder="Node name"
+                        @keydown="handleKeyEnter">
                     <p>"press enter to confirm"</p>
                 </div>
             </template>
@@ -24,40 +25,47 @@ import { ref, nextTick } from "vue";
 import { useNodeEditor } from "@/stores/nodeEditor";
 import Modal from "@/components/Modal.vue";
 import { NodeFacotry } from "@/types/NodeFactory";
+import { NodeType } from '@/types/NodeComponent';
 
 const modal = ref()
 const selectedType = ref()
-const nodeTypes = ["variable", "print"]
-const input = ref()
+const NodeTypes = NodeType
+const inputComponent = ref()
+const inputValue = ref()
 const nodeEditorStore = useNodeEditor()
 
 const props = defineProps<{
+    nodePostion: {
+        x: number,
+        y: number
+    }
     closeDialog: Function
 }>()
 
-const handleOpenModal = (nodeType: string) => {
+const handleOpenModal = (NodeType: string) => {
     props.closeDialog()
-    selectedType.value = nodeType
-    if (nodeType !== "variable") {
+    selectedType.value = NodeType
+    if (NodeType !== "variable") {
         createNode()
         return
     }
     modal.value.openModal()
     nextTick(() => {
-        input.value.focus()
+        inputComponent.value.focus()
     })
 }
 
 const handleKeyEnter = (event: KeyboardEvent) => {
     if (event.keyCode === 13 || event.key === 'Enter') {
         createNode()
-        input.value = ""
+        inputValue.value = ""
         modal.value.closeModal()
     }
 }
 
 const createNode = () => {
-    const newNode = NodeFacotry.createNode(selectedType.value, { name: input.value })
+    const newNode = NodeFacotry.createNode(selectedType.value, { name: inputValue.value })
+    newNode.position.setPostion(props.nodePostion.x, props.nodePostion.y)
     nodeEditorStore.addNode(newNode)
 }
 

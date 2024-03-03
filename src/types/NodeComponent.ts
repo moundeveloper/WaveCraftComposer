@@ -1,21 +1,21 @@
-import { genId } from '@/utils/utility'
+import { genId } from '../utils/utility'
 import { InterfaceComponent } from './InterfaceComponent'
 import { Position } from './Position'
 
 export abstract class NodeComponent {
   id: string
   name: string
-  nodeType: string
+  NodeType: string
   position: Position = new Position(0, 0)
   zIndex?: number
   inputInterfaces: InterfaceComponent[] = []
   outputInterfaces: InterfaceComponent[] = []
   optionInterfaces: InterfaceComponent[] = []
 
-  constructor(id: string, name: string, nodeType: string) {
+  constructor(id: string, name: string, NodeType: string) {
     this.id = id
     this.name = name
-    this.nodeType = nodeType
+    this.NodeType = NodeType
   }
 
   protected abstract initInterfaces(): void
@@ -35,14 +35,14 @@ export abstract class NodeComponent {
 }
 
 type VariableMutability = 'const' | 'let'
-type VariableType = 'null' | 'boolean' | 'string' | 'number' | 'object' | 'array'
+/* type VariableType = 'null' | 'boolean' | 'string' | 'number' | 'object' | 'array' */
 
-export enum NODE_TYPE {
+export enum NodeType {
   VARIABLE = 'variable',
   PRINT = 'print'
 }
 
-export enum VARIABLE_TYPE {
+export enum VariableType {
   BOOLEAN = 'boolean',
   STRING = 'string',
   NUMBER = 'number',
@@ -53,7 +53,7 @@ export enum VARIABLE_TYPE {
 export class Variable {
   name: string
   value: any
-  type: VariableType = 'number'
+  type: VariableType = VariableType.NUMBER
   mutability: VariableMutability = 'let'
 
   constructor(name: string) {
@@ -96,7 +96,7 @@ export class VariableNodeComponent extends NodeComponent {
   currentVariableState: NodeComponentState
 
   constructor(id: string, name: string) {
-    super(id, name, NODE_TYPE.VARIABLE)
+    super(id, name, NodeType.VARIABLE)
     this.variable = new Variable(this.name)
     this.currentVariable = this.variable
     // Set current variable state
@@ -172,19 +172,31 @@ export class VariableNodeComponent extends NodeComponent {
 
   private initVariableStates() {
     // Number state
-    const numberState = new NodeComponentState('number', this)
+    const numberVariable = new Variable(VariableType.NUMBER)
+    numberVariable.type = VariableType.NUMBER
+    numberVariable.value =  2
+    const numberState = new NodeComponentState(VariableType.NUMBER, this)
+    numberState.variable = numberVariable
     numberState.addInputInterfaceComponent(
       new InterfaceComponent(genId(), { label: 'value', component: 'NumberInput', value: 2 })
     )
-    this.variableStates.set('number', numberState)
+    this.variableStates.set(VariableType.NUMBER, numberState)
     // String state
-    const stringState = new NodeComponentState('string', this)
+    const stringVariable = new Variable(VariableType.STRING)
+    stringVariable.type = VariableType.STRING
+    stringVariable.value =  ''
+    const stringState = new NodeComponentState(VariableType.STRING, this)
+    stringState.variable = stringVariable
     stringState.addInputInterfaceComponent(
       new InterfaceComponent(genId(), { label: 'value', component: 'TextInput', value: 2 })
     )
-    this.variableStates.set('string', stringState)
+    this.variableStates.set(VariableType.STRING, stringState)
     // Boolean state
-    const booleanState = new NodeComponentState('boolean', this)
+    const booleanVariable = new Variable(VariableType.BOOLEAN)
+    booleanVariable.type = VariableType.BOOLEAN
+    booleanVariable.value =  true
+    const booleanState = new NodeComponentState(VariableType.BOOLEAN, this)
+    booleanState.variable = booleanVariable
     booleanState.addInputInterfaceComponent(
       new InterfaceComponent(genId(), {
         label: 'value',
@@ -200,7 +212,7 @@ export class VariableNodeComponent extends NodeComponent {
         ]
       })
     )
-    this.variableStates.set('boolean', booleanState)
+    this.variableStates.set(VariableType.BOOLEAN, booleanState)
 
     return numberState
   }
@@ -208,6 +220,10 @@ export class VariableNodeComponent extends NodeComponent {
   setCurrentVariableState(variableState: NodeComponentState) {
     this.currentVariableState = variableState
     this.inputInterfaces = this.currentVariableState.inputInterfaces
+
+    if(this.currentVariableState.variable) {
+      this.currentVariable = this.currentVariableState.variable
+    }
   }
 
   passVariableToConnectedNode(variableNodeComponent: VariableNodeComponent) {
@@ -233,7 +249,7 @@ export class PrintNodeComponent extends NodeComponent {
   variable: Variable
   currentVariable: Variable
   constructor(id: string) {
-    super(id, NODE_TYPE.PRINT, NODE_TYPE.PRINT)
+    super(id, NodeType.PRINT, NodeType.PRINT)
     this.variable = new Variable(this.name)
     this.currentVariable = this.variable
     this.initInterfaces()

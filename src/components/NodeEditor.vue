@@ -20,7 +20,7 @@ const nodeEditorStore = useNodeEditor()
     position: relative;
     width: 4000px;
     height: 4000px;
-}
+}  
 
 svg {
     width: fit-content;

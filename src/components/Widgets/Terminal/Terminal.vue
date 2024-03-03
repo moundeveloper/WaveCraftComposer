@@ -33,8 +33,6 @@ const tabs = [
 
 const startResize = (event: MouseEvent) => {
 
-    event.preventDefault()
-
     const target = event.target as HTMLElement;
 
     if (target !== resizeHandle.value) return
@@ -57,16 +55,16 @@ const startResize = (event: MouseEvent) => {
         document.body.style.cursor = 'auto';
         resizing.value = false;
         // Remove event listeners when resizing is done
-        window.removeEventListener('mousemove', onMouseMove);
-        window.removeEventListener('mouseup', onMouseUp);
+        document.removeEventListener('mousemove', onMouseMove);
+        document.removeEventListener('mouseup', onMouseUp);
     };
 
     // Add event listeners for mouse move and mouse up events
-    window.addEventListener('mousemove', onMouseMove);
-    window.addEventListener('mouseup', onMouseUp);
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
 };
 
-window.addEventListener('mousedown', startResize)
+document.addEventListener('mousedown', startResize)
 
 
 window.addEventListener('resize', (event) => {

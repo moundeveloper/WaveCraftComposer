@@ -1,4 +1,4 @@
-import { getElementPositionOffset } from '@/utils/InterfaceElement'
+import { getElementPositionOffset } from '../utils/InterfaceElement'
 import { InterfaceComponent } from './InterfaceComponent'
 import { VariableNodeComponent } from './NodeComponent'
 import type { Position } from './Position'

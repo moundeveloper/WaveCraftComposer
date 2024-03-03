@@ -20,9 +20,9 @@ const createHNode = (element: object, node: NodeComponent) => {
 }
 
 const NodeComponentElement = () => {
-    const nodeType = props.node.nodeType
+    const NodeType = props.node.NodeType
 
-    switch (nodeType) {
+    switch (NodeType) {
         case 'print':
             return createHNode(PrintNode, props.node);
             break;
@@ -30,7 +30,7 @@ const NodeComponentElement = () => {
             return createHNode(VariableNode, props.node);
             break;
         default:
-            console.warn(`Unknown node of type: ${nodeType}`);
+            console.warn(`Unknown node of type: ${NodeType}`);
             break;
     }
 }

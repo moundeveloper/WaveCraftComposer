@@ -98,7 +98,7 @@ const zoom = (event: WheelEvent) => {
     mousePosition.x = event.clientX - gridSize.x;
     mousePosition.y = event.clientY - gridSize.y;
 
-    // Calculations
+    // Recalculate pos based on the scale
     nodeEditorStore.updateScale(zoomFactor.value)
     translate.scale = zoomFactor.value;
 

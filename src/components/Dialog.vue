@@ -1,6 +1,6 @@
 <template>
     <Teleport to="body">
-        <div ref="dialog" class="dialog" v-show="isDialogOpen" :style="{ top: dialogTop + 'px', left: dialogLeft + 'px' }">
+        <div ref="dialog" class="dialog" v-show="isDialogOpen" :style="{ top: dialogY + 'px', left: dialogX + 'px' }">
             <slot name="activator" :closeDialog="closeDialog"></slot>
         </div>
     </Teleport>
@@ -12,8 +12,8 @@ import { ref, onMounted, onUnmounted, } from 'vue';
 
 const dialog = ref()
 const isDialogOpen = ref(false);
-const dialogLeft = ref(0)
-const dialogTop = ref(0)
+const dialogX = ref(0)
+const dialogY = ref(0)
 
 const props = defineProps<{
     position: {
@@ -35,8 +35,8 @@ const handleMouseOutside = (event: MouseEvent) => {
 
 const openDialog = () => {
     isDialogOpen.value = true;
-    dialogLeft.value = props.position.x
-    dialogTop.value = props.position.y
+    dialogX.value = props.position.x
+    dialogY.value = props.position.y
     dialog.value.addEventListener('mouseleave', handleMouseOutside);
 };
 
@@ -51,8 +51,8 @@ onMounted(() => {
 
 onUnmounted(() => {
     document.removeEventListener('keydown', handleKeyDown);
-    dialog.value.removeEventListener('mouseleave', handleMouseOutside);
 });
+
 
 </script>
 

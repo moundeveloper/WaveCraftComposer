@@ -31,6 +31,7 @@ const updateCurrentValue = (event: Event) => {
 };
 
 
+
 </script>
 
 <style scoped>
@@ -39,7 +40,6 @@ textarea {
     background-color: var(--secondary-color);
     color: var(--tertiary-color);
     padding: 0.5rem;
-    user-select: text;
     border-radius: 0.1rem;
     word-break: break-all;
     word-wrap: break-word;

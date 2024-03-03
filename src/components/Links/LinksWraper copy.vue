@@ -86,7 +86,6 @@ const completeLinking = (event: MouseEvent) => {
 
     if (linkingInterfaces.sourceInterface instanceof InterfaceComponent
         && linkingInterfaces.targetInterface instanceof InterfaceComponent) {
-
         const { allValid, successfullRules, failedRules } = linkRuleValidator.validateRules(linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
         console.log(successfullRules)
         successfullRules.forEach(rule => processSuccessfullRule(rule, successfullRules, linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface))
@@ -112,7 +111,6 @@ const completeLinking = (event: MouseEvent) => {
                 status: Status.ERROR
             })
         })
-        
     }
 }
 

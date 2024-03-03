@@ -68,6 +68,7 @@ const Tab = () => {
 .tabs div h2 {
     color: var(--tertiary-color);
     font-size: 1rem;
+    user-select: none;
 }
 
 .tabs div.active {

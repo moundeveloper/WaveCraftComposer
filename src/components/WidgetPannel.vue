@@ -56,8 +56,6 @@ const handleRun = () => {
     gap: 1rem;
 }
 
-
-
 .display,
 .code-result {
     flex-grow: 1;

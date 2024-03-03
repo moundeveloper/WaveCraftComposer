@@ -1,9 +1,9 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
-import { Position } from '@/types/Position'
-import { NodeComponent } from '@/types/NodeComponent'
-import { Link } from '@/types/Link'
-import type { InterfaceComponent } from '@/types/InterfaceComponent'
+import { Position } from '../types/Position'
+import { NodeComponent } from '../types/NodeComponent'
+import { Link } from '../types/Link'
+import type { InterfaceComponent } from '../types/InterfaceComponent'
 
 export const useNodeEditor = defineStore('node-editor', () => {
   const canZoom = ref(true)
@@ -27,6 +27,11 @@ export const useNodeEditor = defineStore('node-editor', () => {
     node.zIndex = zIndexMax.value
     nodes.value.push(node)
     zIndexMax.value++
+  }
+
+  const clear = () => {
+    nodes.value = []
+    links.value = []
   }
 
   const addLink = (link: Link) => {
@@ -83,6 +88,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     getInterfaceById,
     getLinkInterfaceTarget,
     removeLinkByInterface,
-    getNode
+    getNode,
+    clear
   }
 })

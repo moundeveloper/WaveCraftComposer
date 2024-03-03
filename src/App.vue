@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router';
+import TextInput from './components/Fields/TextInput.vue';
 
 const route = useRoute();
 const routes = [
