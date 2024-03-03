@@ -1,63 +1,78 @@
 import { NodeComponent } from '../types/NodeComponent'
 import { InterfaceComponent } from '../types/InterfaceComponent'
-import type { LinkRule, RuleValidationResult } from '../types/LinkRules/LinkRule'
+import type { LinkRule } from '../types/LinkRules/LinkRule'
 import { GroupRule } from './GroupRule'
 import { ItemIsAlreadyIncluded } from './Errors'
 
-interface ValidationResult {
-  globalRuleValidation: RuleValidationResult
-  groupRules: GroupRuleValidationResult[]
-}
+export class RuleValidationResult {
+  allValid: boolean
+  successfullRules: LinkRule[]
+  failedRules: LinkRule[]
 
-
-interface GroupRuleValidationResult {
-  groupRuleValidations: RuleValidationResult[]
+  constructor(allValid: boolean, successfullRules: LinkRule[], failedRules: LinkRule[]) {
+    this.allValid = allValid
+    this.successfullRules = successfullRules
+    this.failedRules = failedRules
+  }
 }
 
 export class LinkRulesValidator {
-  globalRules: Array<LinkRule>
-  groupRules: Array<GroupRule>
+  protected static instance: LinkRulesValidator | null = null
+  private globalRules: Array<LinkRule>
+  private groupRules: Array<GroupRule>
 
-  constructor() {
+  private constructor() {
     this.globalRules = []
     this.groupRules = []
   }
- 
+
+  public static getInstance<T extends LinkRulesValidator>(): T {
+    if (!this.instance) {
+      this.instance = new (this as any)()
+    }
+    return this.instance as T
+  }
+
   registerGlobalLinkRule(linkRule: LinkRule) {
-    if(this.globalRuleIsAlreadyIncluded(linkRule)) {
-      throw new ItemIsAlreadyIncluded('Global link rule is already included');
+    if (this.globalRuleIsAlreadyIncluded(linkRule)) {
+      throw new ItemIsAlreadyIncluded('Global link rule is already included')
     }
     this.globalRules.push(linkRule)
     return this
   }
 
   registerGroupRule(groupRule: GroupRule) {
-    if(this.groupRuleIsAlreadyIncluded(groupRule)) {
-      throw new ItemIsAlreadyIncluded('Group link rule is already included');
+    if (this.groupRuleIsAlreadyIncluded(groupRule)) {
+      throw new ItemIsAlreadyIncluded('Group link rule is already included')
     }
     this.groupRules.push(groupRule)
     return this
   }
 
   groupRuleIsAlreadyIncluded(groupRuleToCheck: GroupRule) {
-    return this.groupRules.some((groupRule: GroupRule) => groupRule.constructor.name === groupRuleToCheck.constructor.name);
+    return this.groupRules.some(
+      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToCheck.constructor.name
+    )
   }
 
   globalRuleIsAlreadyIncluded(ruleToCheck: LinkRule) {
-    return this.globalRules.some((globalRule: LinkRule) => globalRule.constructor.name === ruleToCheck.constructor.name);
+    return this.globalRules.some(
+      (globalRule: LinkRule) => globalRule.constructor.name === ruleToCheck.constructor.name
+    )
   }
 
-  
-  registerRuleIntoGroupRule(groupRuleName: string,linkRule: LinkRule) {
-    const groupRule = this.groupRules.find((groupRule: GroupRule) => groupRule.constructor.name === groupRuleName)
-    if(!groupRule) return
+  registerRuleIntoGroupRule(groupRuleName: string, linkRule: LinkRule) {
+    const groupRule = this.groupRules.find(
+      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleName
+    )
+    if (!groupRule) return
     groupRule.registerLinkRule(linkRule)
   }
 
   validateGlobalRules(
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
-  ): RuleValidationResult {
+  ): RuleValidationResult[] {
     const failedRules: LinkRule[] = []
     const successfullRules: LinkRule[] = []
 
@@ -73,10 +88,31 @@ export class LinkRulesValidator {
       return isValid
     })
 
-    this.groupRules.some((groupRule: GroupRule) => {
-      groupRule.validateGroupRules(sourceInterfaceComponent, targetInterfaceComponent)
-    })
+    const globalRules = new RuleValidationResult(allValid, successfullRules, failedRules)
 
-    return { allValid, successfullRules, failedRules }
+    const validatedGroupRules: RuleValidationResult[] = this.processGroupRules(
+      sourceInterfaceComponent,
+      targetInterfaceComponent
+    )
+
+    return [globalRules, ...validatedGroupRules]
+  }
+
+  private processGroupRules(
+    sourceInterfaceComponent: InterfaceComponent,
+    targetInterfaceComponent: InterfaceComponent
+  ): RuleValidationResult[] {
+    return this.groupRules
+      .map((groupRule: GroupRule) => {
+        const groupRuleValidationResult = groupRule.validateGroupRules(
+          sourceInterfaceComponent,
+          targetInterfaceComponent
+        )
+        if (groupRuleValidationResult.allValid) {
+          return groupRuleValidationResult
+        }
+        return null
+      })
+      .filter((result) => result !== null) as RuleValidationResult[]
   }
 }
