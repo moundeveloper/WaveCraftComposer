@@ -61,9 +61,9 @@ export class LinkRulesValidator {
     )
   }
 
-  registerRuleIntoGroupRule(groupRuleName: string, linkRule: LinkRule) {
+  registerRuleIntoGroupRule(groupRuleToInsertTo: GroupRule, linkRule: LinkRule) {
     const groupRule = this.groupRules.find(
-      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleName
+      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToInsertTo.constructor.name
     )
     if (!groupRule) return
     groupRule.registerLinkRule(linkRule)
@@ -77,7 +77,6 @@ export class LinkRulesValidator {
     const successfullRules: LinkRule[] = []
 
     const allValid = this.globalRules.every((rule) => {
-      console.log(rule)
       const isValid = rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
       if (!isValid) {
         failedRules.push(rule)
@@ -102,17 +101,8 @@ export class LinkRulesValidator {
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): RuleValidationResult[] {
-    return this.groupRules
-      .map((groupRule: GroupRule) => {
-        const groupRuleValidationResult = groupRule.validateGroupRules(
-          sourceInterfaceComponent,
-          targetInterfaceComponent
-        )
-        if (groupRuleValidationResult.allValid) {
-          return groupRuleValidationResult
-        }
-        return null
-      })
-      .filter((result) => result !== null) as RuleValidationResult[]
+    return this.groupRules.map((groupRule: GroupRule) =>
+      groupRule.validateGroupRules(sourceInterfaceComponent, targetInterfaceComponent)
+    )
   }
 }

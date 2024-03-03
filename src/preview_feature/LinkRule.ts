@@ -54,3 +54,23 @@ export class SameNodeVariableType extends LinkRule {
     return interfaceComponent.parentNode?.inputInterfaces.includes(interfaceComponent)
   }
 }
+
+export class NotSameInterfaceType extends LinkRule {
+  linkRuleValidation(
+    sourceInterfaceComponent: InterfaceComponent,
+    targetInterfaceComponent: InterfaceComponent
+  ): boolean {
+    return (
+      this.isInputInterface(sourceInterfaceComponent) !==
+      this.isInputInterface(targetInterfaceComponent)
+    )
+  }
+
+  message(): string {
+    return 'Interfaces of the same type cannot be linked together'
+  }
+
+  isInputInterface(interfaceComponent: InterfaceComponent) {
+    return interfaceComponent.parentNode?.inputInterfaces.includes(interfaceComponent)
+  }
+}
