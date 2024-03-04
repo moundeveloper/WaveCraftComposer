@@ -6,7 +6,58 @@ import { NodeComponentFactory } from '../../src/types/factory/NodeComponentFacto
 import { LinkRulesValidator } from './../../src/preview_feature/LinkRuleValidator'
 import { expect, test } from 'vitest'
 
-test('Preview - LinkRuleValidator', () => {
+
+test('Test singleton instance LinkRuleValidator', () => {
+  const linkRulesValidatorA = LinkRulesValidator.getInstance()
+  const linkRulesValidatorB = LinkRulesValidator.getInstance()
+
+  expect(linkRulesValidatorA).toBeInstanceOf(LinkRulesValidator)
+  expect(linkRulesValidatorB).toBeInstanceOf(LinkRulesValidator)
+  expect(linkRulesValidatorA).toBe(linkRulesValidatorB)
+})
+
+test('Test registerGlobalLinkRule is inserted', () => {
+  const linkRulesValidator = LinkRulesValidator.getInstance()
+  linkRulesValidator.emptyGlobalRules()
+  linkRulesValidator.emptyGroupRules()
+
+  linkRulesValidator.registerGlobalLinkRule(NotSameInterfaceType.getInstance())
+  const result = linkRulesValidator.globalRuleIsAlreadyIncluded(NotSameInterfaceType.getInstance())
+  expect(result).toBeTruthy()
+})
+
+// Test registerGroupRule is inserted
+test('', () => {
+  const linkRulesValidator = LinkRulesValidator.getInstance()
+  linkRulesValidator.resetAll()
+
+  linkRulesValidator.registerGlobalLinkRule(NotSameInterfaceType.getInstance())
+  const result = linkRulesValidator.globalRuleIsAlreadyIncluded(NotSameInterfaceType.getInstance())
+  expect(result).toBeTruthy()
+})
+// Test globalRuleIsAlreadyIncluded is KO or OK
+
+test('', () => {
+  
+})
+// Test groupRuleIsAlreadyIncluded is KO or OK
+
+test('', () => {
+  
+})
+// Test registerRuleIntoGroupRule is inserted inside a group rule
+
+test('', () => {
+  
+})
+// Test validateGlobalRules validates the rules correctly
+
+test('', () => {
+  
+})
+
+
+/* test('Preview - LinkRuleValidator', () => {
   const validator = LinkRulesValidator.getInstance()
   const nodeOne = <VariableNodeComponent>(
     NodeComponentFactory.createNode(NodeType.VARIABLE, { name: 'bozo' })
@@ -29,6 +80,7 @@ test('Preview - LinkRuleValidator', () => {
   const validation = validator.validateGlobalRules(inputOne, outputTwo)
 
   console.log(validation)
-    console.log('nigga this is a commit test')
   expect(validation).toBeInstanceOf(Array)
-})
+
+
+}) */

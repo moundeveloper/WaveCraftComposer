@@ -9,10 +9,6 @@ export abstract class GroupRule extends LinkRule {
 
   protected constructor() {
     super()
-
-    if (new.target === GroupRule) {
-      throw new Error('Cannot instantiate abstract class GroupRule')
-    }
     this.rules = []
   }
 

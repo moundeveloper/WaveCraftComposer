@@ -4,6 +4,10 @@ import type { LinkRule } from '../types/LinkRules/LinkRule'
 import { GroupRule } from './GroupRule'
 import { ItemIsAlreadyIncluded } from './Errors'
 
+/**
+ * Validates link rules and prevents unwanted connection between nodes.
+ * @class RuleValidationResult
+ */
 export class RuleValidationResult {
   allValid: boolean
   successfullRules: LinkRule[]
@@ -26,6 +30,13 @@ export class LinkRulesValidator {
     this.groupRules = []
   }
 
+  /**
+   * Get the instance of the LinkRulesValidator
+   * @static
+   * @template T
+   * @return {*}  {T}
+   * @memberof LinkRulesValidator
+   */
   public static getInstance<T extends LinkRulesValidator>(): T {
     if (!this.instance) {
       this.instance = new (this as any)()
@@ -33,15 +44,27 @@ export class LinkRulesValidator {
     return this.instance as T
   }
 
-  registerGlobalLinkRule(linkRule: LinkRule) {
+/**
+ * Insert a LinkRule inside the global rules list
+ * @param {LinkRule} linkRule
+ * @return {*} 
+ * @memberof LinkRulesValidator
+ */
+registerGlobalLinkRule(linkRule: LinkRule): any {
     if (this.globalRuleIsAlreadyIncluded(linkRule)) {
       throw new ItemIsAlreadyIncluded('Global link rule is already included')
     }
     this.globalRules.push(linkRule)
     return this
   }
-
-  registerGroupRule(groupRule: GroupRule) {
+  
+/**
+ * Insert a LinkRule inside the group rules list
+ * @param {GroupRule} groupRule
+ * @return {*} 
+ * @memberof LinkRulesValidator
+ */
+registerGroupRule(groupRule: GroupRule): any {
     if (this.groupRuleIsAlreadyIncluded(groupRule)) {
       throw new ItemIsAlreadyIncluded('Group link rule is already included')
     }
@@ -49,19 +72,37 @@ export class LinkRulesValidator {
     return this
   }
 
-  groupRuleIsAlreadyIncluded(groupRuleToCheck: GroupRule) {
+/**
+ * Check if a LinkRule is already included in the group rules list
+ * @param {GroupRule} groupRuleToCheck
+ * @return {*}  {boolean}
+ * @memberof LinkRulesValidator
+ */
+groupRuleIsAlreadyIncluded(groupRuleToCheck: GroupRule):boolean {
     return this.groupRules.some(
       (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToCheck.constructor.name
     )
   }
 
-  globalRuleIsAlreadyIncluded(ruleToCheck: LinkRule) {
+/**
+ * Check if a LinkRule is already included in the global rules list
+ * @param {LinkRule} ruleToCheck
+ * @return {*}  {boolean}
+ * @memberof LinkRulesValidator
+ */
+globalRuleIsAlreadyIncluded(ruleToCheck: LinkRule): boolean {
     return this.globalRules.some(
       (globalRule: LinkRule) => globalRule.constructor.name === ruleToCheck.constructor.name
     )
   }
-
-  registerRuleIntoGroupRule(groupRuleToInsertTo: GroupRule, linkRule: LinkRule) {
+  
+/**
+ * Insert a LinkRule inside a GroupRule
+ * @param {GroupRule} groupRuleToInsertTo
+ * @param {LinkRule} linkRule
+ * @memberof LinkRulesValidator
+ */
+registerRuleIntoGroupRule(groupRuleToInsertTo: GroupRule, linkRule: LinkRule) {
     const groupRule = this.groupRules.find(
       (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToInsertTo.constructor.name
     )
@@ -69,7 +110,58 @@ export class LinkRulesValidator {
     groupRule.registerLinkRule(linkRule)
   }
 
-  validateGlobalRules(
+  public resetAll() {
+    this.emptyGlobalRules()
+    this.emptyAllGroupRulesRules()
+    this.emptyGroupRules()
+  }
+
+  public emptyGlobalRules(): boolean {
+    this.globalRules = []
+    return true
+  }
+
+  public emptyGroupRules(): boolean {
+    this.groupRules = []
+    return true
+  }
+
+  public emptyAllGroupRulesRules(): boolean {
+    if(this.groupRules.length === 0) {
+      return false
+    }
+
+    this.groupRules.forEach((groupRule: GroupRule)=>{
+      groupRule.emptyRules()
+    })
+
+    return true
+  }
+
+  public emptyGroupRuleRules(groupRuleToEmpty: GroupRule): boolean {
+    const groupRule = this.groupRules.find((groupRule: GroupRule) => groupRule.constructor.name === groupRuleToEmpty.constructor.name)
+    if(!groupRule) {
+      return false
+    }
+    groupRule.emptyRules()
+    return true
+  }
+
+  public isGlobalRulesEmpty(): boolean {
+    return this.globalRules.length === 0
+  }
+  public isGroupRulesEmpty(): boolean {
+    return this.groupRules.length === 0
+  }
+
+/**
+ * Validate each global rule and group rule and each rule inside a group rule
+ * @param {InterfaceComponent} sourceInterfaceComponent
+ * @param {InterfaceComponent} targetInterfaceComponent
+ * @return {*}  {RuleValidationResult[]}
+ * @memberof LinkRulesValidator
+ */
+validateGlobalRules(
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): RuleValidationResult[] {
