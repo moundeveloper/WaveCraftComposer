@@ -1,4 +1,4 @@
-import { SameNodeTypeGroup } from '../../src/preview_feature/GroupRule'
+import { GroupRule, SameNodeTypeGroup } from '../../src/preview_feature/GroupRule'
 import { NotSameInterfaceType, SameNodeVariableType } from '../../src/preview_feature/LinkRule'
 import { InterfaceComponent } from '../../src/types/InterfaceComponent'
 import { NodeType, VariableNodeComponent, VariableType } from '../../src/types/NodeComponent'
@@ -29,6 +29,6 @@ test('Preview - LinkRuleValidator', () => {
   const validation = validator.validateGlobalRules(inputOne, outputTwo)
 
   console.log(validation)
-
+    console.log('nigga this is a commit test')
   expect(validation).toBeInstanceOf(Array)
 })
