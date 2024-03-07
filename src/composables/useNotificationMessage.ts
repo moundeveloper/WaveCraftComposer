@@ -31,7 +31,7 @@ export function useNotificationMessage(): {
       notificationMessage.value.showNotification(
         'success',
         'Success',
-        'Operation completed successfully'
+        'Operation completed successfuly'
       )
     }
 

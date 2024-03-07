@@ -49,26 +49,26 @@ export abstract class GroupRule extends LinkRule {
     targetInterfaceComponent: InterfaceComponent
   ): RuleValidationResult {
     if (!this.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)) {
-      return { allValid: false, successfullRules: [], failedRules: [] }
+      return { allValid: false, successfulRules: [], failedRules: [] }
     }
 
     const failedRules: LinkRule[] = []
-    const successfullRules: LinkRule[] = []
+    const successfulRules: LinkRule[] = []
 
-    successfullRules.push(this)
+    successfulRules.push(this)
 
     const allValid = this.rules.every((rule) => {
       const isValid = rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
       if (!isValid) {
         failedRules.push(rule)
       } else {
-        successfullRules.push(rule)
+        successfulRules.push(rule)
       }
 
       return isValid
     })
 
-    return new RuleValidationResult(allValid, successfullRules, failedRules)
+    return new RuleValidationResult(allValid, successfulRules, failedRules)
   }
 }
 

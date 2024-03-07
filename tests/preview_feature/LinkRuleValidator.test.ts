@@ -8,7 +8,10 @@ import {
 import { InterfaceComponent } from '../../src/types/InterfaceComponent'
 import { NodeType, VariableNodeComponent, VariableType } from '../../src/types/NodeComponent'
 import { NodeComponentFactory } from '../../src/types/factory/NodeComponentFactory'
-import { LinkRulesValidator } from './../../src/preview_feature/LinkRuleValidator'
+import {
+  LinkRulesValidator,
+  type RulesValidation
+} from './../../src/preview_feature/LinkRuleValidator'
 import { expect, test } from 'vitest'
 
 test('Test singleton instance LinkRuleValidator', () => {
@@ -146,7 +149,7 @@ test('Test validateGlobalRules validates the rules correctly', () => {
     SameNodeTypeGroup.getInstance(),
     SameNodeVariableType.getInstance()
   )
-  const validation = validator.validateGlobalRules(inputOne, outputTwo)
+  const validation: RulesValidation = validator.validateGlobalRules(inputOne, outputTwo)
 
-  expect(validation).toBeInstanceOf(Array)
+  expect(validation).toBeInstanceOf(Object)
 })

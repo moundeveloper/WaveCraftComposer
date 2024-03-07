@@ -25,7 +25,7 @@ interface LinkingInterfaces {
     sourceInterface: InterfaceComponent | undefined
     targetInterface: InterfaceComponent | undefined
 }
-const emits = defineEmits(['linkingSuccessfull', 'linkingFailed'])
+const emits = defineEmits(['linkingSuccessful', 'linkingFailed'])
 const nodeEditorStore = useNodeEditor()
 const isTemporaryLinkActive = ref(false)
 const temporaryLinkData = reactive<TemporaryLinkData>({
@@ -86,14 +86,14 @@ const completeLinking = (event: MouseEvent) => {
 
     if (linkingInterfaces.sourceInterface instanceof InterfaceComponent
         && linkingInterfaces.targetInterface instanceof InterfaceComponent) {
-        const { allValid, successfullRules, failedRules } = linkRuleValidator.validateRules(linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
-        console.log(successfullRules)
-        successfullRules.forEach(rule => processSuccessfullRule(rule, successfullRules, linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface))
+        const { allValid, successfulRules, failedRules } = linkRuleValidator.validateRules(linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
+        console.log(successfulRules)
+        successfulRules.forEach(rule => processSuccessfulRule(rule, successfulRules, linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface))
         failedRules.forEach(rule => processFailedRule(rule, failedRules))
         if (failedRules.length === 0) {
             const link = new LinkBuilder().createLink(genId(), linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
             nodeEditorStore.addLink(link)
-            successfullRules.forEach(rule => {
+            successfulRules.forEach(rule => {
                 terminalStore.addLog({
                     id: genId(),
                     message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${linkingInterfaces.sourceInterface?.id}, target: ${linkingInterfaces.targetInterface?.id}`,
@@ -122,12 +122,12 @@ const notLinking = (event: MouseEvent) => {
 }
 
 
-const processSuccessfullRule = (rule: LinkRule, rules: LinkRule[], sourceInterfaceComponent: InterfaceComponent,
+const processSuccessfulRule = (rule: LinkRule, rules: LinkRule[], sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent) => {
     switch (true) {
         case rule instanceof NotSameInterfaceInput:
             // Code for NotSameInterfaceInput
-            console.log("Processing successfull NotSameInterfaceInput");
+            console.log("Processing successful NotSameInterfaceInput");
             console.log(nodeEditorStore.links)
             nodeEditorStore.removeLinkByInterface(targetInterfaceComponent)
             console.log(nodeEditorStore.links)
@@ -135,17 +135,17 @@ const processSuccessfullRule = (rule: LinkRule, rules: LinkRule[], sourceInterfa
 
         case rule instanceof NotSameInterfaceNode:
             // Code for NotSameInterfaceInput
-            console.log("Processing successfull NotSameInterfaceNode");
+            console.log("Processing successful NotSameInterfaceNode");
             break;
 
         case rule instanceof NotSameInterfaceType:
             // Code for NotSameInterfaceInput
-            console.log("Processing successfull NotSameInterfaceType");
+            console.log("Processing successful NotSameInterfaceType");
             break;
 
         case rule instanceof SameNodeVariableType:
         // Code for NotSameInterfaceInput
-        console.log("Processing successfull NotSameInterfaceType");
+        console.log("Processing successful NotSameInterfaceType");
         break;
 
         default:
@@ -174,7 +174,7 @@ const processFailedRule = (rule: LinkRule, rules: LinkRule[]) => {
             
         case rule instanceof SameNodeVariableType:
             // Code for NotSameInterfaceInput
-            console.log("Processing successfull NotSameInterfaceType");
+            console.log("Processing successful NotSameInterfaceType");
             break;
 
         default:
