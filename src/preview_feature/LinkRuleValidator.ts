@@ -2,7 +2,7 @@ import { NodeComponent } from '../types/NodeComponent'
 import { InterfaceComponent } from '../types/InterfaceComponent'
 import type { LinkRule } from '../types/LinkRules/LinkRule'
 import { GroupRule } from './GroupRule'
-import { ItemIsAlreadyIncluded } from './Errors'
+import { ItemIsAlreadyIncluded, NotFoundError } from './Errors'
 
 /**
  * Validates link rules and prevents unwanted connection between nodes.
@@ -44,6 +44,14 @@ export class LinkRulesValidator {
     return this.instance as T
   }
 
+  public getGlobalRules() {
+    return this.globalRules
+  }
+
+  public getGroupRules(): LinkRule[] {
+    return this.groupRules
+  }
+
 /**
  * Insert a LinkRule inside the global rules list
  * @param {LinkRule} linkRule
@@ -55,7 +63,7 @@ registerGlobalLinkRule(linkRule: LinkRule): any {
       throw new ItemIsAlreadyIncluded('Global link rule is already included')
     }
     this.globalRules.push(linkRule)
-    return this
+    return true
   }
   
 /**
@@ -69,7 +77,7 @@ registerGroupRule(groupRule: GroupRule): any {
       throw new ItemIsAlreadyIncluded('Group link rule is already included')
     }
     this.groupRules.push(groupRule)
-    return this
+    return true
   }
 
 /**
@@ -100,20 +108,25 @@ globalRuleIsAlreadyIncluded(ruleToCheck: LinkRule): boolean {
  * Insert a LinkRule inside a GroupRule
  * @param {GroupRule} groupRuleToInsertTo
  * @param {LinkRule} linkRule
+ * @throws NotFoundError
  * @memberof LinkRulesValidator
  */
-registerRuleIntoGroupRule(groupRuleToInsertTo: GroupRule, linkRule: LinkRule) {
+registerRuleIntoGroupRule(groupRuleToInsertTo: GroupRule, linkRule: LinkRule): GroupRule {
     const groupRule = this.groupRules.find(
       (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToInsertTo.constructor.name
     )
-    if (!groupRule) return
+    if (!groupRule) {
+      throw new NotFoundError('GroupRule was not found')
+    }
     groupRule.registerLinkRule(linkRule)
+    return groupRule
   }
 
   public resetAll() {
     this.emptyGlobalRules()
     this.emptyAllGroupRulesRules()
     this.emptyGroupRules()
+    return this
   }
 
   public emptyGlobalRules(): boolean {
