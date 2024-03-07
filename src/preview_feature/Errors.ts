@@ -28,4 +28,15 @@ export class InvalidInsertionError extends CustomError {
     }
 }
 
+/**
+ * Represents an error thrown when an invalid insertion is attempted.
+ * This error typically occurs when attempting to insert an item into a list in an invalid manner.
+ * @extends CustomError
+ */
+export class NotFoundError extends CustomError {
+    constructor(message: string = 'Cannot insert the item in the list') {
+        super(message);
+    }
+}
+
 

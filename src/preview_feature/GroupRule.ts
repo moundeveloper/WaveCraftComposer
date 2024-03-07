@@ -1,18 +1,14 @@
 import { NodeType, type NodeComponent, type VariableNodeComponent } from '../types/NodeComponent'
-import { type RuleValidationResult } from '../types/LinkRules/LinkRule'
 import type { InterfaceComponent } from '../types/InterfaceComponent'
 import { LinkRule } from './LinkRule'
 import { InvalidInsertionError, ItemIsAlreadyIncluded } from './Errors'
+import { RuleValidationResult } from './LinkRuleValidator'
 
 export abstract class GroupRule extends LinkRule {
   private rules: Array<LinkRule>
 
   protected constructor() {
     super()
-
-    if (new.target === GroupRule) {
-      throw new Error('Cannot instantiate abstract class GroupRule')
-    }
     this.rules = []
   }
 
@@ -20,10 +16,9 @@ export abstract class GroupRule extends LinkRule {
     this.rules = []
   }
 
-  public isEmpty(): boolean{
+  public isEmpty(): boolean {
     return this.rules.length === 0
   }
-
 
   public unregisterLinkRule(linkRuleToRemove: LinkRule) {
     this.rules = this.rules.filter(
@@ -32,8 +27,7 @@ export abstract class GroupRule extends LinkRule {
   }
 
   public registerLinkRule(linkRule: LinkRule) {
-
-    if(linkRule instanceof GroupRule) {
+    if (linkRule instanceof GroupRule) {
       throw new InvalidInsertionError('Cannot insert a group rule')
     }
 
@@ -61,8 +55,9 @@ export abstract class GroupRule extends LinkRule {
     const failedRules: LinkRule[] = []
     const successfullRules: LinkRule[] = []
 
+    successfullRules.push(this)
+
     const allValid = this.rules.every((rule) => {
-      console.log(rule)
       const isValid = rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
       if (!isValid) {
         failedRules.push(rule)
@@ -73,9 +68,7 @@ export abstract class GroupRule extends LinkRule {
       return isValid
     })
 
-    successfullRules.push(this)
-
-    return { allValid, successfullRules, failedRules }
+    return new RuleValidationResult(allValid, successfullRules, failedRules)
   }
 }
 
