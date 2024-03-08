@@ -1,5 +1,5 @@
-import { isSubListContained } from '../utils/utility'
-import { InterfaceComponent } from '../types/InterfaceComponent'
+import { isSubListContained } from '../../utils/utility'
+import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { GroupRule, SameNodeTypeGroup } from './GroupRule'
 import { NotSameInterfaceType, type LinkRule, SameNodeVariableType } from './LinkRule'
 import { LinkRulesValidator, RuleValidationResult, type RulesValidation } from './LinkRuleValidator'

@@ -35,3 +35,9 @@ export const allValidList = <T>(
   })
   return isValid
 }
+
+export const isSubListContained = <T>(subarray: T[], array: T[]): boolean => {
+  return array.some((_, index) =>
+    array.slice(index, index + subarray.length).every((value, i) => value === subarray[i])
+  )
+}
