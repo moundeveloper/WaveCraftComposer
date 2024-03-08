@@ -1,5 +1,5 @@
 import { InterfaceComponent } from '../types/InterfaceComponent'
-import { SameNodeTypeGroup } from './GroupRule'
+import { GroupRule, SameNodeTypeGroup } from './GroupRule'
 import { NotSameInterfaceType, type LinkRule, SameNodeVariableType } from './LinkRule'
 import { LinkRulesValidator, RuleValidationResult, type RulesValidation } from './LinkRuleValidator'
 
@@ -27,6 +27,7 @@ export class LinkRuleValidationProcessor {
   }
 
   processValidations(
+    linkRuleValidationDictList: LinkRuleValidationDict[],
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ) {
@@ -35,48 +36,51 @@ export class LinkRuleValidationProcessor {
       targetInterfaceComponent
     )
 
-    const linkRuleValidationDict: LinkRuleValidationDict = {
-      message: 'Not same interface type and node same node type',
-      successfulRules: [NotSameInterfaceType.getInstance(), SameNodeVariableType.getInstance()],
-      OnSuccessfulRules: () => console.log('it works'),
-      failedRules: [SameNodeVariableType.getInstance()],
-      OnFailedRules: () => console.log('not working')
-    }
     console.log(validations)
-    console.log(linkRuleValidationDict)
-    this.processGlobalRules(validations, linkRuleValidationDict)
-    // TO-DO
-  }
+    console.log(validations.groupRules)
+    console.log(linkRuleValidationDictList)
 
-  private processGlobalRules(
-    validations: RulesValidation,
-    linkRuleValidationDict: LinkRuleValidationDict
-  ) {
-    if (!validations.globalRules.allValid) {
-      const isWithin = validations.globalRules.failedRules.every(
-        (failedRule: LinkRule) => linkRuleValidationDict.failedRules?.includes(failedRule)
-      )
-
-      console.log(isWithin)
-      if (isWithin) {
-        linkRuleValidationDict.OnFailedRules()
-      }
-    } else {
-      const isWithin = validations.globalRules.successfulRules.every(
-        (successfulRule: LinkRule) =>
-          linkRuleValidationDict.successfulRules?.includes(successfulRule)
-      )
-      console.log(isWithin)
-      if (isWithin) {
-        linkRuleValidationDict.OnSuccessfulRules()
-      }
-    }
+    this.processLinkRuleValidationDict(validations, linkRuleValidationDictList)
   }
 
   processLinkRuleValidationDict(
     validations: RulesValidation,
-    linkRuleValidationDict: LinkRuleValidationDict[]
-  ) {}
+    linkRuleValidationDictList: LinkRuleValidationDict[]
+  ) {
+    linkRuleValidationDictList.forEach((linkRuleValidationDict: LinkRuleValidationDict) => {
+      // Global Rules Processing
+      this.processLinkRules(validations.globalRules, linkRuleValidationDict)
 
-  private processGroupRules() {}
+      // Group Rules Processing
+      validations.groupRules.forEach((groupRuleValidationResult: RuleValidationResult) => {
+        if (
+          groupRuleValidationResult.scopeRule.validation &&
+          groupRuleValidationResult.scopeRule.rule instanceof GroupRule
+        ) {
+          this.processLinkRules(groupRuleValidationResult, linkRuleValidationDict)
+        }
+      })
+    })
+  }
+
+  isContained<T>(subarray: T[], array: T[]): boolean {
+    return array.some((_, index) =>
+      array.slice(index, index + subarray.length).every((value, i) => value === subarray[i])
+    )
+  }
+
+  private processLinkRules(
+    ruleValidationResult: RuleValidationResult,
+    linkRuleValidationDict: LinkRuleValidationDict
+  ) {
+    if (
+      this.isContained(linkRuleValidationDict.successfulRules, ruleValidationResult.successfulRules)
+    ) {
+      linkRuleValidationDict.OnSuccessfulRules()
+    } else if (
+      this.isContained(linkRuleValidationDict.failedRules, ruleValidationResult.failedRules)
+    ) {
+      linkRuleValidationDict.OnFailedRules()
+    }
+  }
 }

@@ -3,6 +3,7 @@ import type { InterfaceComponent } from '../types/InterfaceComponent'
 import { LinkRule } from './LinkRule'
 import { InvalidInsertionError, ItemIsAlreadyIncluded } from './Errors'
 import { RuleValidationResult } from './LinkRuleValidator'
+import { allValidList } from '../utils/utility'
 
 export abstract class GroupRule extends LinkRule {
   private rules: Array<LinkRule>
@@ -48,27 +49,30 @@ export abstract class GroupRule extends LinkRule {
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): RuleValidationResult {
-    if (!this.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)) {
-      return { allValid: false, successfulRules: [], failedRules: [] }
+    const validation = this.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
+    if (!validation) {
+      return new RuleValidationResult().setScopeRule(this, validation)
     }
 
     const failedRules: LinkRule[] = []
     const successfulRules: LinkRule[] = []
 
-    successfulRules.push(this)
-
-    const allValid = this.rules.every((rule) => {
-      const isValid = rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
-      if (!isValid) {
-        failedRules.push(rule)
-      } else {
+    const allValid = allValidList(
+      this.rules,
+      (rule: LinkRule) =>
+        rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent),
+      (rule: LinkRule) => {
         successfulRules.push(rule)
+      },
+      (rule: LinkRule) => {
+        failedRules.push(rule)
       }
+    )
 
-      return isValid
-    })
-
-    return new RuleValidationResult(allValid, successfulRules, failedRules)
+    return new RuleValidationResult(allValid, successfulRules, failedRules).setScopeRule(
+      this,
+      validation
+    )
   }
 }
 

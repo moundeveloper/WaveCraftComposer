@@ -1,21 +1,46 @@
 import { InterfaceComponent } from '../types/InterfaceComponent'
-import type { LinkRule } from '../types/LinkRules/LinkRule'
+import { LinkRule } from '../types/LinkRules/LinkRule'
 import { GroupRule } from './GroupRule'
 import { ItemIsAlreadyIncluded, NotFoundError } from './Errors'
+import { allValidList } from '../utils/utility'
+
+export interface ScopeRule {
+  rule: GroupRule | null
+  validation: boolean
+}
 
 /**
  * Validates link rules and prevents unwanted connection between nodes.
  * @class RuleValidationResult
  */
 export class RuleValidationResult {
+  // If scopeRule is null then it is a regular LinkRule, if it has a LinkRule then it is a GroupRule
+  scopeRule: ScopeRule
   allValid: boolean
   successfulRules: LinkRule[]
   failedRules: LinkRule[]
 
-  constructor(allValid: boolean, successfulRules: LinkRule[], failedRules: LinkRule[]) {
+  constructor(
+    allValid: boolean = false,
+    successfulRules: LinkRule[] = [],
+    failedRules: LinkRule[] = []
+  ) {
     this.allValid = allValid
     this.successfulRules = successfulRules
     this.failedRules = failedRules
+    this.scopeRule = {
+      rule: null,
+      validation: false
+    }
+  }
+
+  setScopeRule(linkRule: GroupRule, validation: boolean = false) {
+    // Test this section whenever you feel like it
+    this.scopeRule = {
+      rule: linkRule,
+      validation: validation
+    }
+    return this
   }
 }
 
@@ -187,16 +212,21 @@ export class LinkRulesValidator {
     const failedRules: LinkRule[] = []
     const successfulRules: LinkRule[] = []
 
-    const allValid = this.globalRules.every((rule) => {
-      const isValid = rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
-      if (!isValid) {
-        failedRules.push(rule)
-      } else {
-        successfulRules.push(rule)
-      }
-
-      return isValid
+    this.globalRules.forEach((rule: LinkRule) => {
+      console.log(rule)
     })
+
+    const allValid = allValidList(
+      this.globalRules,
+      (rule: LinkRule) =>
+        rule.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent),
+      (rule: LinkRule) => {
+        successfulRules.push(rule)
+      },
+      (rule: LinkRule) => {
+        failedRules.push(rule)
+      }
+    )
 
     const globalRules = new RuleValidationResult(allValid, successfulRules, failedRules)
 

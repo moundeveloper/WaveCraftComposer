@@ -80,17 +80,10 @@ export class NotAWorkingRule extends LinkRule {
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): boolean {
-    return (
-      this.isInputInterface(sourceInterfaceComponent) !==
-      this.isInputInterface(targetInterfaceComponent)
-    )
+    return false
   }
 
   message(): string {
-    return 'Interfaces of the same type cannot be linked together'
-  }
-
-  isInputInterface(interfaceComponent: InterfaceComponent) {
-    return interfaceComponent.parentNode?.inputInterfaces.includes(interfaceComponent)
+    return 'This rule is just  a dummy'
   }
 }

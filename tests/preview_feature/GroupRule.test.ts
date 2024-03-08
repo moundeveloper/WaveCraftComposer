@@ -50,16 +50,17 @@ test('Preview - GroupRule: check if rules are validated.', () => {
     NodeComponentFactory.createNode(NodeType.VARIABLE, { name: 'two' })
   )
 
-  const nodeOneInputInterface = <InterfaceComponent>nodeOne?.inputInterfaces[0]
-  const nodeOneOutputInterface = <InterfaceComponent>nodeTwo?.outputInterfaces[0]
+  const nodeOneInterface = <InterfaceComponent>nodeOne?.inputInterfaces[0]
+  const nodeTwoInterface = <InterfaceComponent>nodeTwo?.outputInterfaces[0]
 
   nodeOne.currentVariable.type = VariableType.NUMBER
   nodeTwo.currentVariable.type = VariableType.NUMBER
 
   const { allValid, successfulRules, failedRules } = rule.validateGroupRules(
-    nodeOneInputInterface,
-    nodeOneOutputInterface
+    nodeOneInterface,
+    nodeTwoInterface
   )
+
   expect(allValid).toBeTruthy()
   expect(failedRules).toEqual([])
 })
