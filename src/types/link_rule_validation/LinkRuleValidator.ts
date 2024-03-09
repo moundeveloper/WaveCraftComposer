@@ -1,8 +1,8 @@
-import { InterfaceComponent } from '../types/InterfaceComponent'
-import { LinkRule } from '../types/LinkRules/LinkRule'
+import { InterfaceComponent } from '../../types/InterfaceComponent'
+import { LinkRule } from '../../types/LinkRules/LinkRule'
 import { GroupRule } from './GroupRule'
 import { ItemIsAlreadyIncluded, NotFoundError } from './Errors'
-import { allValidList } from '../utils/utility'
+import { allValidList } from '../../utils/utility'
 
 export interface ScopeRule {
   rule: GroupRule | null

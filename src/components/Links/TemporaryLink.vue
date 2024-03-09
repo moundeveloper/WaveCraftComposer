@@ -3,7 +3,7 @@
 </template>
 
 <script setup lang="ts">
-import { watch, ref, onMounted, onUnmounted, reactive } from "vue"
+import { ref, onMounted, onUnmounted } from "vue"
 import type { TemporaryLinkData } from "./types";
 import { generateDPath, getElementPositionOffset } from "@/utils/InterfaceElement";
 import { Position } from "@/types/Position";
@@ -11,18 +11,17 @@ import type { InterfaceComponent } from "@/types/InterfaceComponent";
 import { useNodeEditor } from "@/stores/nodeEditor";
 
 const nodeEditorStore = useNodeEditor()
+const interfacesDpath = ref<string | undefined>()
 const props = defineProps<{
     temporaryLinkData: TemporaryLinkData
 }>()
+
 const processDPath = (sourceInterface: InterfaceComponent, targetPosition: Position) => {
     const sourcePos = getElementPositionOffset(sourceInterface?.id)
     if (!sourcePos) return
 
     return generateDPath(sourcePos, targetPosition)
 }
-
-const interfacesDpath = ref<string | undefined>("")
-
 
 const temporaryLinkHandler = (event: MouseEvent) => {
     if (event.button === 1) return;
@@ -34,7 +33,6 @@ const temporaryLinkHandler = (event: MouseEvent) => {
 }
 
 onMounted(() => {
-
     window.addEventListener("mousemove", temporaryLinkHandler)
 })
 onUnmounted(() => {
@@ -42,5 +40,3 @@ onUnmounted(() => {
 })
 
 </script>
-
-<style scoped></style>

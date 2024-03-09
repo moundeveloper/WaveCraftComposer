@@ -1,6 +1,9 @@
-import { InvalidInsertionError, ItemIsAlreadyIncluded } from '../../src/preview_feature/Errors'
-import { SameNodeTypeGroup } from '../../src/preview_feature/GroupRule'
-import { SameNodeVariableType } from '../../src/preview_feature/LinkRule'
+import {
+  InvalidInsertionError,
+  ItemIsAlreadyIncluded
+} from '../../src/types/link_rule_validation/Errors'
+import { SameNodeTypeGroup } from '../../src/types/link_rule_validation/GroupRule'
+import { SameNodeVariableType } from '../../src/types/link_rule_validation/LinkRule'
 import { InterfaceComponent } from '../../src/types/InterfaceComponent'
 import { NodeType, VariableNodeComponent, VariableType } from '../../src/types/NodeComponent'
 import { NodeComponentFactory } from '../../src/types/factory/NodeComponentFactory'

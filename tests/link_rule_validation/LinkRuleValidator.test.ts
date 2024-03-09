@@ -1,17 +1,17 @@
-import { ItemIsAlreadyIncluded, NotFoundError } from '../../src/preview_feature/Errors'
-import { GroupRule, SameNodeTypeGroup } from '../../src/preview_feature/GroupRule'
+import { ItemIsAlreadyIncluded, NotFoundError } from '../../src/types/link_rule_validation/Errors'
+import { GroupRule, SameNodeTypeGroup } from '../../src/types/link_rule_validation/GroupRule'
 import {
   LinkRule,
   NotSameInterfaceType,
   SameNodeVariableType
-} from '../../src/preview_feature/LinkRule'
+} from '../../src/types/link_rule_validation/LinkRule'
 import { InterfaceComponent } from '../../src/types/InterfaceComponent'
 import { NodeType, VariableNodeComponent, VariableType } from '../../src/types/NodeComponent'
 import { NodeComponentFactory } from '../../src/types/factory/NodeComponentFactory'
 import {
   LinkRulesValidator,
   type RulesValidation
-} from './../../src/preview_feature/LinkRuleValidator'
+} from './../../src/types/link_rule_validation/LinkRuleValidator'
 import { expect, test } from 'vitest'
 
 test('Test singleton instance LinkRuleValidator', () => {

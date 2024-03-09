@@ -1,4 +1,4 @@
-import { VariableNodeComponent } from './../NodeComponent';
+import { VariableNodeComponent } from './../NodeComponent'
 import { useNodeEditor } from './../../stores/nodeEditor'
 import type { InterfaceComponent } from '../InterfaceComponent'
 import type { Link } from '../Link'
@@ -43,16 +43,31 @@ export class SameNodeVariableType extends LinkRule {
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): boolean {
-    if(sourceInterfaceComponent.parentNode instanceof VariableNodeComponent && targetInterfaceComponent.parentNode instanceof VariableNodeComponent) {
-      return this.variableNodeComponentTypeCheck(sourceInterfaceComponent.parentNode, targetInterfaceComponent.parentNode)
+    if (
+      sourceInterfaceComponent.parentNode instanceof VariableNodeComponent &&
+      targetInterfaceComponent.parentNode instanceof VariableNodeComponent
+    ) {
+      return this.variableNodeComponentTypeCheck(
+        sourceInterfaceComponent.parentNode,
+        targetInterfaceComponent.parentNode
+      )
     }
     return false
   }
 
-  variableNodeComponentTypeCheck(sourceVariableNodeComponent: VariableNodeComponent, targetVariableNodeComponent: VariableNodeComponent): boolean{
-    console.log(sourceVariableNodeComponent.currentVariable.type, targetVariableNodeComponent.currentVariable.type)
+  variableNodeComponentTypeCheck(
+    sourceVariableNodeComponent: VariableNodeComponent,
+    targetVariableNodeComponent: VariableNodeComponent
+  ): boolean {
+    console.log(
+      sourceVariableNodeComponent.currentVariable.type,
+      targetVariableNodeComponent.currentVariable.type
+    )
     // Work in progress - this might get updated later on
-   return  sourceVariableNodeComponent.currentVariable.type === targetVariableNodeComponent.currentVariable.type 
+    return (
+      sourceVariableNodeComponent.currentVariable.type ===
+      targetVariableNodeComponent.currentVariable.type
+    )
   }
 
   message(): string {
@@ -119,7 +134,7 @@ export class NotSameInterfaceInput extends LinkRule {
 
 export interface RuleValidationResult {
   allValid: boolean
-  successfullRules: LinkRule[]
+  successfulRules: LinkRule[]
   failedRules: LinkRule[]
 }
 
@@ -142,7 +157,7 @@ export class LinkRulesValidator {
     targetInterfaceComponent: InterfaceComponent
   ): RuleValidationResult {
     const failedRules: LinkRule[] = []
-    const successfullRules: LinkRule[] = []
+    const successfulRules: LinkRule[] = []
 
     const allValid = this.linkRules.every((rule) => {
       console.log(rule)
@@ -150,12 +165,12 @@ export class LinkRulesValidator {
       if (!isValid) {
         failedRules.push(rule)
       } else {
-        successfullRules.push(rule)
+        successfulRules.push(rule)
       }
 
       return isValid
     })
 
-    return { allValid, successfullRules, failedRules }
+    return { allValid, successfulRules, failedRules }
   }
 }

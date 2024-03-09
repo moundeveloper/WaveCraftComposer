@@ -18,6 +18,7 @@ declare module 'vue' {
     Link: typeof import('./src/components/Links/Link.vue')['default']
     LinksWraper: typeof import('./src/components/Links/LinksWraper.vue')['default']
     'LinksWraper copy': typeof import('./src/components/Links/LinksWraper copy.vue')['default']
+    LinksWraper_: typeof import('./src/components/Links/LinksWraper_.vue')['default']
     Log: typeof import('./src/components/Widgets/Terminal/Log.vue')['default']
     Logs: typeof import('./src/components/Widgets/Terminal/Tabs/Logs.vue')['default']
     Modal: typeof import('./src/components/Modal.vue')['default']

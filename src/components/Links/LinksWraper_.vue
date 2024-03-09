@@ -86,6 +86,7 @@ const completeLinking = (event: MouseEvent) => {
 
     if (linkingInterfaces.sourceInterface instanceof InterfaceComponent
         && linkingInterfaces.targetInterface instanceof InterfaceComponent) {
+
         const { allValid, successfulRules, failedRules } = linkRuleValidator.validateRules(linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface)
         console.log(successfulRules)
         successfulRules.forEach(rule => processSuccessfulRule(rule, successfulRules, linkingInterfaces.sourceInterface, linkingInterfaces.targetInterface))
@@ -111,6 +112,7 @@ const completeLinking = (event: MouseEvent) => {
                 status: Status.ERROR
             })
         })
+
     }
 }
 
@@ -144,9 +146,9 @@ const processSuccessfulRule = (rule: LinkRule, rules: LinkRule[], sourceInterfac
             break;
 
         case rule instanceof SameNodeVariableType:
-        // Code for NotSameInterfaceInput
-        console.log("Processing successful NotSameInterfaceType");
-        break;
+            // Code for NotSameInterfaceInput
+            console.log("Processing successful NotSameInterfaceType");
+            break;
 
         default:
             // Code for the base Rule class
@@ -171,7 +173,7 @@ const processFailedRule = (rule: LinkRule, rules: LinkRule[]) => {
             // Code for NotSameInterfaceInput
             console.log("Processing failed NotSameInterfaceType");
             break;
-            
+
         case rule instanceof SameNodeVariableType:
             // Code for NotSameInterfaceInput
             console.log("Processing successful NotSameInterfaceType");

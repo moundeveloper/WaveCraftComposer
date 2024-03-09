@@ -1,9 +1,9 @@
-import { NodeType, type NodeComponent, type VariableNodeComponent } from '../types/NodeComponent'
-import type { InterfaceComponent } from '../types/InterfaceComponent'
+import { NodeType, type NodeComponent, type VariableNodeComponent } from '../../types/NodeComponent'
+import type { InterfaceComponent } from '../../types/InterfaceComponent'
 import { LinkRule } from './LinkRule'
 import { InvalidInsertionError, ItemIsAlreadyIncluded } from './Errors'
 import { RuleValidationResult } from './LinkRuleValidator'
-import { allValidList } from '../utils/utility'
+import { allValidList } from '../../utils/utility'
 
 export abstract class GroupRule extends LinkRule {
   private rules: Array<LinkRule>

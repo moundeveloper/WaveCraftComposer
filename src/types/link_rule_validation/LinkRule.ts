@@ -1,5 +1,5 @@
-import type { InterfaceComponent } from '../types/InterfaceComponent'
-import { VariableNodeComponent } from '../types/NodeComponent'
+import type { InterfaceComponent } from '../../types/InterfaceComponent'
+import { VariableNodeComponent } from '../../types/NodeComponent'
 
 export abstract class LinkRule {
   protected static instance: LinkRule | null = null
