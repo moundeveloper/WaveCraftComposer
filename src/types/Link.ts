@@ -71,6 +71,7 @@ export class Link {
   }
 }
 
+// Make this into a singleton
 export class LinkBuilder {
   createLink(
     id: string,

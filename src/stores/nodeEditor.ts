@@ -74,6 +74,11 @@ export const useNodeEditor = defineStore('node-editor', () => {
     return nodes.value.find((node) => node.id === id)
   }
 
+  const togglePanZoom = (value: boolean) => {
+    canZoom.value = value
+    canPan.value = value
+  }
+
   return {
     canPan,
     canZoom,
@@ -89,6 +94,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     getLinkInterfaceTarget,
     removeLinkByInterface,
     getNode,
-    clear
+    clear,
+    togglePanZoom
   }
 })
