@@ -25,12 +25,19 @@ export const allValidList = <T>(
   notValidAction: NotValidActionCallback<T>
 ): boolean => {
   let isValid = false
+  let once = false
   list.forEach((item) => {
     if (conditionCallback(item)) {
       validAction(item)
-      isValid = true
+      if (!once) {
+        isValid = true
+      }
     } else {
       notValidAction(item)
+      if (!once) {
+        once = true
+        isValid = false
+      }
     }
   })
   return isValid

@@ -24,7 +24,7 @@ const props = defineProps<{
 
 </script>
 
-<style  scoped>
+<style scoped>
 .print-in-wraper {
     padding: 0.5rem;
 }
@@ -38,7 +38,7 @@ span {
 
 .node-header {
     padding: 0.5rem 1rem;
-    background-color: #5458AD;
+    background-color: var(--violet);
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     grid-column: 1/4;

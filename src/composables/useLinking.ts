@@ -79,42 +79,21 @@ export default function useLinking() {
       linkingInterfaces.targetInterface instanceof InterfaceComponent
     ) {
       // Validate interfaces linking
-      /*       const { allValid, successfulRules, failedRules } = linkRuleValidator.validateRules(
-        linkingInterfaces.sourceInterface,
-        linkingInterfaces.targetInterface
-      ) */
-
-      LinkRuleValidationProcessor.getInstance().processValidations(
+      const allValidRules = LinkRuleValidationProcessor.getInstance().processValidations(
         getLinkRuleDict(nodeEditorStore),
         linkingInterfaces.sourceInterface,
         linkingInterfaces.targetInterface
       )
 
-      if (true) {
+      if (allValidRules) {
         const link = new LinkBuilder().createLink(
           genId(),
           linkingInterfaces.sourceInterface,
           linkingInterfaces.targetInterface
         )
         nodeEditorStore.addLink(link)
-        /*       successfulRules.forEach((rule) => {
-          terminalStore.addLog({
-            id: genId(),
-            message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${linkingInterfaces.sourceInterface?.id}, target: ${linkingInterfaces.targetInterface?.id}`,
-            status: Status.SUCCESS
-          })
-        }) */
-
         return
       }
-
-      /*       failedRules.forEach((rule) => {
-        terminalStore.addLog({
-          id: genId(),
-          message: rule.message(),
-          status: Status.ERROR
-        })
-      }) */
     }
   }
 

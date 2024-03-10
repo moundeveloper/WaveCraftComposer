@@ -149,7 +149,7 @@ test('Test validateGlobalRules validates the rules correctly', () => {
     SameNodeTypeGroup.getInstance(),
     SameNodeVariableType.getInstance()
   )
-  const validation: RulesValidation = validator.validateGlobalRules(inputOne, outputTwo)
+  const validation: RulesValidation = validator.validateLinkRules(inputOne, outputTwo)
 
   expect(validation).toBeInstanceOf(Object)
 })

@@ -1,4 +1,4 @@
-import { isSubListContained } from '../../utils/utility'
+import { allValidList, isSubListContained } from '../../utils/utility'
 import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { GroupRule, SameNodeTypeGroup } from './GroupRule'
 import {
@@ -42,16 +42,35 @@ export class LinkRuleValidationProcessor {
     linkRuleValidationDictList: LinkRuleValidationDict[],
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
-  ) {
-    const validations: RulesValidation = this.linkRuleValidator.validateGlobalRules(
+  ): boolean {
+    const ruleValidations: RulesValidation = this.linkRuleValidator.validateLinkRules(
       sourceInterfaceComponent,
       targetInterfaceComponent
     )
-    console.log(validations)
-    console.log(validations.groupRules)
-    console.log(linkRuleValidationDictList)
 
-    this.processLinkRuleValidationDict(validations, linkRuleValidationDictList)
+    this.processLinkRuleValidationDict(ruleValidations, linkRuleValidationDictList)
+
+    console.log(ruleValidations)
+    return this.processRulesValidation(ruleValidations)
+  }
+
+  private processRulesValidation(rulesValidations: RulesValidation): boolean {
+    const { allValid: allValidGlobalRules } = rulesValidations.globalRules
+
+    const filteredGroupRulesValidation = rulesValidations.groupRules.filter(
+      (groupRuleValidaiton) => groupRuleValidaiton.scopeRule.validation
+    )
+    if (filteredGroupRulesValidation.length === 0) return allValidGlobalRules
+
+    const allValidGroup = allValidList(
+      filteredGroupRulesValidation,
+      (ruleValidationResult: RuleValidationResult) => {
+        return ruleValidationResult.scopeRule.validation && ruleValidationResult.allValid
+      },
+      (ruleValidationResult: RuleValidationResult) => {},
+      (ruleValidationResult: RuleValidationResult) => {}
+    )
+    return allValidGlobalRules && allValidGroup
   }
 
   private processLinkRuleValidationDict(
@@ -61,14 +80,12 @@ export class LinkRuleValidationProcessor {
     linkRuleValidationDictList.forEach((linkRuleValidationDict: LinkRuleValidationDict) => {
       // Global Rules Processing
       this.processLinkRules(validations.globalRules, linkRuleValidationDict)
-      console.log('global rule')
       // Group Rules Processing
       validations.groupRules.forEach((groupRuleValidationResult: RuleValidationResult) => {
         if (
           groupRuleValidationResult.scopeRule.validation &&
           groupRuleValidationResult.scopeRule.rule instanceof GroupRule
         ) {
-          console.log('group rule')
           this.processLinkRules(groupRuleValidationResult, linkRuleValidationDict)
         }
       })
@@ -85,7 +102,6 @@ export class LinkRuleValidationProcessor {
         ruleValidationResult.successfulRules
       )
     ) {
-      console.log('mi chiamo success')
       linkRuleValidationDict.OnSuccessfulRules(
         ruleValidationResult.sourceInterface,
         ruleValidationResult.targetInterface,
@@ -94,7 +110,6 @@ export class LinkRuleValidationProcessor {
     } else if (
       isSubListContained(linkRuleValidationDict.failedRules, ruleValidationResult.failedRules)
     ) {
-      console.log('mi chiamo failed')
       linkRuleValidationDict.OnFailedRules(
         ruleValidationResult.sourceInterface,
         ruleValidationResult.targetInterface,

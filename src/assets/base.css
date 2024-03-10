@@ -8,6 +8,12 @@
   --output-color: #aa43bb;
   --bg-color: rgb(28, 28, 28);
   --transparent-bg: rgb(28, 28, 28, 0.4);
+
+  /* Custom colors */
+  --light-green: #7fbb43;
+  --violet: #5458ad;
+  --pastel-red: #ad5454;
+  --pastel-blue: #439ebb;
 }
 
 *,

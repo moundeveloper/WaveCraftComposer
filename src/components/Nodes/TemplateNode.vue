@@ -37,7 +37,7 @@ const props = defineProps({
 })
 </script>
 
-<style  scoped>
+<style scoped>
 span {
     font-weight: 100;
     overflow: hidden;
@@ -47,7 +47,7 @@ span {
 
 .node-header {
     padding: 0.5rem 1rem;
-    background-color: #7FBB43;
+    background-color: var(--light-green);
     border-top-left-radius: 0.25rem;
     border-top-right-radius: 0.25rem;
     grid-column: 1/4;

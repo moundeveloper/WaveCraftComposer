@@ -211,7 +211,7 @@ export class LinkRulesValidator {
    * @return {*}  {RuleValidationResult[]}
    * @memberof LinkRulesValidator
    */
-  validateGlobalRules(
+  validateLinkRules(
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): RulesValidation {
