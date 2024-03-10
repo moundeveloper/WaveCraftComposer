@@ -1,17 +1,19 @@
-import { reactive, ref } from 'vue'
+import { LinkRuleValidationProcessor } from './../types/link_rule_validation/ProcessValidations'
+import { reactive } from 'vue'
 import useTemporaryLink from './useTemporaryLink'
 import { useNodeEditor } from '../stores/nodeEditor'
 import { getElementPositionOffset } from '../utils/InterfaceElement'
 import { InterfaceComponent } from '../types/InterfaceComponent'
-import { LinkBuilder } from '@/types/Link'
-import { genId } from '@/utils/utility'
+import { LinkBuilder } from '../types/Link'
+import { genId } from '../utils/utility'
+import { getLinkRuleDict } from '../types/link_rule_validation/LinkRuleDict'
 
 interface LinkingInterfaces {
   sourceInterface: InterfaceComponent | undefined
   targetInterface: InterfaceComponent | undefined
 }
 
-export default function usLinking() {
+export default function useLinking() {
   const {
     isTemporaryLinkActive,
     temporaryLinkData,
@@ -81,6 +83,12 @@ export default function usLinking() {
         linkingInterfaces.sourceInterface,
         linkingInterfaces.targetInterface
       ) */
+
+      LinkRuleValidationProcessor.getInstance().processValidations(
+        getLinkRuleDict(nodeEditorStore),
+        linkingInterfaces.sourceInterface,
+        linkingInterfaces.targetInterface
+      )
 
       if (true) {
         const link = new LinkBuilder().createLink(

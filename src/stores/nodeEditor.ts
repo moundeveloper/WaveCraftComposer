@@ -62,8 +62,10 @@ export const useNodeEditor = defineStore('node-editor', () => {
   }
 
   const removeLinkByInterface = (interfaceComponent: InterfaceComponent) => {
+    console.log(links.value)
     links.value = links.value.filter((link) => link.targetInterfaceComponent !== interfaceComponent)
     links.value = links.value.filter((link) => link.sourceInterfaceComponent !== interfaceComponent)
+    console.log(links.value)
   }
 
   const getLinkInterfaceTarget = (interfaceComponent: InterfaceComponent) => {

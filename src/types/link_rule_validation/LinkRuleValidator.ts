@@ -1,8 +1,8 @@
 import { InterfaceComponent } from '../../types/InterfaceComponent'
-import { LinkRule } from '../../types/LinkRules/LinkRule'
 import { GroupRule } from './GroupRule'
 import { ItemIsAlreadyIncluded, NotFoundError } from './Errors'
 import { allValidList } from '../../utils/utility'
+import type { LinkRule } from './LinkRule'
 
 export interface ScopeRule {
   rule: GroupRule | null
@@ -17,14 +17,20 @@ export class RuleValidationResult {
   // If scopeRule is null then it is a regular LinkRule, if it has a LinkRule then it is a GroupRule
   scopeRule: ScopeRule
   allValid: boolean
+  sourceInterface: InterfaceComponent
+  targetInterface: InterfaceComponent
   successfulRules: LinkRule[]
   failedRules: LinkRule[]
 
   constructor(
+    sourceInterface: InterfaceComponent,
+    targetInterface: InterfaceComponent,
     allValid: boolean = false,
     successfulRules: LinkRule[] = [],
     failedRules: LinkRule[] = []
   ) {
+    this.sourceInterface = sourceInterface
+    this.targetInterface = targetInterface
     this.allValid = allValid
     this.successfulRules = successfulRules
     this.failedRules = failedRules
@@ -228,7 +234,13 @@ export class LinkRulesValidator {
       }
     )
 
-    const globalRules = new RuleValidationResult(allValid, successfulRules, failedRules)
+    const globalRules = new RuleValidationResult(
+      sourceInterfaceComponent,
+      targetInterfaceComponent,
+      allValid,
+      successfulRules,
+      failedRules
+    )
 
     const validatedGroupRules: RuleValidationResult[] = this.validateGroupRules(
       sourceInterfaceComponent,
@@ -242,6 +254,7 @@ export class LinkRulesValidator {
     sourceInterfaceComponent: InterfaceComponent,
     targetInterfaceComponent: InterfaceComponent
   ): RuleValidationResult[] {
+    if (this.groupRules.length === 0) return []
     return this.groupRules.map((groupRule: GroupRule) =>
       groupRule.validateGroupRules(sourceInterfaceComponent, targetInterfaceComponent)
     )

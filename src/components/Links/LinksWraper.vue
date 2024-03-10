@@ -1,7 +1,7 @@
 <template>
     <svg class="path-wraper">
         <g fill="none" stroke="white" stroke-width="2">
-            <Link v-for="link in links" :link="link" :key="link.id" />
+            <Link v-for="link in nodeEditorStore.links" :link="link" :key="link.id" />
             <TemporaryLink v-if="isTemporaryLinkActive" :temporaryLinkData="temporaryLinkData" />
         </g>
     </svg>
@@ -14,10 +14,15 @@ import useTemporaryLink from '../../composables/useTemporaryLink';
 import { useNodeEditor } from '../../stores/nodeEditor';
 import Link from './Link.vue';
 import TemporaryLink from './TemporaryLink.vue';
+import { LinkRulesValidator } from '../../types/link_rule_validation/LinkRuleValidator';
+import { NotSameInterfaceInput, NotSameInterfaceNode } from '../../types/link_rule_validation/LinkRule';
 
-const { links } = useNodeEditor();
+const nodeEditorStore = useNodeEditor();
 const { isTemporaryLinkActive, temporaryLinkData } = useTemporaryLink();
 const { initLinking, completeLinking, notLinking } = useLinking()
+const linkRuleValidator = LinkRulesValidator.getInstance()
+linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceInput.getInstance())
+linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceNode.getInstance())
 
 interface Element {
     removeEventListener(type: 'mousedown' | 'mouseup', listener: (event: MouseEvent) => any, options?: boolean | EventListenerOptions): void;

@@ -1,15 +1,26 @@
 import { isSubListContained } from '../../utils/utility'
 import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { GroupRule, SameNodeTypeGroup } from './GroupRule'
-import { NotSameInterfaceType, type LinkRule, SameNodeVariableType } from './LinkRule'
+import {
+  NotSameInterfaceType,
+  type LinkRule,
+  SameNodeVariableType,
+  NotSameInterfaceInput
+} from './LinkRule'
 import { LinkRulesValidator, RuleValidationResult, type RulesValidation } from './LinkRuleValidator'
+
+type OnActionRule = (
+  sourceInterface: InterfaceComponent,
+  targetInterface: InterfaceComponent,
+  rules: LinkRule[]
+) => void
 
 export interface LinkRuleValidationDict {
   message: string
   successfulRules: LinkRule[]
-  OnSuccessfulRules: Function
+  OnSuccessfulRules: OnActionRule
   failedRules: LinkRule[]
-  OnFailedRules: Function
+  OnFailedRules: OnActionRule
 }
 
 export class LinkRuleValidationProcessor {
@@ -36,7 +47,6 @@ export class LinkRuleValidationProcessor {
       sourceInterfaceComponent,
       targetInterfaceComponent
     )
-
     console.log(validations)
     console.log(validations.groupRules)
     console.log(linkRuleValidationDictList)
@@ -44,20 +54,21 @@ export class LinkRuleValidationProcessor {
     this.processLinkRuleValidationDict(validations, linkRuleValidationDictList)
   }
 
-  processLinkRuleValidationDict(
+  private processLinkRuleValidationDict(
     validations: RulesValidation,
     linkRuleValidationDictList: LinkRuleValidationDict[]
   ) {
     linkRuleValidationDictList.forEach((linkRuleValidationDict: LinkRuleValidationDict) => {
       // Global Rules Processing
       this.processLinkRules(validations.globalRules, linkRuleValidationDict)
-
+      console.log('global rule')
       // Group Rules Processing
       validations.groupRules.forEach((groupRuleValidationResult: RuleValidationResult) => {
         if (
           groupRuleValidationResult.scopeRule.validation &&
           groupRuleValidationResult.scopeRule.rule instanceof GroupRule
         ) {
+          console.log('group rule')
           this.processLinkRules(groupRuleValidationResult, linkRuleValidationDict)
         }
       })
@@ -74,11 +85,21 @@ export class LinkRuleValidationProcessor {
         ruleValidationResult.successfulRules
       )
     ) {
-      linkRuleValidationDict.OnSuccessfulRules()
+      console.log('mi chiamo success')
+      linkRuleValidationDict.OnSuccessfulRules(
+        ruleValidationResult.sourceInterface,
+        ruleValidationResult.targetInterface,
+        ruleValidationResult.successfulRules
+      )
     } else if (
       isSubListContained(linkRuleValidationDict.failedRules, ruleValidationResult.failedRules)
     ) {
-      linkRuleValidationDict.OnFailedRules()
+      console.log('mi chiamo failed')
+      linkRuleValidationDict.OnFailedRules(
+        ruleValidationResult.sourceInterface,
+        ruleValidationResult.targetInterface,
+        ruleValidationResult.failedRules
+      )
     }
   }
 }

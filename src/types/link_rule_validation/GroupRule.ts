@@ -51,7 +51,10 @@ export abstract class GroupRule extends LinkRule {
   ): RuleValidationResult {
     const validation = this.linkRuleValidation(sourceInterfaceComponent, targetInterfaceComponent)
     if (!validation) {
-      return new RuleValidationResult().setScopeRule(this, validation)
+      return new RuleValidationResult(
+        sourceInterfaceComponent,
+        targetInterfaceComponent
+      ).setScopeRule(this, validation)
     }
 
     const failedRules: LinkRule[] = []
@@ -69,10 +72,13 @@ export abstract class GroupRule extends LinkRule {
       }
     )
 
-    return new RuleValidationResult(allValid, successfulRules, failedRules).setScopeRule(
-      this,
-      validation
-    )
+    return new RuleValidationResult(
+      sourceInterfaceComponent,
+      targetInterfaceComponent,
+      allValid,
+      successfulRules,
+      failedRules
+    ).setScopeRule(this, validation)
   }
 }
 
