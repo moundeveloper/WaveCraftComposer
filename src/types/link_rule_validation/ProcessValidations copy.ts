@@ -6,7 +6,7 @@ import {
   type LinkRule,
   SameNodeVariableType,
   NotSameInterfaceInput
-} from './LinkRule'
+} from './link_rules/LinkRule'
 import { LinkRulesValidator, RuleValidationResult, type RulesValidation } from './LinkRuleValidator'
 
 type OnActionRule = (

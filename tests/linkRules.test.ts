@@ -1,10 +1,10 @@
+import { LinkRulesValidator } from './../src/types/link_rule_validation/LinkRuleValidator'
 import {
-  LinkRulesValidator,
   NotSameInterfaceInput,
   NotSameInterfaceNode,
   NotSameInterfaceType,
   SameNodeVariableType
-} from '../src/types/LinkRules/LinkRule'
+} from '../src/types/link_rule_validation/link_rules/LinkRule'
 import { NodeComponentFactory } from '../src/types/factory/NodeComponentFactory'
 import { expect, test } from 'vitest'
 import {
@@ -15,6 +15,7 @@ import {
 } from '../src/types/NodeComponent'
 import { InterfaceComponent } from '../src/types/InterfaceComponent'
 
+// This test must be updated
 // NotSameInterfaceType testing: 2 variable nodes - 1 input - 1 output
 // I1 - input interface one - first node
 // I2 - input interface one - second node
@@ -44,7 +45,7 @@ test('OK - validate interfaces linking of different type: I2 - O1', () => {
   const nodeOne = NodeComponentFactory.createNode(NodeType.VARIABLE, { name: 'one' })
   const nodeTwo = NodeComponentFactory.createNode(NodeType.VARIABLE, { name: 'two' })
 
-  const linkRuleValidator = new LinkRulesValidator()
+  const linkRuleValidator = LinkRulesValidator.getInstance()
   linkRuleValidator.registerLinkRule(new NotSameInterfaceType())
 
   const inputTwo = nodeTwo?.inputInterfaces[0]

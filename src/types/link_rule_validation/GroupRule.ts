@@ -1,6 +1,6 @@
 import { NodeType, type NodeComponent, type VariableNodeComponent } from '../../types/NodeComponent'
 import type { InterfaceComponent } from '../../types/InterfaceComponent'
-import { LinkRule } from './LinkRule'
+import { LinkRule } from './link_rules/LinkRule'
 import { InvalidInsertionError, ItemIsAlreadyIncluded } from './Errors'
 import { RuleValidationResult } from './LinkRuleValidator'
 import { allValidList } from '../../utils/utility'

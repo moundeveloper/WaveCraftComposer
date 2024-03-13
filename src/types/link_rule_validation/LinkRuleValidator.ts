@@ -2,7 +2,7 @@ import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { GroupRule } from './GroupRule'
 import { ItemIsAlreadyIncluded, NotFoundError } from './Errors'
 import { allValidList } from '../../utils/utility'
-import type { LinkRule } from './LinkRule'
+import type { LinkRule } from './link_rules/LinkRule'
 
 export interface ScopeRule {
   rule: GroupRule | null

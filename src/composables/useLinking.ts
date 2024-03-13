@@ -30,7 +30,6 @@ export default function useLinking() {
   })
 
   const initLinking = (event: MouseEvent) => {
-    console.log('it began')
     if (event.button === 1) return
     // Deactivate panning and zooming
     nodeEditorStore.togglePanZoom(false)

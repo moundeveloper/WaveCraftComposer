@@ -1,7 +1,7 @@
-import { VariableNodeComponent } from './../NodeComponent'
-import { useNodeEditor } from './../../stores/nodeEditor'
-import type { InterfaceComponent } from '../InterfaceComponent'
-import type { Link } from '../Link'
+import { VariableNodeComponent } from '../../NodeComponent'
+import { useNodeEditor } from '../../../stores/nodeEditor'
+import type { InterfaceComponent } from '../../InterfaceComponent'
+import type { Link } from '../../Link'
 
 export abstract class LinkRule {
   protected static instance: LinkRule | null = null

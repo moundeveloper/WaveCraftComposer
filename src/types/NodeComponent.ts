@@ -34,8 +34,10 @@ export abstract class NodeComponent {
   }
 }
 
-type VariableMutability = 'const' | 'let'
-/* type VariableType = 'null' | 'boolean' | 'string' | 'number' | 'object' | 'array' */
+export enum VariableMutability {
+  CONST = 'const',
+  LET = 'let'
+}
 
 export enum NodeType {
   VARIABLE = 'variable',
@@ -54,7 +56,7 @@ export class Variable {
   name: string
   value: any
   type: VariableType = VariableType.NUMBER
-  mutability: VariableMutability = 'let'
+  mutability: VariableMutability = VariableMutability.LET
 
   constructor(name: string) {
     this.value = 3.2
@@ -174,7 +176,7 @@ export class VariableNodeComponent extends NodeComponent {
     // Number state
     const numberVariable = new Variable(VariableType.NUMBER)
     numberVariable.type = VariableType.NUMBER
-    numberVariable.value =  2
+    numberVariable.value = 2
     const numberState = new NodeComponentState(VariableType.NUMBER, this)
     numberState.variable = numberVariable
     numberState.addInputInterfaceComponent(
@@ -184,7 +186,7 @@ export class VariableNodeComponent extends NodeComponent {
     // String state
     const stringVariable = new Variable(VariableType.STRING)
     stringVariable.type = VariableType.STRING
-    stringVariable.value =  ''
+    stringVariable.value = ''
     const stringState = new NodeComponentState(VariableType.STRING, this)
     stringState.variable = stringVariable
     stringState.addInputInterfaceComponent(
@@ -194,7 +196,7 @@ export class VariableNodeComponent extends NodeComponent {
     // Boolean state
     const booleanVariable = new Variable(VariableType.BOOLEAN)
     booleanVariable.type = VariableType.BOOLEAN
-    booleanVariable.value =  true
+    booleanVariable.value = true
     const booleanState = new NodeComponentState(VariableType.BOOLEAN, this)
     booleanState.variable = booleanVariable
     booleanState.addInputInterfaceComponent(
@@ -221,7 +223,7 @@ export class VariableNodeComponent extends NodeComponent {
     this.currentVariableState = variableState
     this.inputInterfaces = this.currentVariableState.inputInterfaces
 
-    if(this.currentVariableState.variable) {
+    if (this.currentVariableState.variable) {
       this.currentVariable = this.currentVariableState.variable
     }
   }

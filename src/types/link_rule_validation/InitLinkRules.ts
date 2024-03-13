@@ -4,7 +4,8 @@ import {
   NotSameInterfaceNode,
   NotSameInterfaceType,
   SameNodeVariableType
-} from './LinkRule'
+} from './link_rules/LinkRule'
+import { VariableMutabilityConstant } from './link_rules/VariableMutabilityLinkRule'
 import { LinkRulesValidator } from './LinkRuleValidator'
 
 export const initLinkRules = (): void => {
@@ -13,8 +14,14 @@ export const initLinkRules = (): void => {
   linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceNode.getInstance())
   linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceType.getInstance())
   linkRuleValidator.registerGroupRule(SameNodeTypeGroup.getInstance())
+
   linkRuleValidator.registerRuleIntoGroupRule(
     SameNodeTypeGroup.getInstance(),
     SameNodeVariableType.getInstance()
+  )
+
+  linkRuleValidator.registerRuleIntoGroupRule(
+    SameNodeTypeGroup.getInstance(),
+    VariableMutabilityConstant.getInstance()
   )
 }
