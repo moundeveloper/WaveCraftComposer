@@ -6,7 +6,7 @@ interface NodeOptions {
   name: string
 }
 
-export class NodeFacotry {
+export class NodeFactory {
   static createNode(type: NodeType, options: NodeOptions): NodeComponent {
     switch (type) {
       case NodeType.PRINT:

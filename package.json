@@ -11,7 +11,8 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/",
     "test": "vitest",
-    "uitest": "vitest --ui"
+    "uitest": "vitest --ui",
+    "cypress": "npx cypress open"
   },
   "dependencies": {
     "pinia": "^2.1.4",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@rushstack/eslint-patch": "^1.3.2",
     "@tsconfig/node18": "^18.2.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^18.17.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vitejs/plugin-vue-jsx": "^3.0.1",

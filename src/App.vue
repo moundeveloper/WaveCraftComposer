@@ -2,7 +2,7 @@
 import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router';
 import TextInput from './components/Fields/TextInput.vue';
-
+import { initLinkRules } from './types/link_rule_validation/InitLinkRules';
 const route = useRoute();
 const routes = [
   {
@@ -16,6 +16,9 @@ const routes = [
 const isCurrentRoute = (targetRoute: string): boolean => {
   return route.path === targetRoute;
 };
+
+// Init linking rules
+initLinkRules()
 </script>
 
 <template>

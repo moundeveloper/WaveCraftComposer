@@ -15,8 +15,7 @@ import { useNodeEditor } from '../../stores/nodeEditor';
 import NodeLink from './NodeLink.vue';
 import TemporaryLink from './TemporaryLink.vue';
 import { LinkRulesValidator } from '../../types/link_rule_validation/LinkRuleValidator';
-import { NotSameInterfaceInput, NotSameInterfaceNode, NotSameInterfaceType, SameNodeVariableType } from '../../types/link_rule_validation/LinkRule';
-import { SameNodeTypeGroup } from '../../types/link_rule_validation/GroupRule';
+
 import type { Link } from '@/types/Link';
 import { getLinkRuleDict } from '@/types/link_rule_validation/LinkRuleDict';
 import { LinkRuleValidationProcessor } from '@/types/link_rule_validation/ProcessValidations';
@@ -25,16 +24,7 @@ const nodeEditorStore = useNodeEditor();
 const { isTemporaryLinkActive, temporaryLinkData } = useTemporaryLink();
 const { initLinking, completeLinking, notLinking } = useLinking()
 
-// Init linking rules
-const linkRuleValidator = LinkRulesValidator.getInstance()
-linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceInput.getInstance())
-linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceNode.getInstance())
-linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceType.getInstance())
-linkRuleValidator.registerGroupRule(SameNodeTypeGroup.getInstance())
-linkRuleValidator.registerRuleIntoGroupRule(SameNodeTypeGroup.getInstance(), SameNodeVariableType.getInstance())
-
-
-watch(() => nodeEditorStore.links, (newLinks) => {
+/* watch(() => nodeEditorStore.links, (newLinks) => {
     if (newLinks) {
         newLinks.forEach((link) => {
             const typeLink = <Link>link
@@ -47,8 +37,17 @@ watch(() => nodeEditorStore.links, (newLinks) => {
             )
         });
     }
-});
+}); */
 
+
+watch(() => nodeEditorStore.nodes.length, (newNodes) => {
+    const interfaceElements = document.querySelectorAll('.interface');
+    const elementsArray: Element[] = [...interfaceElements];
+    elementsArray.forEach((interfaceElement) => {
+        interfaceElement.addEventListener("mousedown", initLinking)
+        interfaceElement.addEventListener("mouseup", completeLinking)
+    })
+});
 
 
 

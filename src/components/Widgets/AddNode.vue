@@ -24,11 +24,14 @@
 import { ref, nextTick } from "vue";
 import { useNodeEditor } from "@/stores/nodeEditor";
 import Modal from "@/components/Modal.vue";
-import { NodeFacotry } from "@/types/NodeFactory";
-import { NodeType } from '@/types/NodeComponent';
+import { NodeFactory } from "@/types/NodeFactory";
+import { NodeComponent, NodeType } from '@/types/NodeComponent';
+import { getElementByID } from "@/utils/htmlElement";
+import useLinking from "@/composables/useLinking";
 
+const { initLinking, completeLinking, notLinking } = useLinking()
 const modal = ref()
-const selectedType = ref()
+const selectedType = ref<NodeType>(NodeType.VARIABLE)
 const NodeTypes = NodeType
 const inputComponent = ref()
 const inputValue = ref()
@@ -42,7 +45,7 @@ const props = defineProps<{
     closeDialog: Function
 }>()
 
-const handleOpenModal = (NodeType: string) => {
+const handleOpenModal = (NodeType: NodeType) => {
     props.closeDialog()
     selectedType.value = NodeType
     if (NodeType !== "variable") {
@@ -64,10 +67,11 @@ const handleKeyEnter = (event: KeyboardEvent) => {
 }
 
 const createNode = () => {
-    const newNode = NodeFacotry.createNode(selectedType.value, { name: inputValue.value })
+    const newNode = NodeFactory.createNode(selectedType.value, { name: inputValue.value })
     newNode.position.setPostion(props.nodePostion.x, props.nodePostion.y)
     nodeEditorStore.addNode(newNode)
 }
+
 
 </script>
 
