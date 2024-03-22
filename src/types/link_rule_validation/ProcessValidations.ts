@@ -48,6 +48,8 @@ export class LinkRuleValidationProcessor {
       targetInterfaceComponent
     )
 
+    console.log('bruh', ruleValidations)
+
     this.processLinkRuleValidationDict(ruleValidations, linkRuleValidationDictList)
 
     console.log(ruleValidations)
@@ -102,6 +104,7 @@ export class LinkRuleValidationProcessor {
         ruleValidationResult.successfulRules
       )
     ) {
+      console.log(linkRuleValidationDict)
       linkRuleValidationDict.OnSuccessfulRules(
         ruleValidationResult.sourceInterface,
         ruleValidationResult.targetInterface,

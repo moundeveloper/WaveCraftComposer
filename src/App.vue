@@ -1,35 +1,45 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import { useRoute } from 'vue-router';
-import TextInput from './components/Fields/TextInput.vue';
-import { initLinkRules } from './types/link_rule_validation/InitLinkRules';
-import { LinkRuleValidationDictManager } from './types/link_rule_validation/link_rule_dict/LinkRuleDictManager';
-import { initLinkDictRules } from './types/link_rule_validation/link_rule_dict/LinkRuleDictConfig';
-const route = useRoute();
+import { useRoute } from 'vue-router'
+import TextInput from './components/Fields/TextInput.vue'
+import { initLinkRules } from './types/link_rule_validation/InitLinkRules'
+import { LinkRuleValidationDictManager } from './types/link_rule_validation/link_rule_dict/LinkRuleDictManager'
+import { initLinkDictRules } from './types/link_rule_validation/link_rule_dict/LinkRuleDictConfig'
+import { onMounted } from 'vue'
+
+const route = useRoute()
 const routes = [
   {
-    name: "home", link: "/"
+    name: 'home',
+    link: '/'
   },
   {
-    name: "design", link: "/design"
+    name: 'design',
+    link: '/design'
   }
 ]
 
 const isCurrentRoute = (targetRoute: string): boolean => {
-  return route.path === targetRoute;
-};
+  return route.path === targetRoute
+}
 
-// Init linking rules
-initLinkRules()
-initLinkDictRules()
+onMounted(() => {
+  // Init linking rules
+  initLinkRules()
+  initLinkDictRules()
+})
 </script>
 
 <template>
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink v-for="route in routes" :to="route.link" :class="{ 'selected-link': isCurrentRoute(route.link) }">{{
-          route.name }}</RouterLink>
+        <RouterLink
+          v-for="route in routes"
+          :to="route.link"
+          :class="{ 'selected-link': isCurrentRoute(route.link) }"
+          >{{ route.name }}</RouterLink
+        >
       </nav>
     </div>
   </header>
@@ -81,7 +91,6 @@ nav a {
   cursor: pointer;
   text-transform: capitalize;
 }
-
 
 main {
   height: 100vh;

@@ -13,7 +13,7 @@ import { LinkBuilder, type Link } from '../../../Link'
 import { Status, useTerminal } from '../../../../stores/terminal'
 import { VariableMutabilityConstant } from '../../link_rules/Rules/VariableMutabilityLinkRule'
 
-export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidationDict => {
+export const SameNodeVariableTypeDict = (nodeEditorStore: any): LinkRuleValidationDict => {
   const terminalStore = useTerminal()
   const linkRuleDictBuilder = LinkRuleDictBuilder.getInstance()
 

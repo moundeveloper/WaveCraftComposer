@@ -17,7 +17,7 @@ export const VariableMutabilityConstantDict = (nodeEditorStore: any): LinkRuleVa
   const terminalStore = useTerminal()
   const linkRuleDictBuilder = LinkRuleDictBuilder.getInstance()
 
-  linkRuleDictBuilder.setMessage('Not same interface input')
+  linkRuleDictBuilder.setMessage('Not a constant variable')
   linkRuleDictBuilder.addSuccessfulLinkRule(VariableMutabilityConstant.getInstance())
 
   linkRuleDictBuilder.setOnSuccessfulRules(

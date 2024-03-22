@@ -13,12 +13,12 @@ import { LinkBuilder, type Link } from '../../../Link'
 import { Status, useTerminal } from '../../../../stores/terminal'
 import { VariableMutabilityConstant } from '../../link_rules/Rules/VariableMutabilityLinkRule'
 
-export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidationDict => {
+export const NotSameInterfaceTypeDict = (nodeEditorStore: any): LinkRuleValidationDict => {
   const terminalStore = useTerminal()
   const linkRuleDictBuilder = LinkRuleDictBuilder.getInstance()
 
-  linkRuleDictBuilder.setMessage('Not same interface input')
-  linkRuleDictBuilder.addSuccessfulLinkRule(NotSameInterfaceInput.getInstance())
+  linkRuleDictBuilder.setMessage('Not same interface type')
+  linkRuleDictBuilder.addSuccessfulLinkRule(NotSameInterfaceType.getInstance())
 
   linkRuleDictBuilder.setOnSuccessfulRules(
     (
@@ -37,7 +37,7 @@ export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidat
     }
   )
 
-  linkRuleDictBuilder.addFailedLinkRule(NotSameInterfaceInput.getInstance())
+  linkRuleDictBuilder.addFailedLinkRule(NotSameInterfaceType.getInstance())
 
   linkRuleDictBuilder.setOnFailedRules(
     (

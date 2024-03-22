@@ -2,6 +2,9 @@ import { useNodeEditor } from '@/stores/nodeEditor'
 import { type LinkRuleValidationDict } from './../../ProcessValidations'
 import { NotSameInterfaceInputDict } from './NotSameInterfaceInputDict'
 import { VariableMutabilityConstantDict } from './VariableMutabilityConstantDict'
+import { NotSameInterfaceTypeDict } from './NotSameInterfaceTypeDict'
+import { NotSameInterfaceNodeDict } from './NotSameInterfaceNodeDict'
+import { SameNodeVariableTypeDict } from './SameNodeVariableTypeDict'
 
 export enum LinkRuleDictE {
   NOT_SAME_INTERFACE_INPUT = 'NOT_SAME_INTERFACE_INPUT',
@@ -18,13 +21,13 @@ export const getLinkRuleDict = (selectedLinkRuleDict: LinkRuleDictE): LinkRuleVa
       return NotSameInterfaceInputDict(nodeEditorStore)
       break
     case LinkRuleDictE.NOT_SAME_INTERFACE_TYPE:
-      return NotSameInterfaceInputDict(nodeEditorStore)
+      return NotSameInterfaceTypeDict(nodeEditorStore)
       break
     case LinkRuleDictE.NOT_SAME_INTERFACE_NODE:
-      return NotSameInterfaceInputDict(nodeEditorStore)
+      return NotSameInterfaceNodeDict(nodeEditorStore)
       break
     case LinkRuleDictE.SAME_NODE_VARIABLE_TYPE:
-      return NotSameInterfaceInputDict(nodeEditorStore)
+      return SameNodeVariableTypeDict(nodeEditorStore)
       break
     case LinkRuleDictE.VARIABLE_MUTABILITY_CONSTANT:
       return VariableMutabilityConstantDict(nodeEditorStore)
