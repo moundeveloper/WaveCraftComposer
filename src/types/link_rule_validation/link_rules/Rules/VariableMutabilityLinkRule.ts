@@ -1,6 +1,6 @@
-import { LinkRule } from './LinkRule'
-import type { InterfaceComponent } from '../../InterfaceComponent'
-import { VariableNodeComponent, VariableMutability } from '../../NodeComponent'
+import { LinkRule } from '../LinkRule'
+import type { InterfaceComponent } from '../../../InterfaceComponent'
+import { VariableNodeComponent, VariableMutability } from '../../../NodeComponent'
 
 export class VariableMutabilityConstant extends LinkRule {
   linkRuleValidation(
@@ -28,6 +28,7 @@ export class VariableMutabilityConstant extends LinkRule {
     sourceVariableNode: VariableNodeComponent,
     targetVariableNode: VariableNodeComponent
   ) {
-    return targetVariableNode.variable.mutability === VariableMutability.CONST
+    console.log('sono caio', targetVariableNode.variable.mutability)
+    return targetVariableNode.variable.mutability !== VariableMutability.CONST
   }
 }

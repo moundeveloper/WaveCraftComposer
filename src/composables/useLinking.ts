@@ -7,6 +7,7 @@ import { InterfaceComponent } from '../types/InterfaceComponent'
 import { LinkBuilder } from '../types/Link'
 import { genId } from '../utils/utility'
 import { getLinkRuleDict } from '../types/link_rule_validation/LinkRuleDict'
+import { LinkRuleValidationDictManager } from '@/types/link_rule_validation/link_rule_dict/LinkRuleDictManager'
 
 interface LinkingInterfaces {
   sourceInterface: InterfaceComponent | undefined
@@ -79,8 +80,10 @@ export default function useLinking() {
       linkingInterfaces.targetInterface instanceof InterfaceComponent
     ) {
       // Validate interfaces linking
+      // getLinkRuleDict(nodeEditorStore)
+      console.log('ahahah', LinkRuleValidationDictManager.getInstance().get())
       const allValidRules = LinkRuleValidationProcessor.getInstance().processValidations(
-        getLinkRuleDict(nodeEditorStore),
+        LinkRuleValidationDictManager.getInstance().get(),
         linkingInterfaces.sourceInterface,
         linkingInterfaces.targetInterface
       )

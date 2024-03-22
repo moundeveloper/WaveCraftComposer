@@ -3,6 +3,8 @@ import { RouterLink, RouterView } from 'vue-router'
 import { useRoute } from 'vue-router';
 import TextInput from './components/Fields/TextInput.vue';
 import { initLinkRules } from './types/link_rule_validation/InitLinkRules';
+import { LinkRuleValidationDictManager } from './types/link_rule_validation/link_rule_dict/LinkRuleDictManager';
+import { initLinkDictRules } from './types/link_rule_validation/link_rule_dict/LinkRuleDictConfig';
 const route = useRoute();
 const routes = [
   {
@@ -19,6 +21,7 @@ const isCurrentRoute = (targetRoute: string): boolean => {
 
 // Init linking rules
 initLinkRules()
+initLinkDictRules()
 </script>
 
 <template>

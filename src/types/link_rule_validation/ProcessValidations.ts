@@ -105,7 +105,7 @@ export class LinkRuleValidationProcessor {
       linkRuleValidationDict.OnSuccessfulRules(
         ruleValidationResult.sourceInterface,
         ruleValidationResult.targetInterface,
-        ruleValidationResult.successfulRules
+        linkRuleValidationDict.successfulRules
       )
     } else if (
       isSubListContained(linkRuleValidationDict.failedRules, ruleValidationResult.failedRules)
@@ -113,7 +113,7 @@ export class LinkRuleValidationProcessor {
       linkRuleValidationDict.OnFailedRules(
         ruleValidationResult.sourceInterface,
         ruleValidationResult.targetInterface,
-        ruleValidationResult.failedRules
+        linkRuleValidationDict.failedRules
       )
     }
   }
