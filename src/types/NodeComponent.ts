@@ -216,6 +216,21 @@ export class VariableNodeComponent extends NodeComponent {
     )
     this.variableStates.set(VariableType.BOOLEAN, booleanState)
 
+    // Array state
+    const arrayVariable = new Variable(VariableType.ARRAY)
+    arrayVariable.type = VariableType.ARRAY
+    arrayVariable.value = true
+    const arrayState = new NodeComponentState(VariableType.ARRAY, this)
+    arrayState.variable = arrayVariable
+    arrayState.addInputInterfaceComponent(
+      new InterfaceComponent(genId(), {
+        label: 'value',
+        component: 'ArrayDefault',
+        value: false
+      })
+    )
+    this.variableStates.set(VariableType.ARRAY, arrayState)
+
     return numberState
   }
 

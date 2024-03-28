@@ -45,6 +45,7 @@ declare global {
   const Status: typeof import('./src/stores/terminal')['Status']
   const TYPE: typeof import('./src/types/NodeComponent')['TYPE']
   const Type: typeof import('./src/types/NodeComponent')['Type']
+  const UIComponent: typeof import('./src/types/InterfaceComponent')['UIComponent']
   const VARIABLE_TYPE: typeof import('./src/types/NodeComponent')['VARIABLE_TYPE']
   const Variable: typeof import('./src/types/NodeComponent')['Variable']
   const VariableMutability: typeof import('./src/types/NodeComponent')['VariableMutability']

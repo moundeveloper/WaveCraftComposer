@@ -61,12 +61,10 @@ const handleUpdatedType = ({ value }: any) => {
 }
 
 const deleteArrayInterface = () => {
-  /*   const node = nodeEditor.nodes.find((node: NodeComponent) =>
-    node.inputs.find((input: ) => input.id === props.data.interface.id)
-  )
+  const node = props.data.interface.parentNode
   const state = node.getStateByType('array')
   state.inputs = state.inputs.filter((input) => input.id !== props.data.interface.id)
-  node.setCurrentState('array') */
+  node.setCurrentState('array')
 }
 
 // Make the delink work for when an array item gets deleted
@@ -99,7 +97,7 @@ const deleteArrayInterface = () => {
   font-size: 0.7rem;
   position: absolute;
   top: 0.75rem;
-  right: -0.85rem;
+  right: -1.2rem;
   background-color: transparent;
   border: none;
   outline: none;

@@ -5,6 +5,15 @@ export interface DropDownFieldOptions {
   icon?: string
 }
 
+export enum UIComponent {
+  NUMBER_INPUT = 'NumberInput',
+  TEXT_INPUT = 'TextInput',
+  DROP_DOWN = 'DropDown',
+  COLOR_PICKER = 'ColorPicker',
+  TEXTAREA = 'Textarea',
+  ARRAY_DEFAULT = 'ArrayDefault'
+}
+
 export interface ComponentOptions {
   label: string
   component?: string

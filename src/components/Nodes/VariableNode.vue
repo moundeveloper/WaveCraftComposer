@@ -123,7 +123,7 @@ const addArrayItem = () => {
   props.node.inputInterfaces.push(
     new InterfaceComponent(genId(), {
       label: 'mutability',
-      component: 'DropDown',
+      component: 'ArrayItem',
       value: 'let',
       values: [
         {
