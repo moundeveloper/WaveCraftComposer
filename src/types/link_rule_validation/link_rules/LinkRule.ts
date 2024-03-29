@@ -1,4 +1,4 @@
-import { VariableNodeComponent } from '../../NodeComponent'
+import { VariableNodeComponent } from '../../node_component/NodeComponent'
 import { useNodeEditor } from '../../../stores/nodeEditor'
 import type { InterfaceComponent } from '../../InterfaceComponent'
 import type { Link } from '../../Link'

@@ -1,17 +1,13 @@
 <template>
   <div class="array-wraper">
-    <FieldWraper
-      v-for="(subInterface, i) in data.options.subInterfaces"
-      :field="{
-        fieldName: subInterface.options.component,
-        data: {
-          interface: subInterface,
-          options: subInterface.options
-        },
-        updateHandler: selectHandler(subInterface.options.component)
-      }"
-      :key="i"
-    />
+    <FieldWraper v-for="(subInterface, i) in data.options.subInterfaces" :field="{
+      fieldName: subInterface.options.component,
+      data: {
+        interface: subInterface,
+        options: subInterface.options
+      },
+      updateHandler: selectHandler(subInterface.options.component)
+    }" :key="i" />
 
     <button class="delete-interface-btn" @click="deleteArrayInterface()">
       <img src="../../assets/icons/delete.svg" alt="" />
@@ -23,7 +19,7 @@
 <script setup lang="ts">
 import { reactive, watch } from 'vue'
 import { InterfaceComponent } from '../../types/InterfaceComponent'
-import type { NodeComponent } from '@/types/NodeComponent'
+import type { NodeComponent } from '../../types/node_component/NodeComponent'
 import { useNodeEditor } from '@/stores/nodeEditor'
 
 const nodeEditor = useNodeEditor()

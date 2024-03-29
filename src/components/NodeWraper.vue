@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import { reactive } from 'vue';
 import Node from "@/components/Nodes/Node.vue"
-import { NodeComponent } from '@/types/NodeComponent';
+import { NodeComponent } from '../types/node_component/NodeComponent';
 import { Position } from '@/types/Position';
 import { useNodeEditor } from '@/stores/nodeEditor';
 

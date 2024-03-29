@@ -1,6 +1,6 @@
-import { genId } from '../utils/utility'
-import { InterfaceComponent } from './InterfaceComponent'
-import { Position } from './Position'
+import { genId } from '../../utils/utility'
+import { InterfaceComponent } from '../InterfaceComponent'
+import { Position } from '../Position'
 
 export abstract class NodeComponent {
   id: string

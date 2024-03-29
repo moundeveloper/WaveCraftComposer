@@ -1,4 +1,8 @@
-import { NodeType, type NodeComponent, type VariableNodeComponent } from '../../types/NodeComponent'
+import {
+  NodeType,
+  type NodeComponent,
+  type VariableNodeComponent
+} from '../node_component/NodeComponent'
 import type { InterfaceComponent } from '../../types/InterfaceComponent'
 import { LinkRule } from './link_rules/LinkRule'
 import { InvalidInsertionError, ItemIsAlreadyIncluded } from './Errors'

@@ -1,6 +1,6 @@
 import { getElementPositionOffset } from '../utils/InterfaceElement'
 import { InterfaceComponent } from './InterfaceComponent'
-import { VariableNodeComponent } from './NodeComponent'
+import { VariableNodeComponent } from './node_component/NodeComponent'
 import type { Position } from './Position'
 
 export class Link {

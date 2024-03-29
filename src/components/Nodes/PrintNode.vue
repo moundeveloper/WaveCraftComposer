@@ -17,7 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import { NodeComponent } from '@/types/NodeComponent';
+import { NodeComponent } from '../../types/node_component/NodeComponent';
 const props = defineProps<{
     node: NodeComponent
 }>()

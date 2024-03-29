@@ -1,6 +1,6 @@
 import { LinkRule } from '../LinkRule'
 import type { InterfaceComponent } from '../../../InterfaceComponent'
-import { VariableNodeComponent, VariableMutability } from '../../../NodeComponent'
+import { VariableNodeComponent, VariableMutability } from '../../../node_component/NodeComponent'
 
 export class VariableMutabilityConstant extends LinkRule {
   linkRuleValidation(

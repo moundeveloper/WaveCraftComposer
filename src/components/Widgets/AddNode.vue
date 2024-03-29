@@ -25,7 +25,7 @@ import { ref, nextTick } from "vue";
 import { useNodeEditor } from "@/stores/nodeEditor";
 import Modal from "@/components/Modal.vue";
 import { NodeFactory } from "@/types/NodeFactory";
-import { NodeComponent, NodeType } from '@/types/NodeComponent';
+import { NodeComponent, NodeType } from '../../types/node_component/NodeComponent';
 import { getElementByID } from "@/utils/htmlElement";
 import useLinking from "@/composables/useLinking";
 
@@ -75,7 +75,7 @@ const createNode = () => {
 
 </script>
 
-<style  scoped>
+<style scoped>
 .add-node-wraper {
     display: flex;
     flex-direction: column;

@@ -1,7 +1,7 @@
 import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 import { Position } from '../types/Position'
-import { NodeComponent } from '../types/NodeComponent'
+import { NodeComponent } from '../types/node_component/NodeComponent'
 import { Link } from '../types/Link'
 import type { InterfaceComponent } from '../types/InterfaceComponent'
 

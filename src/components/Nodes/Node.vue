@@ -4,7 +4,7 @@
 
 <script setup lang="ts">
 import { h } from 'vue'
-import { NodeComponent } from '@/types/NodeComponent';
+import { NodeComponent } from '../../types/node_component/NodeComponent';
 import PrintNode from "@/components/Nodes/PrintNode.vue"
 import VariableNode from "@/components/Nodes/VariableNode.vue"
 
@@ -37,4 +37,4 @@ const NodeComponentElement = () => {
 
 </script>
 
-<style  scoped></style>
+<style scoped></style>

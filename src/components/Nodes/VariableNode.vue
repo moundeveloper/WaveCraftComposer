@@ -1,12 +1,8 @@
 <template>
   <div class="node-header">
     <img src="../../assets/icons/variable-icon.svg" alt="" />
-    <span
-      :style="[!allowNameEdit ? { pointerEvents: 'none', userSelect: 'none' } : '']"
-      ref="variableNameContent"
-      :contenteditable="allowNameEdit"
-      @keydown="handleKeyDown"
-      >{{ variableValues.variableName }}
+    <span :style="[!allowNameEdit ? { pointerEvents: 'none', userSelect: 'none' } : '']" ref="variableNameContent"
+      :contenteditable="allowNameEdit" @keydown="handleKeyDown">{{ variableValues.variableName }}
     </span>
     <img src="../../assets/icons/edit-icon.svg" alt="" @click="handleEdit" />
   </div>
@@ -14,14 +10,12 @@
   <!-- Output fields -->
   <div v-for="outputInterface in node.outputInterfaces" class="node-field right-field">
     <div class="field">
-      <FieldWraper
-        :field="{
-          data: {
-            interface: outputInterface,
-            options: outputInterface.options
-          }
-        }"
-      />
+      <FieldWraper :field="{
+      data: {
+        interface: outputInterface,
+        options: outputInterface.options
+      }
+    }" />
     </div>
     <div :id="outputInterface.id" class="interface out"></div>
   </div>
@@ -29,15 +23,13 @@
   <!-- Fields -->
   <div v-for="optionInterface in node.optionInterfaces" class="node-field">
     <div class="field">
-      <FieldWraper
-        :field="{
-          data: {
-            interface: optionInterface,
-            options: optionInterface.options
-          },
-          updateHandler: handleVariableType
-        }"
-      />
+      <FieldWraper :field="{
+      data: {
+        interface: optionInterface,
+        options: optionInterface.options
+      },
+      updateHandler: handleVariableType
+    }" />
     </div>
   </div>
 
@@ -45,24 +37,18 @@
   <div v-for="inputInterface in node.inputInterfaces" class="node-field left-field">
     <div :id="inputInterface.id" class="interface in"></div>
     <div class="field">
-      <FieldWraper
-        :field="{
-          data: {
-            interface: inputInterface,
-            options: inputInterface.options
-          },
-          updateHandler: (something: any) => {
-            console.log(something)
-          }
-        }"
-      />
+      <FieldWraper :field="{
+      data: {
+        interface: inputInterface,
+        options: inputInterface.options
+      },
+      updateHandler: (something: any) => {
+        console.log(something)
+      }
+    }" />
     </div>
   </div>
-  <button
-    v-if="variableValues.VariableType === VariableType.ARRAY"
-    class="primary-btn-c"
-    @click="addArrayItem"
-  >
+  <button v-if="variableValues.VariableType === VariableType.ARRAY" class="primary-btn-c" @click="addArrayItem">
     add array-item
   </button>
 </template>
@@ -71,7 +57,7 @@
 import FieldWraper from '../Fields/FieldWraper.vue'
 import { useNodeEditor } from '@/stores/nodeEditor'
 import { InterfaceComponent } from '@/types/InterfaceComponent'
-import { VariableNodeComponent, VariableType } from '@/types/NodeComponent'
+import { VariableNodeComponent, VariableType } from '../../types/node_component/NodeComponent'
 import { genId } from '@/utils/utility'
 import { computed, reactive, ref, watchEffect } from 'vue'
 

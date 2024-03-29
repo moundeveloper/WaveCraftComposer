@@ -1,6 +1,6 @@
 import { LinkRule } from '../LinkRule'
 import type { InterfaceComponent } from '../../../InterfaceComponent'
-import { VariableNodeComponent, VariableMutability } from '../../../NodeComponent'
+import { VariableNodeComponent, VariableMutability } from '../../../node_component/NodeComponent'
 /**
  * Prevents a variable node from establishing a connection when the variable type is different.
  */

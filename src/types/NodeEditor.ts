@@ -1,41 +1,36 @@
-import { NodeComponent } from "./NodeComponent";
-import { InterfaceComponent } from "./InterfaceComponent";
-import { Link, LinkBuilder } from "./Link";
+import { NodeComponent } from './node_component/NodeComponent'
+import { InterfaceComponent } from './InterfaceComponent'
+import { Link, LinkBuilder } from './Link'
 
 export class NodeEditor {
-  nodes: NodeComponent[];
-  links: Link[];
-  linkBuilder: LinkBuilder;
+  nodes: NodeComponent[]
+  links: Link[]
+  linkBuilder: LinkBuilder
 
   constructor() {
-    this.nodes = [];
-    this.links = [];
-    this.linkBuilder = new LinkBuilder();
+    this.nodes = []
+    this.links = []
+    this.linkBuilder = new LinkBuilder()
   }
 
   addNode(node: NodeComponent) {
-    this.nodes.push(node);
+    this.nodes.push(node)
   }
 
   addLink(link: Link): void {
-    const linkToRemove = this.linkBuilder.isInputInterfaceAlreadyConnected(
-      link,
-      this.links
-    );
+    const linkToRemove = this.linkBuilder.isInputInterfaceAlreadyConnected(link, this.links)
     if (linkToRemove) {
-      this.removeLink(linkToRemove);
-      console.log(
-        `The following link ${linkToRemove.id} has been replaced by: ${link.id}!`
-      );
+      this.removeLink(linkToRemove)
+      console.log(`The following link ${linkToRemove.id} has been replaced by: ${link.id}!`)
     }
-    this.links.push(link);
+    this.links.push(link)
   }
 
   removeLink(linkToRemove: Link) {
-    this.links = this.links.filter((link) => link !== linkToRemove);
+    this.links = this.links.filter((link) => link !== linkToRemove)
   }
 
   removeNode(NodeToRemove: NodeComponent) {
-    this.nodes = this.nodes.filter((node) => node !== NodeToRemove);
+    this.nodes = this.nodes.filter((node) => node !== NodeToRemove)
   }
 }

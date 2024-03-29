@@ -2,7 +2,7 @@
 import PanningZooming from '@/components/PanningZooming.vue';
 import NodeEditor from '@/components/NodeEditor.vue';
 import { useNodeEditor } from '@/stores/nodeEditor';
-import { NodeType } from '@/types/NodeComponent';
+import { NodeType } from '../types/node_component/NodeComponent';
 import Terminal from '@/components/Widgets/Terminal/Terminal.vue';
 import { NodeFactory } from '@/types/NodeFactory';
 import Dialog from '@/components/Dialog.vue';
@@ -21,7 +21,7 @@ const nodeVariable2 = NodeFactory.createNode(NodeType.VARIABLE, { name: 'mario' 
 nodeOne.position.setPostion(300, 400)
 nodeVariable.position.setPostion(500, 300)
 nodeVariable2.position.setPostion(100, 200)
-nodeCane.position.setPostion(600,300)
+nodeCane.position.setPostion(600, 300)
 nodeEditorStore.clear()
 nodeEditorStore.addNode(nodeOne)
 nodeEditorStore.addNode(nodeVariable)
@@ -51,5 +51,3 @@ nodeEditorStore.addNode(nodeCane)
   background-color: red;
 }
 </style>
-
-

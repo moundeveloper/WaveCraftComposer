@@ -1,6 +1,6 @@
-import { NodeType, NodeComponent } from './NodeComponent'
+import { NodeType, NodeComponent } from './node_component/NodeComponent'
 import { genId } from '../utils/utility'
-import { VariableNodeComponent, PrintNodeComponent } from '../types/NodeComponent'
+import { VariableNodeComponent, PrintNodeComponent } from './node_component/NodeComponent'
 
 interface NodeOptions {
   name: string

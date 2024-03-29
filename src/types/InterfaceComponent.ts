@@ -1,4 +1,4 @@
-import { NodeComponent } from './NodeComponent'
+import { NodeComponent } from './node_component/NodeComponent'
 
 export interface DropDownFieldOptions {
   label: string
