@@ -24,9 +24,10 @@ export interface ComponentOptions {
 export class InterfaceComponent {
   id: string
   options: ComponentOptions
-  parentNode: NodeComponent | null = null
-  constructor(id: string, options: ComponentOptions) {
+  parentNode: NodeComponent
+  constructor(id: string, options: ComponentOptions, parentNode: NodeComponent) {
     this.id = id
     this.options = options
+    this.parentNode = parentNode
   }
 }

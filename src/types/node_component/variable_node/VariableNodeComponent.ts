@@ -65,58 +65,66 @@ export class VariableNodeComponent extends NodeComponent {
     if (this.currentVariableState === undefined) return
 
     this.currentVariableState.addOutputInterfaceComponent(
-      new InterfaceComponent(genId(), { label: 'output' })
+      new InterfaceComponent(genId(), { label: 'output' }, this)
     )
     this.currentVariableState.addOptionInterfaceComponent(
-      new InterfaceComponent(genId(), {
-        label: 'type',
-        component: 'DropDown',
-        value: 'number',
-        values: [
-          {
-            label: 'null',
-            icon: 'number'
-          },
-          {
-            label: 'boolean',
-            icon: 'number'
-          },
-          {
-            label: 'string',
-            icon: 'string'
-          },
-          {
-            label: 'number',
-            icon: 'number'
-          },
-          {
-            label: 'object',
-            icon: 'number'
-          },
-          {
-            label: 'array',
-            icon: 'number'
-          }
-        ]
-      })
+      new InterfaceComponent(
+        genId(),
+        {
+          label: 'type',
+          component: 'DropDown',
+          value: 'number',
+          values: [
+            {
+              label: 'null',
+              icon: 'number'
+            },
+            {
+              label: 'boolean',
+              icon: 'number'
+            },
+            {
+              label: 'string',
+              icon: 'string'
+            },
+            {
+              label: 'number',
+              icon: 'number'
+            },
+            {
+              label: 'object',
+              icon: 'number'
+            },
+            {
+              label: 'array',
+              icon: 'number'
+            }
+          ]
+        },
+        this
+      )
     )
 
     this.currentVariableState.addOptionInterfaceComponent(
-      new InterfaceComponent(genId(), {
-        label: 'mutability',
-        component: 'DropDown',
-        value: 'let',
-        values: [
-          {
-            label: 'let',
-            icon: 'number'
-          },
-          {
-            label: 'const',
-            icon: 'number'
-          }
-        ]
-      })
+      new InterfaceComponent(
+        genId(),
+        {
+          label: 'mutability',
+          component: 'DropDown',
+          value: 'let',
+          values: [
+            {
+              label: 'let',
+              icon: 'number'
+            },
+            {
+              label: 'const',
+              icon: 'number'
+            }
+          ]
+        },
+        this
+      )
     )
 
     this.setCurrentVariableState(this.currentVariableState)
@@ -132,7 +140,7 @@ export class VariableNodeComponent extends NodeComponent {
     const numberState = new NodeComponentState(VariableType.NUMBER, this)
     numberState.variable = numberVariable
     numberState.addInputInterfaceComponent(
-      new InterfaceComponent(genId(), { label: 'value', component: 'NumberInput', value: 2 })
+      new InterfaceComponent(genId(), { label: 'value', component: 'NumberInput', value: 2 }, this)
     )
     this.variableStates.set(VariableType.NUMBER, numberState)
     // String state
@@ -142,7 +150,7 @@ export class VariableNodeComponent extends NodeComponent {
     const stringState = new NodeComponentState(VariableType.STRING, this)
     stringState.variable = stringVariable
     stringState.addInputInterfaceComponent(
-      new InterfaceComponent(genId(), { label: 'value', component: 'TextInput', value: 2 })
+      new InterfaceComponent(genId(), { label: 'value', component: 'TextInput', value: 2 }, this)
     )
     this.variableStates.set(VariableType.STRING, stringState)
     // Boolean state
@@ -152,19 +160,23 @@ export class VariableNodeComponent extends NodeComponent {
     const booleanState = new NodeComponentState(VariableType.BOOLEAN, this)
     booleanState.variable = booleanVariable
     booleanState.addInputInterfaceComponent(
-      new InterfaceComponent(genId(), {
-        label: 'value',
-        component: 'DropDown',
-        value: false,
-        values: [
-          {
-            label: 'true'
-          },
-          {
-            label: 'false'
-          }
-        ]
-      })
+      new InterfaceComponent(
+        genId(),
+        {
+          label: 'value',
+          component: 'DropDown',
+          value: false,
+          values: [
+            {
+              label: 'true'
+            },
+            {
+              label: 'false'
+            }
+          ]
+        },
+        this
+      )
     )
     this.variableStates.set(VariableType.BOOLEAN, booleanState)
 
@@ -175,11 +187,15 @@ export class VariableNodeComponent extends NodeComponent {
     const arrayState = new NodeComponentState(VariableType.ARRAY, this)
     arrayState.variable = arrayVariable
     arrayState.addInputInterfaceComponent(
-      new InterfaceComponent(genId(), {
-        label: 'value',
-        component: 'ArrayDefault',
-        value: false
-      })
+      new InterfaceComponent(
+        genId(),
+        {
+          label: 'value',
+          component: 'ArrayDefault',
+          value: false
+        },
+        this
+      )
     )
     this.variableStates.set(VariableType.ARRAY, arrayState)
 
@@ -213,9 +229,13 @@ export class VariableNodeComponent extends NodeComponent {
     this.variable.mutability = mutability
   }
 
-  deleteInterfaceByState(stateType: VariableType, interfaceComponent: InterfaceComponent) {
+  deleteInputInterfaceByState(stateType: VariableType, interfaceComponent: InterfaceComponent) {
     const state = this.variableStates.get(stateType) as NodeComponentState
-    console.log('hello: ', state)
-    state.inputInterfaces.filter((input) => input.id !== interfaceComponent.id)
+    state.inputInterfaces = state.inputInterfaces.filter(
+      (input) => input.id !== interfaceComponent.id
+    )
+
+    // Update state interfaces
+    this.setCurrentVariableState(state)
   }
 }

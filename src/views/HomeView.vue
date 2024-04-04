@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import PanningZooming from '@/components/PanningZooming.vue';
-import NodeEditor from '@/components/NodeEditor.vue';
-import { useNodeEditor } from '@/stores/nodeEditor';
-import { NodeType } from '../types/node_component/NodeComponent';
-import Terminal from '@/components/Widgets/Terminal/Terminal.vue';
-import { NodeFactory } from '@/types/NodeFactory';
-import Dialog from '@/components/Dialog.vue';
+import PanningZooming from '@/components/PanningZooming.vue'
+import NodeEditor from '@/components/NodeEditor.vue'
+import { useNodeEditor } from '@/stores/nodeEditor'
+import { NodeType } from '../types/node_component/NodeComponent'
+import Terminal from '@/components/Widgets/Terminal/Terminal.vue'
+import { NodeFactory } from '@/types/NodeFactory'
+import Dialog from '@/components/Dialog.vue'
 import { useMouse } from '@/composables/mouse'
-import AddNode from '@/components/Widgets/AddNode.vue';
+import AddNode from '@/components/Widgets/AddNode.vue'
 
 const nodeEditorStore = useNodeEditor()
 const { x, y } = useMouse()
@@ -16,7 +16,6 @@ const nodeOne = NodeFactory.createNode(NodeType.VARIABLE, { name: 'pippo' })
 const nodeCane = NodeFactory.createNode(NodeType.VARIABLE, { name: 'cane' })
 const nodeVariable = NodeFactory.createNode(NodeType.PRINT, { name: '' })
 const nodeVariable2 = NodeFactory.createNode(NodeType.VARIABLE, { name: 'mario' })
-
 
 nodeOne.position.setPostion(300, 400)
 nodeVariable.position.setPostion(500, 300)

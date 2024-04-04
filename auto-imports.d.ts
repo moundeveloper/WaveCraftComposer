@@ -47,6 +47,7 @@ declare global {
   const TYPE: typeof import('./src/types/NodeComponent')['TYPE']
   const Type: typeof import('./src/types/NodeComponent')['Type']
   const UIComponent: typeof import('./src/types/InterfaceComponent')['UIComponent']
+  const UIComponentE: typeof import('./src/types/InterfaceComponent')['UIComponentE']
   const VARIABLE_TYPE: typeof import('./src/types/NodeComponent')['VARIABLE_TYPE']
   const Variable: typeof import('./src/types/node_component/variable_node/VariableNodeComponent')['Variable']
   const VariableMutability: typeof import('./src/types/node_component/node_utils/VariableNodeUtils')['VariableMutability']

@@ -19,7 +19,7 @@ export class PrintNodeComponent extends NodeComponent {
   }
 
   initInterfaces(): void {
-    this.addInputInterfaceComponent(new InterfaceComponent(genId(), { label: 'value' }))
+    this.addInputInterfaceComponent(new InterfaceComponent(genId(), { label: 'value' }, this))
   }
   updateVariableName(name: string) {
     this.variable.name = name
