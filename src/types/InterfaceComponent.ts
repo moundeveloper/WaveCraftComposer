@@ -5,7 +5,7 @@ export interface DropDownFieldOptions {
   icon?: string
 }
 
-export enum UIComponent {
+export enum UIComponentE {
   NUMBER_INPUT = 'NumberInput',
   TEXT_INPUT = 'TextInput',
   DROP_DOWN = 'DropDown',
