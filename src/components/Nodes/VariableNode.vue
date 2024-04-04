@@ -73,7 +73,7 @@ import { useNodeEditor } from '../../stores/nodeEditor'
 import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { VariableNodeComponent, VariableType } from '../../types/node_component/NodeComponent'
 import { genId } from '../../utils/utility'
-import { reactive, ref, watchEffect } from 'vue'
+import { reactive, ref, watchEffect, watch } from 'vue'
 
 const props = defineProps<{
   node: VariableNodeComponent
@@ -146,6 +146,17 @@ const addArrayItem = () => {
 watchEffect(() => {
   // Update node properties
   props.node.name = variableValues.variableName
+})
+
+watch(props.node.currentVariable, (newVal) => {
+  // De-link all nodes if variable-type doesn't match anymore
+  console.log('cambiato: ', props.node.currentVariable)
+  console.log('cambiato: ', newVal)
+  nodeEditorStore.removeLinkByNode(props.node)
+  /*   const link = nodeEditor.findLinkConnectedByInterface(props.data.interface)
+  if (!link) return
+  const path = nodeEditor.removeConnectedTargetLink(link)
+  path.remove() */
 })
 </script>
 

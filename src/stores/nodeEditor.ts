@@ -68,6 +68,17 @@ export const useNodeEditor = defineStore('node-editor', () => {
     console.log(links.value)
   }
 
+  const removeLinkByNode = (nodeComponent: NodeComponent) => {
+    console.log(links.value)
+    links.value = links.value.filter(
+      (link) => link.targetInterfaceComponent.parentNode !== nodeComponent
+    )
+    links.value = links.value.filter(
+      (link) => link.sourceInterfaceComponent.parentNode !== nodeComponent
+    )
+    console.log(links.value)
+  }
+
   const getLinkInterfaceTarget = (interfaceComponent: InterfaceComponent) => {
     return links.value.find((link) => link.targetInterfaceComponent === interfaceComponent)
   }
@@ -97,6 +108,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     removeLinkByInterface,
     getNode,
     clear,
-    togglePanZoom
+    togglePanZoom,
+    removeLinkByNode
   }
 })

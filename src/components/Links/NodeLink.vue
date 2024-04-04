@@ -1,21 +1,26 @@
 <template>
-    <path :d="interfacesDpath" />
+  <path :d="interfacesDpath" stroke-width="3" />
 </template>
 
 <script setup lang="ts">
-import { watch, ref } from "vue"
-import { Link } from '@/types/Link';
+import { watch, ref } from 'vue'
+import { Link } from '@/types/Link'
 
 const props = defineProps<{
-    link: Link
+  link: Link
 }>()
 
 const interfacesDpath = ref(props.link.getDPath())
 
-watch([props.link.sourceInterfaceComponent.parentNode?.position, props.link.targetInterfaceComponent.parentNode?.position], () => {
+watch(
+  [
+    props.link.sourceInterfaceComponent.parentNode?.position,
+    props.link.targetInterfaceComponent.parentNode?.position
+  ],
+  () => {
     interfacesDpath.value = props.link.getDPath()
-})
-
+  }
+)
 </script>
 
 <style scoped></style>
