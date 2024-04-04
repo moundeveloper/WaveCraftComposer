@@ -20,6 +20,7 @@ declare global {
   const LinkRuleValidationProcessor: typeof import('./src/types/link_rule_validation/ProcessValidations')['LinkRuleValidationProcessor']
   const LinkRulesValidator: typeof import('./src/types/link_rule_validation/LinkRuleValidator')['LinkRulesValidator']
   const NODE_TYPE: typeof import('./src/types/NodeComponent')['NODE_TYPE']
+  const NodeComponent: typeof import('./src/types/node_component/NodeComponent')['NodeComponent']
   const NodeComponentFactory: typeof import('./src/types/factory/NodeComponentFactory')['NodeComponentFactory']
   const NodeComponentState: typeof import('./src/types/node_component/variable_node/VariableNodeComponent')['NodeComponentState']
   const NodeEditor: typeof import('./src/types/NodeEditor')['NodeEditor']

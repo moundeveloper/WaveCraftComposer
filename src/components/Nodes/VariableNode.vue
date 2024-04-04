@@ -55,11 +55,11 @@
 
 <script setup lang="ts">
 import FieldWraper from '../Fields/FieldWraper.vue'
-import { useNodeEditor } from '@/stores/nodeEditor'
-import { InterfaceComponent } from '@/types/InterfaceComponent'
+import { useNodeEditor } from '../../stores/nodeEditor'
+import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { VariableNodeComponent, VariableType } from '../../types/node_component/NodeComponent'
-import { genId } from '@/utils/utility'
-import { computed, reactive, ref, watchEffect } from 'vue'
+import { genId } from '../../utils/utility'
+import { reactive, ref, watchEffect } from 'vue'
 
 const props = defineProps<{
   node: VariableNodeComponent

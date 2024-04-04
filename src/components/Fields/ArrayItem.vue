@@ -17,10 +17,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, watch } from 'vue'
+import { reactive } from 'vue'
 import { InterfaceComponent } from '../../types/InterfaceComponent'
-import type { NodeComponent } from '../../types/node_component/NodeComponent'
-import { useNodeEditor } from '@/stores/nodeEditor'
+import { useNodeEditor } from '../../stores/nodeEditor'
+import { VariableNodeComponent, VariableType } from '../../types/node_component/NodeComponent';
 
 const nodeEditor = useNodeEditor()
 const props = defineProps<{
@@ -57,10 +57,8 @@ const handleUpdatedType = ({ value }: any) => {
 }
 
 const deleteArrayInterface = () => {
-  const node = props.data.interface.parentNode
-  const state = node.getStateByType('array')
-  state.inputs = state.inputs.filter((input) => input.id !== props.data.interface.id)
-  node.setCurrentState('array')
+  const node = props.data.interface.parentNode as VariableNodeComponent
+  node.deleteInterfaceByState(VariableType.ARRAY, props.data.interface)
 }
 
 // Make the delink work for when an array item gets deleted

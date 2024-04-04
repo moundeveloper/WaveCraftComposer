@@ -1,7 +1,7 @@
 import { genId } from '../../../utils/utility'
 import { InterfaceComponent } from '../../InterfaceComponent'
 import { Position } from '../../Position'
-import { NodeComponent } from '../NodeComponent'
+import { NodeComponent } from '../NodeComponentIndex'
 import { VariableType, VariableMutability, NodeType } from '../node_utils/VariableNodeUtils'
 
 export class Variable {
@@ -211,5 +211,11 @@ export class VariableNodeComponent extends NodeComponent {
   }
   updateVariableMutability(mutability: VariableMutability) {
     this.variable.mutability = mutability
+  }
+
+  deleteInterfaceByState(stateType: VariableType, interfaceComponent: InterfaceComponent) {
+    const state = this.variableStates.get(stateType) as NodeComponentState
+    console.log('hello: ', state)
+    state.inputInterfaces.filter((input) => input.id !== interfaceComponent.id)
   }
 }
