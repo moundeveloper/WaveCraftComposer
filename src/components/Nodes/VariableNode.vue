@@ -74,6 +74,10 @@ import { InterfaceComponent } from '../../types/InterfaceComponent'
 import { VariableNodeComponent, VariableType } from '../../types/node_component/NodeComponent'
 import { genId } from '../../utils/utility'
 import { reactive, ref, watchEffect, watch } from 'vue'
+import { LinkRulesValidator } from '@/types/link_rule_validation/LinkRuleValidator'
+import { LinkRuleValidationProcessor } from '@/types/link_rule_validation/ProcessValidations'
+import { LinkRuleValidationDictManager } from '@/types/link_rule_validation/link_rule_dict/LinkRuleDictManager'
+import type { Link } from '@/types/Link'
 
 const props = defineProps<{
   node: VariableNodeComponent
@@ -148,16 +152,35 @@ watchEffect(() => {
   props.node.name = variableValues.variableName
 })
 
-watch(props.node.currentVariable, (newVal) => {
-  // De-link all nodes if variable-type doesn't match anymore
-  console.log('cambiato: ', props.node.currentVariable)
-  console.log('cambiato: ', newVal)
-  nodeEditorStore.removeLinkByNode(props.node)
-  /*   const link = nodeEditor.findLinkConnectedByInterface(props.data.interface)
-  if (!link) return
-  const path = nodeEditor.removeConnectedTargetLink(link)
-  path.remove() */
-})
+watch(
+  () => props.node.currentVariable,
+  (newVal, oldVal) => {
+    console.log('##################################')
+    console.log('cambiato: ', props.node.currentVariable)
+    console.log('cambiato: ', newVal)
+
+    const linkRuleValidator = LinkRuleValidationProcessor.getInstance()
+    const links = nodeEditorStore.links.filter(
+      (link) =>
+        link.sourceInterfaceComponent.parentNode === props.node ||
+        link.targetInterfaceComponent.parentNode === props.node
+    )
+
+    console.log('Links: ', links)
+
+    links.forEach((link) => {
+      const allValid = linkRuleValidator.processValidations(
+        LinkRuleValidationDictManager.getInstance().get(),
+        link.sourceInterfaceComponent,
+        link.targetInterfaceComponent
+      )
+      console.log('validated: ', allValid)
+      if (!allValid) {
+        nodeEditorStore.removeLink(<Link>link)
+      }
+    })
+  }
+)
 </script>
 
 <style scoped>
