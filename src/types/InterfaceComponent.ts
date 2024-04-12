@@ -11,12 +11,19 @@ export enum UIComponentE {
   DROP_DOWN = 'DropDown',
   COLOR_PICKER = 'ColorPicker',
   TEXTAREA = 'Textarea',
-  ARRAY_DEFAULT = 'ArrayDefault'
+  ARRAY_DEFAULT = 'ArrayDefault',
+  ARRAY_ITEM = 'ArrayItem'
+}
+
+export enum InterfaceComponentTypeE {
+  DEFAULT_VALUE = 'value',
+  VARIABLE_TYPE = 'type',
+  MUTABILITY = 'mutability'
 }
 
 export interface ComponentOptions {
-  label: string
-  component?: string
+  label: InterfaceComponentTypeE
+  component?: UIComponentE
   value?: any
   values?: Array<DropDownFieldOptions>
 }

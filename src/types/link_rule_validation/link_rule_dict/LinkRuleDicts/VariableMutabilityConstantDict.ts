@@ -11,7 +11,7 @@ import type { LinkRuleValidationDict } from '../../ProcessValidations'
 import type { InterfaceComponent } from '../../../InterfaceComponent'
 import { LinkBuilder, type Link } from '../../../Link'
 import { Status, useTerminal } from '../../../../stores/terminal'
-import { VariableMutabilityConstant } from '../../link_rules/Rules/VariableMutabilityLinkRule'
+import { VariableMutabilityConstant } from '../../link_rules/rules/VariableMutabilityLinkRule'
 
 export const VariableMutabilityConstantDict = (nodeEditorStore: any): LinkRuleValidationDict => {
   const terminalStore = useTerminal()

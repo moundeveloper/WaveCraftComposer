@@ -1,11 +1,11 @@
-import { SameNodeTypeGroup } from './GroupRule'
+import { SameNodeTypeGroup } from './group_rules/GroupRule'
 import {
   NotSameInterfaceInput,
   NotSameInterfaceNode,
   NotSameInterfaceType,
   SameNodeVariableType
 } from './link_rules/LinkRule'
-import { VariableMutabilityConstant } from './link_rules/Rules/VariableMutabilityLinkRule'
+import { VariableMutabilityConstant } from './link_rules/rules/VariableMutabilityLinkRule'
 import { LinkRulesValidator } from './LinkRuleValidator'
 
 export const initLinkRules = (): void => {

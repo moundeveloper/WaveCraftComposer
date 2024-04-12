@@ -28,7 +28,10 @@
 
   <!-- Fields -->
   <div v-for="optionInterface in node.optionInterfaces" class="node-field">
-    <div class="field">
+    <div
+      v-if="optionInterface.options.label === InterfaceComponentTypeE.VARIABLE_TYPE"
+      class="field"
+    >
       <FieldWraper
         :field="{
           data: {
@@ -36,6 +39,18 @@
             options: optionInterface.options
           },
           updateHandler: handleVariableType
+        }"
+      />
+    </div>
+
+    <div v-if="optionInterface.options.label === InterfaceComponentTypeE.MUTABILITY" class="field">
+      <FieldWraper
+        :field="{
+          data: {
+            interface: optionInterface,
+            options: optionInterface.options
+          },
+          updateHandler: handleMutability
         }"
       />
     </div>
@@ -70,14 +85,19 @@
 <script setup lang="ts">
 import FieldWraper from '../Fields/FieldWraper.vue'
 import { useNodeEditor } from '../../stores/nodeEditor'
-import { InterfaceComponent } from '../../types/InterfaceComponent'
-import { VariableNodeComponent, VariableType } from '../../types/node_component/NodeComponent'
+import { InterfaceComponent, InterfaceComponentTypeE } from '../../types/InterfaceComponent'
+import {
+  VariableMutability,
+  VariableNodeComponent,
+  VariableType
+} from '../../types/node_component/NodeComponent'
 import { genId } from '../../utils/utility'
 import { reactive, ref, watchEffect, watch } from 'vue'
 import { LinkRulesValidator } from '@/types/link_rule_validation/LinkRuleValidator'
 import { LinkRuleValidationProcessor } from '@/types/link_rule_validation/ProcessValidations'
 import { LinkRuleValidationDictManager } from '@/types/link_rule_validation/link_rule_dict/LinkRuleDictManager'
 import type { Link } from '@/types/Link'
+import { UIComponentE } from '../../types/InterfaceComponent'
 
 const props = defineProps<{
   node: VariableNodeComponent
@@ -113,10 +133,41 @@ const handleVariableType = (type: any) => {
   if (variableState === undefined) return
   props.node.setCurrentVariableState(variableState)
 
-  revalidateLinkRules(oldType, newType)
+  revalidateVariableType(oldType, newType)
 }
 
-const revalidateLinkRules = (oldType: VariableType, newType: VariableType) => {
+const handleMutability = (mutability: any) => {
+  const oldMutability = props.node.variable.mutability
+  const newMutability = mutability
+  props.node.updateVariableMutability(mutability.value)
+  revalidateMutability(oldMutability, newMutability)
+}
+
+const revalidateMutability = (
+  oldMutability: VariableMutability,
+  newMutability: VariableMutability
+) => {
+  if (oldMutability === newMutability) return
+  console.log('##################################')
+  console.log('Node variable mutability has changed from: ', oldMutability, ' to: ', newMutability)
+
+  const links: Link[] = <Link[]>(
+    nodeEditorStore.links.filter(
+      (link) =>
+        link.sourceInterfaceComponent.parentNode === props.node ||
+        link.targetInterfaceComponent.parentNode === props.node
+    )
+  )
+
+  if (links.length === 0) return
+
+  links.forEach((link: Link) => {
+    console.log('Link has been removed: ', link)
+    nodeEditorStore.removeLink(link)
+  })
+}
+
+const revalidateVariableType = (oldType: VariableType, newType: VariableType) => {
   if (oldType === newType) return
   console.log('##################################')
   console.log('Node variable type has changed from: ', oldType, ' to: ', newType)
@@ -152,8 +203,8 @@ const addArrayItem = () => {
     new InterfaceComponent(
       genId(),
       {
-        label: 'mutability',
-        component: 'ArrayItem',
+        label: InterfaceComponentTypeE.MUTABILITY,
+        component: UIComponentE.ARRAY_ITEM,
         value: 'let',
         values: [
           {

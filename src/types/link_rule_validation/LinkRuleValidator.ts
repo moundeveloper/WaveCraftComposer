@@ -1,5 +1,5 @@
 import { InterfaceComponent } from '../../types/InterfaceComponent'
-import { GroupRule } from './GroupRule'
+import { GroupRule } from './group_rules/group_rule_index'
 import { ItemIsAlreadyIncluded, NotFoundError } from './Errors'
 import { allValidList } from '../../utils/utility'
 import type { LinkRule } from './link_rules/LinkRule'

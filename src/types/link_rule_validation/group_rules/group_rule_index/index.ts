@@ -1,13 +1,8 @@
-import {
-  NodeType,
-  type NodeComponent,
-  type VariableNodeComponent
-} from '../node_component/NodeComponent'
-import type { InterfaceComponent } from '../../types/InterfaceComponent'
-import { LinkRule } from './link_rules/LinkRule'
-import { InvalidInsertionError, ItemIsAlreadyIncluded } from './Errors'
-import { RuleValidationResult } from './LinkRuleValidator'
-import { allValidList } from '../../utils/utility'
+import type { InterfaceComponent } from '../../../../types/InterfaceComponent'
+import { LinkRule } from '../../link_rules/LinkRule'
+import { InvalidInsertionError, ItemIsAlreadyIncluded } from '../../Errors'
+import { RuleValidationResult } from '../../LinkRuleValidator'
+import { allValidList } from '../../../../utils/utility'
 
 export abstract class GroupRule extends LinkRule {
   private rules: Array<LinkRule>
@@ -83,43 +78,5 @@ export abstract class GroupRule extends LinkRule {
       successfulRules,
       failedRules
     ).setScopeRule(this, validation)
-  }
-}
-
-export class SameNodeTypeGroup extends GroupRule {
-  private constructor() {
-    super()
-  }
-
-  linkRuleValidation(
-    sourceInterfaceComponent: InterfaceComponent,
-    targetInterfaceComponent: InterfaceComponent
-  ): boolean {
-    return (
-      sourceInterfaceComponent.parentNode?.NodeType ===
-      targetInterfaceComponent.parentNode?.NodeType
-    )
-  }
-  message(): string {
-    return 'Only nodes of the same type can connect'
-  }
-}
-
-export class IsVariableNodeGroupRule extends GroupRule {
-  private constructor() {
-    super()
-  }
-
-  linkRuleValidation(
-    sourceInterfaceComponent: InterfaceComponent,
-    targetInterfaceComponent: InterfaceComponent
-  ): boolean {
-    return (
-      sourceInterfaceComponent.parentNode?.NodeType === NodeType.VARIABLE &&
-      targetInterfaceComponent.parentNode?.NodeType === NodeType.VARIABLE
-    )
-  }
-  message(): string {
-    return `The two nodes are not both of type ${NodeType.VARIABLE}`
   }
 }

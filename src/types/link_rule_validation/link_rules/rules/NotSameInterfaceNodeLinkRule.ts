@@ -1,4 +1,4 @@
-import { LinkRule } from '../LinkRule'
+import { LinkRule } from '../link_rule_index'
 import type { InterfaceComponent } from '../../../InterfaceComponent'
 
 /**

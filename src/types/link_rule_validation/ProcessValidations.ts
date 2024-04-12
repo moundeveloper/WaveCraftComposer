@@ -1,12 +1,7 @@
 import { allValidList, isSubListContained } from '../../utils/utility'
 import { InterfaceComponent } from '../../types/InterfaceComponent'
-import { GroupRule, SameNodeTypeGroup } from './GroupRule'
-import {
-  NotSameInterfaceType,
-  type LinkRule,
-  SameNodeVariableType,
-  NotSameInterfaceInput
-} from './link_rules/LinkRule'
+import { GroupRule } from './group_rules/group_rule_index'
+import { type LinkRule } from './link_rules/LinkRule'
 import { LinkRulesValidator, RuleValidationResult, type RulesValidation } from './LinkRuleValidator'
 
 type OnActionRule = (
