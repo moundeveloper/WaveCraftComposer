@@ -81,7 +81,7 @@ export default function useLinking() {
     ) {
       // Validate interfaces linking
       // getLinkRuleDict(nodeEditorStore)
-      console.log('ahahah', LinkRuleValidationDictManager.getInstance().get())
+      console.log('LinkRuleValidationDicts: ', LinkRuleValidationDictManager.getInstance().get())
       const allValidRules = LinkRuleValidationProcessor.getInstance().processValidations(
         LinkRuleValidationDictManager.getInstance().get(),
         linkingInterfaces.sourceInterface,

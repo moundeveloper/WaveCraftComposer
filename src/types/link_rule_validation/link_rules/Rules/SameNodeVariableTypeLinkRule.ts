@@ -25,11 +25,12 @@ export class SameNodeVariableType extends LinkRule {
     sourceVariableNodeComponent: VariableNodeComponent,
     targetVariableNodeComponent: VariableNodeComponent
   ): boolean {
+    // Work in progress - this might be changed later on
     console.log(
+      'Current Variable Type: ',
       sourceVariableNodeComponent.currentVariable.type,
       targetVariableNodeComponent.currentVariable.type
     )
-    // Work in progress - this might be changed later on
     return (
       sourceVariableNodeComponent.currentVariable.type ===
       targetVariableNodeComponent.currentVariable.type

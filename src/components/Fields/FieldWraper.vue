@@ -12,11 +12,15 @@ import { createHField } from '@/composables/createHElement'
 import type { HElementProps } from './types'
 import DefaultTemplate from './DefaultTemplate.vue'
 import ArrayItem from './ArrayItem.vue'
+import { useNodeEditor } from '@/stores/nodeEditor'
 
 const props = defineProps<{ field: HElementProps }>()
-
+const nodeEditorStore = useNodeEditor()
 const Field = () => {
   const fieldName = props.field.data.options?.component
+
+  if (nodeEditorStore.isInterfaceConnected(props.field.data.interface))
+    return createHField(DefaultTemplate, props.field)
 
   switch (fieldName) {
     case 'NumberInput':

@@ -60,8 +60,6 @@ export class VariableNodeComponent extends NodeComponent {
   }
 
   initInterfaces(): void {
-    this.initVariableStates()
-
     if (this.currentVariableState === undefined) return
 
     this.currentVariableState.addOutputInterfaceComponent(
@@ -133,6 +131,7 @@ export class VariableNodeComponent extends NodeComponent {
   }
 
   private initVariableStates() {
+    console.log('initVariableStates -> ', this.id)
     // Number state
     const numberVariable = new Variable(VariableType.NUMBER)
     numberVariable.type = VariableType.NUMBER
@@ -206,6 +205,7 @@ export class VariableNodeComponent extends NodeComponent {
     this.currentVariableState = variableState
     this.inputInterfaces = this.currentVariableState.inputInterfaces
 
+    console.log('Variable state: ', variableState)
     if (this.currentVariableState.variable) {
       this.currentVariable = this.currentVariableState.variable
     }
@@ -213,7 +213,7 @@ export class VariableNodeComponent extends NodeComponent {
 
   passVariableToConnectedNode(variableNodeComponent: VariableNodeComponent) {
     // It has to be the target node
-    variableNodeComponent.currentVariable = this.variable
+    variableNodeComponent.currentVariable = this.currentVariable
   }
 
   updateVariableName(name: string) {

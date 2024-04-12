@@ -105,12 +105,36 @@ const handleEdit = () => {
 }
 
 const handleVariableType = (type: any) => {
+  const oldType = variableValues.VariableType
+  const newType = type.value
   variableValues.VariableType = type.value
   if (props.node.variableStates === undefined) return
   const variableState = props.node.variableStates.get(type.value)
   if (variableState === undefined) return
   props.node.setCurrentVariableState(variableState)
-  console.log(nodeEditorStore.getNode(props.node.id))
+
+  revalidateLinkRules(oldType, newType)
+}
+
+const revalidateLinkRules = (oldType: VariableType, newType: VariableType) => {
+  if (oldType === newType) return
+  console.log('##################################')
+  console.log('Node variable type has changed from: ', oldType, ' to: ', newType)
+
+  const links: Link[] = <Link[]>(
+    nodeEditorStore.links.filter(
+      (link) =>
+        link.sourceInterfaceComponent.parentNode === props.node ||
+        link.targetInterfaceComponent.parentNode === props.node
+    )
+  )
+
+  if (links.length === 0) return
+
+  links.forEach((link: Link) => {
+    console.log('Link has been removed: ', link)
+    nodeEditorStore.removeLink(link)
+  })
 }
 
 const handleKeyDown = (event: KeyboardEvent) => {
@@ -155,30 +179,7 @@ watchEffect(() => {
 watch(
   () => props.node.currentVariable,
   (newVal, oldVal) => {
-    console.log('##################################')
-    console.log('cambiato: ', props.node.currentVariable)
-    console.log('cambiato: ', newVal)
-
-    const linkRuleValidator = LinkRuleValidationProcessor.getInstance()
-    const links = nodeEditorStore.links.filter(
-      (link) =>
-        link.sourceInterfaceComponent.parentNode === props.node ||
-        link.targetInterfaceComponent.parentNode === props.node
-    )
-
-    console.log('Links: ', links)
-
-    links.forEach((link) => {
-      const allValid = linkRuleValidator.processValidations(
-        LinkRuleValidationDictManager.getInstance().get(),
-        link.sourceInterfaceComponent,
-        link.targetInterfaceComponent
-      )
-      console.log('validated: ', allValid)
-      if (!allValid) {
-        nodeEditorStore.removeLink(<Link>link)
-      }
-    })
+    console.log('something has changed:', newVal, ' from ', oldVal)
   }
 )
 </script>

@@ -62,21 +62,17 @@ export const useNodeEditor = defineStore('node-editor', () => {
   }
 
   const removeLinkByInterface = (interfaceComponent: InterfaceComponent) => {
-    console.log(links.value)
     links.value = links.value.filter((link) => link.targetInterfaceComponent !== interfaceComponent)
     links.value = links.value.filter((link) => link.sourceInterfaceComponent !== interfaceComponent)
-    console.log(links.value)
   }
 
   const removeLinkByNode = (nodeComponent: NodeComponent) => {
-    console.log(links.value)
     links.value = links.value.filter(
       (link) => link.targetInterfaceComponent.parentNode !== nodeComponent
     )
     links.value = links.value.filter(
       (link) => link.sourceInterfaceComponent.parentNode !== nodeComponent
     )
-    console.log(links.value)
   }
 
   const removeLink = (linkToRemove: Link) => {
@@ -85,6 +81,10 @@ export const useNodeEditor = defineStore('node-editor', () => {
 
   const getLinkInterfaceTarget = (interfaceComponent: InterfaceComponent) => {
     return links.value.find((link) => link.targetInterfaceComponent === interfaceComponent)
+  }
+
+  const isInterfaceConnected = (interfaceComponent: InterfaceComponent) => {
+    return links.value.some((link) => link.targetInterfaceComponent === interfaceComponent)
   }
 
   const getNode = (id: string) => {
@@ -114,6 +114,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     clear,
     togglePanZoom,
     removeLinkByNode,
-    removeLink
+    removeLink,
+    isInterfaceConnected
   }
 })

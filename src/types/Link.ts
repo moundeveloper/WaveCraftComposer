@@ -28,8 +28,8 @@ export class Link {
       this.targetInterfaceComponent.parentNode instanceof VariableNodeComponent &&
       this.sourceInterfaceComponent.parentNode instanceof VariableNodeComponent
     ) {
-      this.targetInterfaceComponent.parentNode.passVariableToConnectedNode(
-        this.sourceInterfaceComponent.parentNode
+      this.sourceInterfaceComponent.parentNode.passVariableToConnectedNode(
+        this.targetInterfaceComponent.parentNode
       )
     }
   }
