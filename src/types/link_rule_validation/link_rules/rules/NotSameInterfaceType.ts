@@ -20,6 +20,10 @@ export class NotSameInterfaceType extends LinkRule {
     return 'Interfaces of the same type cannot be linked together'
   }
 
+  getName(): string {
+    return 'NotSameInterfaceType'
+  }
+
   isInputInterface(interfaceComponent: InterfaceComponent) {
     return interfaceComponent.parentNode?.inputInterfaces.includes(interfaceComponent)
   }

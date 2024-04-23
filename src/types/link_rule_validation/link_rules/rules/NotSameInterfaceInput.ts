@@ -49,4 +49,8 @@ export class NotSameInterfaceInput extends LinkRule {
   message(): string {
     return 'Interfaces of type input cannot be linked with multiple output interfaces'
   }
+
+  getName(): string {
+    return 'NotSameInterfaceInput'
+  }
 }

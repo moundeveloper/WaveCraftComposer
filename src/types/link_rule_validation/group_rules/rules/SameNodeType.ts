@@ -1,4 +1,4 @@
-import type { InterfaceComponent } from '../../../../types/InterfaceComponent'
+import type { InterfaceComponent } from '../../../InterfaceComponent'
 import { GroupRule } from '../group_rule_index'
 
 export class SameNodeTypeGroup extends GroupRule {
@@ -17,5 +17,9 @@ export class SameNodeTypeGroup extends GroupRule {
   }
   message(): string {
     return 'Only nodes of the same type can connect'
+  }
+
+  getName(): string {
+    return 'SameNodeTypeGroup'
   }
 }

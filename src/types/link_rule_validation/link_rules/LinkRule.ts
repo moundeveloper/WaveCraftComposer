@@ -1,8 +1,8 @@
 import type { InterfaceComponent } from '../../InterfaceComponent'
-import { NotSameInterfaceInput } from './rules/NotSameInterfaceInputLinkRule'
-import { NotSameInterfaceNode } from './rules/NotSameInterfaceNodeLinkRule'
-import { NotSameInterfaceType } from './rules/NotSameInterfaceTypeLinkRule'
-import { SameNodeVariableType } from './rules/SameNodeVariableTypeLinkRule'
+import { NotSameInterfaceInput } from './rules/NotSameInterfaceInput'
+import { NotSameInterfaceNode } from './rules/NotSameInterfaceNode'
+import { NotSameInterfaceType } from './rules/NotSameInterfaceType'
+import { SameNodeVariableType } from './rules/SameNodeVariableType'
 import { LinkRule } from './link_rule_index'
 
 export class NotAWorkingRule extends LinkRule {
@@ -15,6 +15,10 @@ export class NotAWorkingRule extends LinkRule {
 
   message(): string {
     return 'This rule is just  a dummy'
+  }
+
+  getName(): string {
+    return 'NotAWorkingRule'
   }
 }
 

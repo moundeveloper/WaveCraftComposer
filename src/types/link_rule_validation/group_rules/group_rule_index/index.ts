@@ -22,7 +22,7 @@ export abstract class GroupRule extends LinkRule {
 
   public unregisterLinkRule(linkRuleToRemove: LinkRule) {
     this.rules = this.rules.filter(
-      (linkRule: LinkRule) => linkRule.constructor.name !== linkRuleToRemove.constructor.name
+      (linkRule: LinkRule) => linkRule.getName() !== linkRuleToRemove.getName()
     )
   }
 
@@ -39,9 +39,7 @@ export abstract class GroupRule extends LinkRule {
   }
 
   public linkRuleIsAlreadyIncluded(ruleToCheck: LinkRule) {
-    return this.rules.some(
-      (linkRule: LinkRule) => linkRule.constructor.name === ruleToCheck.constructor.name
-    )
+    return this.rules.some((linkRule: LinkRule) => linkRule.getName() === ruleToCheck.getName())
   }
 
   public validateGroupRules(

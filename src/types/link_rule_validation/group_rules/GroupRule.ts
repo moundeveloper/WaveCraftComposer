@@ -1,4 +1,4 @@
-import { IsVariableNodeGroupRule } from './rules/IsVariableNodeGroupRule'
-import { SameNodeTypeGroup } from './rules/SameNodeTypeGroupRule'
+import { IsVariableNode } from './rules/IsVariableNode'
+import { SameNodeTypeGroup } from './rules/SameNodeType'
 
-export { IsVariableNodeGroupRule, SameNodeTypeGroup }
+export { IsVariableNode, SameNodeTypeGroup }

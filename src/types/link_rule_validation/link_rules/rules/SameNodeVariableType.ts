@@ -41,6 +41,10 @@ export class SameNodeVariableType extends LinkRule {
     return 'Nodes with variables of different type cannot be linked together'
   }
 
+  getName(): string {
+    return 'SameNodeVariableType'
+  }
+
   isInputInterface(interfaceComponent: InterfaceComponent) {
     return interfaceComponent.parentNode?.inputInterfaces.includes(interfaceComponent)
   }

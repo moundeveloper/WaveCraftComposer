@@ -5,7 +5,7 @@ import {
   NotSameInterfaceType,
   SameNodeVariableType
 } from './link_rules/LinkRule'
-import { VariableMutabilityConstant } from './link_rules/rules/VariableMutabilityLinkRule'
+import { VariableMutabilityConstant } from './link_rules/rules/VariableMutability'
 import { LinkRulesValidator } from './LinkRuleValidator'
 
 export const initLinkRules = (): void => {

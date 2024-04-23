@@ -10,6 +10,8 @@ export abstract class LinkRule {
 
   abstract message(): string
 
+  abstract getName(): string
+
   public static getInstance<T extends LinkRule>(): T {
     if (!this.instance) {
       this.instance = new (this as any)()
@@ -24,6 +26,10 @@ export class NotAWorkingRule extends LinkRule {
     targetInterfaceComponent: InterfaceComponent
   ): boolean {
     return false
+  }
+
+  getName(): string {
+    return 'NotAWorkingRule'
   }
 
   message(): string {

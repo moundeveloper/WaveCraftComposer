@@ -15,4 +15,8 @@ export class NotSameInterfaceNode extends LinkRule {
   message(): string {
     return 'Interfaces of the same node cannot be linked together'
   }
+
+  getName(): string {
+    return 'NotSameInterfaceNode'
+  }
 }

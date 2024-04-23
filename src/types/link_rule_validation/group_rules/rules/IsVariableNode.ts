@@ -1,8 +1,8 @@
-import type { InterfaceComponent } from '../../../../types/InterfaceComponent'
-import { NodeType } from '../../../../types/node_component/NodeComponent'
+import type { InterfaceComponent } from '../../../InterfaceComponent'
+import { NodeType } from '../../../node_component/NodeComponent'
 import { GroupRule } from '../group_rule_index'
 
-export class IsVariableNodeGroupRule extends GroupRule {
+export class IsVariableNode extends GroupRule {
   private constructor() {
     super()
   }
@@ -18,5 +18,9 @@ export class IsVariableNodeGroupRule extends GroupRule {
   }
   message(): string {
     return `The two nodes are not both of type ${NodeType.VARIABLE}`
+  }
+
+  getName(): string {
+    return 'IsVariableNodeGroupRule'
   }
 }

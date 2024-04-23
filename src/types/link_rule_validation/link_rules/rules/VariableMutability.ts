@@ -24,6 +24,10 @@ export class VariableMutabilityConstant extends LinkRule {
     return 'Cannot override value of a constant variable'
   }
 
+  getName(): string {
+    return 'VariableMutabilityConstant'
+  }
+
   private isMutabilityConstant(
     sourceVariableNode: VariableNodeComponent,
     targetVariableNode: VariableNodeComponent

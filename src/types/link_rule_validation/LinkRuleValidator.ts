@@ -123,7 +123,7 @@ export class LinkRulesValidator {
    */
   groupRuleIsAlreadyIncluded(groupRuleToCheck: GroupRule): boolean {
     return this.groupRules.some(
-      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToCheck.constructor.name
+      (groupRule: GroupRule) => groupRule.getName() === groupRuleToCheck.getName()
     )
   }
 
@@ -135,7 +135,7 @@ export class LinkRulesValidator {
    */
   globalRuleIsAlreadyIncluded(ruleToCheck: LinkRule): boolean {
     return this.globalRules.some(
-      (globalRule: LinkRule) => globalRule.constructor.name === ruleToCheck.constructor.name
+      (globalRule: LinkRule) => globalRule.getName() === ruleToCheck.getName()
     )
   }
 
@@ -148,7 +148,7 @@ export class LinkRulesValidator {
    */
   registerRuleIntoGroupRule(groupRuleToInsertTo: GroupRule, linkRule: LinkRule): GroupRule {
     const groupRule = this.groupRules.find(
-      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToInsertTo.constructor.name
+      (groupRule: GroupRule) => groupRule.getName() === groupRuleToInsertTo.getName()
     )
     if (!groupRule) {
       throw new NotFoundError('GroupRule was not found')
@@ -188,7 +188,7 @@ export class LinkRulesValidator {
 
   public emptyGroupRuleRules(groupRuleToEmpty: GroupRule): boolean {
     const groupRule = this.groupRules.find(
-      (groupRule: GroupRule) => groupRule.constructor.name === groupRuleToEmpty.constructor.name
+      (groupRule: GroupRule) => groupRule.getName() === groupRuleToEmpty.getName()
     )
     if (!groupRule) {
       return false

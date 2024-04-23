@@ -10,7 +10,7 @@ import type { LinkRuleValidationDict } from './ProcessValidations'
 import type { InterfaceComponent } from '../InterfaceComponent'
 import { LinkBuilder, type Link } from '../Link'
 import { Status, useTerminal } from '../../stores/terminal'
-import { VariableMutabilityConstant } from './link_rules/rules/VariableMutabilityLinkRule'
+import { VariableMutabilityConstant } from './link_rules/rules/VariableMutability'
 
 export const getLinkRuleDict = (nodeEditorStore: any): LinkRuleValidationDict[] => {
   const terminalStore = useTerminal()
@@ -26,7 +26,7 @@ export const getLinkRuleDict = (nodeEditorStore: any): LinkRuleValidationDict[] 
         rules.forEach((rule: LinkRule) => {
           terminalStore.addLog({
             id: genId(),
-            message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
+            message: `The Rule ${rule.getName()} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
             status: Status.SUCCESS
           })
         })
@@ -76,7 +76,7 @@ export const getLinkRuleDict = (nodeEditorStore: any): LinkRuleValidationDict[] 
         rules.forEach((rule: LinkRule) => {
           terminalStore.addLog({
             id: genId(),
-            message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
+            message: `The Rule ${rule.getName()} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
             status: Status.SUCCESS
           })
         })
@@ -109,7 +109,7 @@ export const getLinkRuleDict = (nodeEditorStore: any): LinkRuleValidationDict[] 
         rules.forEach((rule: LinkRule) => {
           terminalStore.addLog({
             id: genId(),
-            message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
+            message: `The Rule ${rule.getName()} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
             status: Status.SUCCESS
           })
         })
@@ -142,7 +142,7 @@ export const getLinkRuleDict = (nodeEditorStore: any): LinkRuleValidationDict[] 
         rules.forEach((rule: LinkRule) => {
           terminalStore.addLog({
             id: genId(),
-            message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
+            message: `The Rule ${rule.getName()} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
             status: Status.SUCCESS
           })
         })
@@ -175,7 +175,7 @@ export const getLinkRuleDict = (nodeEditorStore: any): LinkRuleValidationDict[] 
         rules.forEach((rule: LinkRule) => {
           terminalStore.addLog({
             id: genId(),
-            message: `The Rule ${rule.constructor.name} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
+            message: `The Rule ${rule.getName()} has been validated for the interfaces -> source: ${sourceInterface?.id}, target: ${targetInterface?.id}`,
             status: Status.SUCCESS
           })
         })
