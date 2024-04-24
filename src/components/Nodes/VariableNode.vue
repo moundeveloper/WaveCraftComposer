@@ -108,7 +108,7 @@ const nodeEditorStore = useNodeEditor()
 const variableValues = reactive({
   variableName: props.node.name,
   VariableType: props.node.variable.type,
-  variableBehaviour: 'const',
+  variableBehaviour: VariableMutability.CONST,
   data: {
     id: null,
     value: null
@@ -205,14 +205,14 @@ const addArrayItem = () => {
       {
         label: InterfaceComponentTypeE.MUTABILITY,
         component: UIComponentE.ARRAY_ITEM,
-        value: 'let',
+        value: VariableMutability.LET,
         values: [
           {
-            label: 'let',
+            label: VariableMutability.LET,
             icon: 'number'
           },
           {
-            label: 'const',
+            label: VariableMutability.CONST,
             icon: 'number'
           }
         ]
