@@ -7,6 +7,7 @@ import { h } from 'vue'
 import { NodeComponent } from '../../types/node_component/NodeComponent';
 import PrintNode from "@/components/Nodes/PrintNode.vue"
 import VariableNode from "@/components/Nodes/VariableNode.vue"
+import ForLoopNode from "@/components/Nodes/ForLoopNode/ForLoopNode.vue";
 
 
 const props = defineProps<{
@@ -29,6 +30,9 @@ const NodeComponentElement = () => {
         case 'variable':
             return createHNode(VariableNode, props.node);
             break;
+        case 'for':
+          return createHNode(ForLoopNode, props.node);
+          break;
         default:
             console.warn(`Unknown node of type: ${NodeType}`);
             break;

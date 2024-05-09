@@ -1,4 +1,4 @@
-import { InterfaceComponent } from '../../../types/InterfaceComponent'
+import {InterfaceComponent, InterfaceComponentTypeE} from '../../../types/InterfaceComponent'
 import { genId } from '../../../utils/utility'
 import {
   NodeComponent,
@@ -19,7 +19,7 @@ export class PrintNodeComponent extends NodeComponent {
   }
 
   initInterfaces(): void {
-    this.addInputInterfaceComponent(new InterfaceComponent(genId(), { label: 'value' }, this))
+    this.addInputInterfaceComponent(new InterfaceComponent(genId(), { label: InterfaceComponentTypeE.DEFAULT_VALUE }, this))
   }
   updateVariableName(name: string) {
     this.variable.name = name
