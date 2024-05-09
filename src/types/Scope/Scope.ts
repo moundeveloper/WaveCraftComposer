@@ -1,16 +1,16 @@
-import type {NodeComponent} from "@/types/node_component/NodeComponentIndex";
+import type { NodeComponent } from '../../types/node_component/NodeComponentIndex'
 
 export enum ScopeType {
-    GLOBAL = 'global',
-    LOCAL = 'local'
+  GLOBAL = 'global',
+  LOCAL = 'local'
 }
 
 export class Scope {
-    type: ScopeType
-    nodes: NodeComponent[]
+  type: ScopeType
+  nodes: NodeComponent[]
 
-    constructor(type: ScopeType) {
-        this.type = type
-        this.nodes = []
-    }
+  constructor(type: ScopeType) {
+    this.type = type
+    this.nodes = []
+  }
 }
