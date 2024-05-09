@@ -1,7 +1,7 @@
 import { genId } from '../../../utils/utility'
 import { InterfaceComponent, InterfaceComponentTypeE, UIComponentE } from '../../InterfaceComponent'
 import { Position } from '../../Position'
-import { NodeComponent } from '../NodeComponentIndex'
+import { NodeComponent } from '../NodeComponentIndex/NodeComponentIndex'
 import { VariableType, VariableMutability, NodeType } from '../node_utils/VariableNodeUtils'
 
 export class Variable {

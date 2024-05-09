@@ -5,7 +5,7 @@ import {
   NodeComponentState
 } from './variable_node/VariableNodeComponent'
 import { PrintNodeComponent } from './print_node/PrintNodeComponent'
-import { NodeComponent } from './NodeComponentIndex'
+import { NodeComponent } from './NodeComponentIndex/NodeComponentIndex'
 
 export {
   NodeComponent,
