@@ -40,6 +40,8 @@ declare global {
   const NotSameInterfaceNodeVariableType: typeof import('./src/types/LinkRules/LinkRule')['NotSameInterfaceNodeVariableType']
   const NotSameInterfaceType: typeof import('./src/types/link_rule_validation/link_rules/rules/NotSameInterfaceType')['NotSameInterfaceType']
   const NotSameInterfaceTypeDict: typeof import('./src/types/link_rule_validation/link_rule_dict/LinkRuleDicts/NotSameInterfaceTypeDict')['NotSameInterfaceTypeDict']
+  const OnlyNodesOfSameScope: typeof import('./src/types/link_rule_validation/link_rules/rules/OnlyNodesOfSameScope')['OnlyNodesOfSameScope']
+  const OnlyNodesOfSameScopeDict: typeof import('./src/types/link_rule_validation/link_rule_dict/LinkRuleDicts/OnlyNodesOfSameScopeDict')['OnlyNodesOfSameScopeDict']
   const Position: typeof import('./src/types/Position')['Position']
   const PrintNodeComponent: typeof import('./src/types/node_component/print_node/PrintNodeComponent')['PrintNodeComponent']
   const RuleValidationResult: typeof import('./src/types/link_rule_validation/LinkRuleValidator')['RuleValidationResult']

@@ -17,27 +17,11 @@ import TemporaryLink from './TemporaryLink.vue';
 import { LinkRulesValidator } from '../../types/link_rule_validation/LinkRuleValidator';
 
 import type { Link } from '@/types/Link';
-import { getLinkRuleDict } from '@/types/link_rule_validation/LinkRuleDict';
 import { LinkRuleValidationProcessor } from '@/types/link_rule_validation/ProcessValidations';
 
 const nodeEditorStore = useNodeEditor();
 const { isTemporaryLinkActive, temporaryLinkData } = useTemporaryLink();
 const { initLinking, completeLinking, notLinking } = useLinking()
-
-/* watch(() => nodeEditorStore.links, (newLinks) => {
-    if (newLinks) {
-        newLinks.forEach((link) => {
-            const typeLink = <Link>link
-            console.log('It has changed')
-            console.log(typeLink)
-            LinkRuleValidationProcessor.getInstance().processValidations(
-                getLinkRuleDict(nodeEditorStore),
-                typeLink.sourceInterfaceComponent,
-                typeLink.targetInterfaceComponent
-            )
-        });
-    }
-}); */
 
 
 watch(() => nodeEditorStore.nodes.length, (newNodes) => {

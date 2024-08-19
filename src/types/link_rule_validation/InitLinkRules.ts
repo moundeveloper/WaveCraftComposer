@@ -3,6 +3,7 @@ import {
   NotSameInterfaceInput,
   NotSameInterfaceNode,
   NotSameInterfaceType,
+  OnlyNodesOfSameScope,
   SameNodeVariableType
 } from './link_rules/LinkRule'
 import { VariableMutabilityConstant } from './link_rules/rules/VariableMutability'
@@ -13,6 +14,7 @@ export const initLinkRules = (): void => {
   linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceInput.getInstance())
   linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceNode.getInstance())
   linkRuleValidator.registerGlobalLinkRule(NotSameInterfaceType.getInstance())
+  linkRuleValidator.registerGlobalLinkRule(OnlyNodesOfSameScope.getInstance())
   linkRuleValidator.registerGroupRule(SameNodeTypeGroup.getInstance())
 
   linkRuleValidator.registerRuleIntoGroupRule(

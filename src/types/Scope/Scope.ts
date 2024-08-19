@@ -28,6 +28,9 @@ export class Scope {
   }
 
   addChildScope(scope: Scope) {
+    if(scope.type === ScopeType.GLOBAL) {
+      throw new Error('Global scope cannot be a child of another scope')
+    }
     this.childrenScopes.push(scope)
   }
 
@@ -37,16 +40,25 @@ export class Scope {
 }
 
 export class ScopeManager {
-  private static globalScope: Scope | null = null // Singleton global scope
+  private static globalScopes: Scope[] = []
 
-  static getGlobalScope(): Scope {
-    if (!ScopeManager.globalScope) {
-      ScopeManager.globalScope = new Scope(ScopeType.GLOBAL)
+  static getGlobalScope(globalScopeId: string | null = null): Scope {
+    if (this.globalScopes.length === 0 || globalScopeId === null) {
+      const globalScope = new Scope(ScopeType.GLOBAL)
+      this.globalScopes.push(globalScope) 
+      return globalScope
     }
-    return ScopeManager.globalScope
+    const globalScope = <Scope> this.globalScopes?.find((globalScope) => globalScope.id === globalScopeId)
+    return globalScope
   }
 
-  static createLocalScope(): Scope {
-    return new Scope(ScopeType.LOCAL)
+  static createLocalScope(globalScopeId: string): Scope {
+    const localScope = new Scope(ScopeType.LOCAL)
+    const globalScope = this.getGlobalScope(globalScopeId)
+    localScope.setParentScope(globalScope)
+    globalScope.addChildScope(localScope)
+    return localScope
   }
 }
+
+

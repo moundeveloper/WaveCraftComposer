@@ -1,4 +1,4 @@
-import { NotSameInterfaceInput } from '../../link_rules/LinkRule'
+import { NotSameInterfaceInput, OnlyNodesOfSameScope } from '../../link_rules/LinkRule'
 import { LinkRuleDictBuilder } from '../LinkRuleDictBuilder'
 import { genId } from '../../../../utils/utility'
 import {
@@ -9,12 +9,13 @@ import type { InterfaceComponent } from '../../../InterfaceComponent'
 import { LinkBuilder, type Link } from '../../../Link'
 import { Status, useTerminal } from '../../../../stores/terminal'
 
-export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidationDict => {
+export const OnlyNodesOfSameScopeDict = (nodeEditorStore: any): LinkRuleValidationDict => {
   const terminalStore = useTerminal()
   const linkRuleDictBuilder = LinkRuleDictBuilder.getInstance()
+  const mainRule = OnlyNodesOfSameScope.getInstance()
 
   linkRuleDictBuilder.setMessage('Not same interface input')
-  linkRuleDictBuilder.addSuccessfulLinkRule(NotSameInterfaceInput.getInstance())
+  linkRuleDictBuilder.addSuccessfulLinkRule(mainRule)
 
   linkRuleDictBuilder.setOnSuccessfulRules(
     (
@@ -29,11 +30,11 @@ export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidat
           status: Status.SUCCESS
         })
       })
-      console.log('[SUCCESS] NotSameInterfaceInput')
+      console.log('[SUCCESS] '+ mainRule.getName())
     }
   )
 
-  linkRuleDictBuilder.addFailedLinkRule(NotSameInterfaceInput.getInstance())
+  linkRuleDictBuilder.addFailedLinkRule(mainRule)
 
   linkRuleDictBuilder.setOnFailedRules(
     (
@@ -41,6 +42,8 @@ export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidat
       targetInterface: InterfaceComponent,
       rules: LinkRule[]
     ) => {
+
+      // SIP (Still In Progress)
       const targetInterfaceLink = nodeEditorStore.links.find((link: Link) => {
         return (
           link.sourceInterfaceComponent === targetInterface ||
@@ -65,7 +68,7 @@ export const NotSameInterfaceInputDict = (nodeEditorStore: any): LinkRuleValidat
         })
       })
 
-      console.log('[FAILURE] NotSameInterfaceInput')
+      console.log('[FAILURE] '+ mainRule.getName())
     }
   )
 

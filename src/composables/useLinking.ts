@@ -6,7 +6,7 @@ import { getElementPositionOffset } from '../utils/InterfaceElement'
 import { InterfaceComponent } from '../types/InterfaceComponent'
 import { LinkBuilder } from '../types/Link'
 import { genId } from '../utils/utility'
-import { getLinkRuleDict } from '../types/link_rule_validation/LinkRuleDict'
+import { getLinkRuleDict } from '../types/link_rule_validation/link_rule_dict/LinkRuleDicts/GetLinkRuleDict'
 import { LinkRuleValidationDictManager } from '@/types/link_rule_validation/link_rule_dict/LinkRuleDictManager'
 
 interface LinkingInterfaces {

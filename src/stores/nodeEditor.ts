@@ -4,6 +4,7 @@ import { Position } from '../types/Position'
 import { NodeComponent } from '../types/node_component/NodeComponent'
 import { Link } from '../types/Link'
 import type { InterfaceComponent } from '../types/InterfaceComponent'
+import { ScopeManager } from '@/types/Scope/Scope'
 
 export const useNodeEditor = defineStore('node-editor', () => {
   const canZoom = ref(true)
@@ -13,6 +14,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
   const links = ref<Array<Link>>([])
   const panningPos = ref(new Position())
   const zIndexMax = ref(1)
+  const currentGlobalScope = ref(ScopeManager.getGlobalScope())
 
   // Actions
   const updateScale = (newScale: number) => {
@@ -21,6 +23,10 @@ export const useNodeEditor = defineStore('node-editor', () => {
 
   const updatePanningPos = (pos: Position) => {
     panningPos.value = pos
+  }
+
+  const setGlobalScope = (globalScopeId: string) => {
+    currentGlobalScope.value = ScopeManager.getGlobalScope(globalScopeId)
   }
 
   const addNode = (node: NodeComponent) => {
@@ -105,6 +111,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     nodes,
     updateScale,
     updatePanningPos,
+    currentGlobalScope,
     addNode,
     addLink,
     getInterfaceById,
@@ -115,6 +122,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     togglePanZoom,
     removeLinkByNode,
     removeLink,
-    isInterfaceConnected
+    isInterfaceConnected,
+    setGlobalScope
   }
 })
