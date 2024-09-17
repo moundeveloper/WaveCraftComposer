@@ -5,6 +5,12 @@ export interface DropDownFieldOptions {
   icon?: string
 }
 
+export enum InterfaceTypeE {
+  INPUT = 'input',
+  OPTION = 'option',
+  OUTPUT = 'output'
+}
+
 export enum UIComponentE {
   NUMBER_INPUT = 'NumberInput',
   TEXT_INPUT = 'TextInput',
@@ -26,6 +32,7 @@ export interface ComponentOptions {
   component?: UIComponentE
   value?: any
   values?: Array<DropDownFieldOptions>
+  updateHandler?: Function
 }
 
 export class InterfaceComponent {
@@ -36,5 +43,9 @@ export class InterfaceComponent {
     this.id = id
     this.options = options
     this.parentNode = parentNode
+  }
+
+  setUpdateHandler(updateHandler: Function) {
+    this.options.updateHandler = updateHandler
   }
 }

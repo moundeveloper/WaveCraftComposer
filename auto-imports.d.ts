@@ -9,6 +9,7 @@ declare global {
   const GroupRule: typeof import('./src/types/link_rule_validation/group_rules/GroupRule')['GroupRule']
   const InterfaceComponent: typeof import('./src/types/InterfaceComponent')['InterfaceComponent']
   const InterfaceComponentTypeE: typeof import('./src/types/InterfaceComponent')['InterfaceComponentTypeE']
+  const InterfaceTypeE: typeof import('./src/types/InterfaceComponent')['InterfaceTypeE']
   const InvalidInsertionError: typeof import('./src/types/link_rule_validation/Errors')['InvalidInsertionError']
   const IsVariableNode: typeof import('./src/types/link_rule_validation/group_rules/rules/IsVariableNode')['IsVariableNode']
   const IsVariableNodeGroupRule: typeof import('./src/types/link_rule_validation/group_rules/rules/IsVariableNode')['IsVariableNodeGroupRule']

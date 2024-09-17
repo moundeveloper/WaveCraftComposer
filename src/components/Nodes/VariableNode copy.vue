@@ -1,24 +1,91 @@
 <template>
-  <NodeLayout :node="node" :node-config="variableNodeConfig">
-    <template #header>
-      <span :style="[!allowNameEdit ? { pointerEvents: 'none', userSelect: 'none' } : '']" ref="variableNameContent"
-        :contenteditable="allowNameEdit" @keydown="handleKeyDown">{{ variableValues.variableName }}
-      </span>
-      <img src="../../assets/icons/edit-icon.svg" alt="" @click="handleEdit" />
-    </template>
+  <div class="node-header">
+    <img src="../../assets/icons/variable-icon.svg" alt="" />
+    <span
+      :style="[!allowNameEdit ? { pointerEvents: 'none', userSelect: 'none' } : '']"
+      ref="variableNameContent"
+      :contenteditable="allowNameEdit"
+      @keydown="handleKeyDown"
+      >{{ variableValues.variableName }}
+    </span>
+    <img src="../../assets/icons/edit-icon.svg" alt="" @click="handleEdit" />
+  </div>
 
-    <template #additional>
-      <button v-if="variableValues.VariableType === VariableType.ARRAY" class="primary-btn-c" @click="addArrayItem">
-        add array-item
-      </button>
-    </template>
-  </NodeLayout>
+  <!-- Output fields -->
+  <div v-for="outputInterface in node.outputInterfaces" class="node-field right-field">
+    <div class="field">
+      <FieldWraper
+        :field="{
+          data: {
+            interface: outputInterface,
+            options: outputInterface.options
+          }
+        }"
+      />
+    </div>
+    <div :id="outputInterface.id" class="interface out"></div>
+  </div>
+
+  <!-- Fields -->
+  <div v-for="optionInterface in node.optionInterfaces" class="node-field">
+    <div
+      v-if="optionInterface.options.label === InterfaceComponentTypeE.VARIABLE_TYPE"
+      class="field"
+    >
+      <FieldWraper
+        :field="{
+          data: {
+            interface: optionInterface,
+            options: optionInterface.options
+          },
+          updateHandler: handleVariableType
+        }"
+      />
+    </div>
+
+    <div v-if="optionInterface.options.label === InterfaceComponentTypeE.MUTABILITY" class="field">
+      <FieldWraper
+        :field="{
+          data: {
+            interface: optionInterface,
+            options: optionInterface.options
+          },
+          updateHandler: handleMutability
+        }"
+      />
+    </div>
+  </div>
+
+  <!-- Input fields -->
+  <div v-for="inputInterface in node.inputInterfaces" class="node-field left-field">
+    <div :id="inputInterface.id" class="interface in"></div>
+    <div class="field">
+      <FieldWraper
+        :field="{
+          data: {
+            interface: inputInterface,
+            options: inputInterface.options
+          },
+          updateHandler: (something: any) => {
+            console.log(something)
+          }
+        }"
+      />
+    </div>
+  </div>
+  <button
+    v-if="variableValues.VariableType === VariableType.ARRAY"
+    class="primary-btn-c"
+    @click="addArrayItem"
+  >
+    add array-item
+  </button>
 </template>
 
 <script setup lang="ts">
 import FieldWraper from '../Fields/FieldWraper.vue'
 import { useNodeEditor } from '../../stores/nodeEditor'
-import { InterfaceComponent, InterfaceComponentTypeE, InterfaceTypeE } from '../../types/InterfaceComponent'
+import { InterfaceComponent, InterfaceComponentTypeE } from '../../types/InterfaceComponent'
 import {
   VariableMutability,
   VariableNodeComponent,
@@ -26,9 +93,11 @@ import {
 } from '../../types/node_component/NodeComponent'
 import { genId } from '../../utils/utility'
 import { reactive, ref, watchEffect, watch } from 'vue'
+import { LinkRulesValidator } from '@/types/link_rule_validation/LinkRuleValidator'
+import { LinkRuleValidationProcessor } from '@/types/link_rule_validation/ProcessValidations'
+import { LinkRuleValidationDictManager } from '@/types/link_rule_validation/link_rule_dict/LinkRuleDictManager'
 import type { Link } from '@/types/Link'
 import { UIComponentE } from '../../types/InterfaceComponent'
-import NodeLayout from './NodeLayout.vue'
 
 const props = defineProps<{
   node: VariableNodeComponent
@@ -46,37 +115,13 @@ const variableValues = reactive({
   }
 })
 
-const variableNodeConfig = {
-  icon: "variable"
-}
-
+/* const VariableType = computed(() => props.node.variable.type) */
 
 const variableNameContent = ref<HTMLElement>()
 const allowNameEdit = ref(false)
 
-
-/* Bind interface-handler */
-const bindInterfaceHandler = () => {
-  const typeInterface = nodeEditorStore.getInterfaceByLabelFromNode(props.node, InterfaceTypeE.OPTION, 'type')
-  const mutabilityInterface = nodeEditorStore.getInterfaceByLabelFromNode(props.node, InterfaceTypeE.OPTION, 'mutability')
-  const valueInterface = nodeEditorStore.getInterfaceByLabelFromNode(props.node, InterfaceTypeE.INPUT, 'value')
-
-  console.log("typeInterface: ", typeInterface)
-  console.log("mutabilityInterface: ", mutabilityInterface)
-  console.log("valueInterface: ", valueInterface)
-
-  typeInterface?.setUpdateHandler(handleVariableType)
-  mutabilityInterface?.setUpdateHandler(handleMutability)
-  /* You have to unfortunately bind it to all of the variable type states :) and not just one interface ahahahah so this won't work xD*/
-  valueInterface?.setUpdateHandler(handleVariableValue)
-}
-
 const handleEdit = () => {
   allowNameEdit.value = !allowNameEdit.value
-}
-
-const handleVariableValue = (value: any) => {
-  console.log(value)
 }
 
 const handleVariableType = (type: any) => {
@@ -176,8 +221,6 @@ const addArrayItem = () => {
     )
   )
 }
-
-bindInterfaceHandler()
 
 watchEffect(() => {
   // Update node properties

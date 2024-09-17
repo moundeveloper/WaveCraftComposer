@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { Position } from '../types/Position'
 import { NodeComponent } from '../types/node_component/NodeComponent'
 import { Link } from '../types/Link'
-import type { InterfaceComponent } from '../types/InterfaceComponent'
+import { InterfaceTypeE, type InterfaceComponent } from '../types/InterfaceComponent'
 import { ScopeManager } from '@/types/Scope/Scope'
 
 export const useNodeEditor = defineStore('node-editor', () => {
@@ -42,6 +42,45 @@ export const useNodeEditor = defineStore('node-editor', () => {
 
   const addLink = (link: Link) => {
     links.value.push(link)
+  }
+
+  const getInterfaceByLabelFromNode = (
+    node: NodeComponent,
+    interfaceType: InterfaceTypeE,
+    label: string
+  ): InterfaceComponent | undefined => {
+    switch (interfaceType) {
+      case InterfaceTypeE.INPUT:
+        // Search in inputInterfaces
+        const inputInterface = node.inputInterfaces.find(
+          (inputInterface) => inputInterface.options.label === label
+        )
+        if (inputInterface) {
+          return inputInterface
+        }
+        break
+      case InterfaceTypeE.OPTION:
+        // Search in outputInterfaces
+        const optionInterface = node.optionInterfaces.find(
+          (optionInterface) => optionInterface.options.label === label
+        )
+        if (optionInterface) {
+          return optionInterface
+        }
+        break
+      case InterfaceTypeE.OUTPUT:
+        // Search in outputInterfaces
+        const outputInterface = node.outputInterfaces.find(
+          (outputInterface) => outputInterface.options.label === label
+        )
+        if (outputInterface) {
+          return outputInterface
+        }
+        break
+    }
+
+    // If the interface is not found, return undefined
+    return
   }
 
   const getInterfaceById = (interfaceIdToFind: string): InterfaceComponent | undefined => {
@@ -115,6 +154,7 @@ export const useNodeEditor = defineStore('node-editor', () => {
     addNode,
     addLink,
     getInterfaceById,
+    getInterfaceByLabelFromNode,
     getLinkInterfaceTarget,
     removeLinkByInterface,
     getNode,
