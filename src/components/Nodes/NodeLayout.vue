@@ -1,6 +1,6 @@
 <template>
   <!-- Header -->
-  <div class="node-header">
+  <div class="node-header" :style="computedStyle">
     <Icon :icon-name="nodeConfig.icon" />
     <slot name="header">
       <span>{{ node.name }}
@@ -57,15 +57,21 @@ import Icon from '../Icons/Icon.vue'
 import {
   VariableNodeComponent
 } from '../../types/node_component/NodeComponent'
+import { computed } from 'vue';
 
 interface NodeConfig {
-  icon: string
+  icon: string,
+  backgroundColor: string
 }
 
 const props = defineProps<{
   node: VariableNodeComponent,
   nodeConfig: NodeConfig
 }>()
+
+const computedStyle = computed(() => ({
+  backgroundColor: `var(${props.nodeConfig.backgroundColor})`
+}))
 
 </script>
 
@@ -79,7 +85,6 @@ span {
 
 .node-header {
   padding: 0.5rem 1rem;
-  background-color: #7fbb43;
   border-top-left-radius: 0.25rem;
   border-top-right-radius: 0.25rem;
   grid-column: 1/4;
@@ -94,6 +99,12 @@ span {
   color: var(--primary-color);
   font-weight: 600;
   text-transform: none;
+}
+
+.node-header span,
+.node-header svg {
+  pointer-events: none;
+  user-select: none;
 }
 
 .node-header img {

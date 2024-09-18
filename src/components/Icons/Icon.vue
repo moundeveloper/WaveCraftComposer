@@ -5,6 +5,7 @@
 <script setup lang="ts">
 import VariableIcon from './VariableIcon.vue';
 import PrintIcon from './PrintIcon.vue';
+import EditIcon from './EditIcon.vue';
 import { createHComponent } from '@/composables/createHElement';
 
 const props = defineProps<{
@@ -19,6 +20,10 @@ const Icon = () => {
             break
         case 'print':
             return createHComponent(PrintIcon)
+            break
+            break
+        case 'edit':
+            return createHComponent(EditIcon)
             break
             break
         default:

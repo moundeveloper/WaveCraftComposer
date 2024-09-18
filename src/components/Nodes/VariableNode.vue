@@ -1,10 +1,12 @@
 <template>
-  <NodeLayout :node="node" :node-config="variableNodeConfig">
+  <NodeLayout :node="node" :node-config="nodeConfig">
     <template #header>
       <span :style="[!allowNameEdit ? { pointerEvents: 'none', userSelect: 'none' } : '']" ref="variableNameContent"
         :contenteditable="allowNameEdit" @keydown="handleKeyDown">{{ variableValues.variableName }}
       </span>
-      <img src="../../assets/icons/edit-icon.svg" alt="" @click="handleEdit" />
+      <!--     <img src="../../assets/icons/edit-icon.svg" alt=""  /> -->
+
+      <Icon icon-name="edit" @click="handleEdit" />
     </template>
 
     <template #additional>
@@ -16,7 +18,6 @@
 </template>
 
 <script setup lang="ts">
-import FieldWraper from '../Fields/FieldWraper.vue'
 import { useNodeEditor } from '../../stores/nodeEditor'
 import { InterfaceComponent, InterfaceComponentTypeE, InterfaceTypeE } from '../../types/InterfaceComponent'
 import {
@@ -29,6 +30,7 @@ import { reactive, ref, watchEffect, watch } from 'vue'
 import type { Link } from '@/types/Link'
 import { UIComponentE } from '../../types/InterfaceComponent'
 import NodeLayout from './NodeLayout.vue'
+import Icon from '../Icons/Icon.vue'
 
 const props = defineProps<{
   node: VariableNodeComponent
@@ -46,8 +48,9 @@ const variableValues = reactive({
   }
 })
 
-const variableNodeConfig = {
-  icon: "variable"
+const nodeConfig = {
+  icon: "variable",
+  backgroundColor: "--light-green"
 }
 
 
@@ -68,6 +71,14 @@ const bindInterfaceHandler = () => {
   typeInterface?.setUpdateHandler(handleVariableType)
   mutabilityInterface?.setUpdateHandler(handleMutability)
   /* You have to unfortunately bind it to all of the variable type states :) and not just one interface ahahahah so this won't work xD*/
+
+  props.node.variableStates.forEach((variableState) => {
+    console.log("variableState: ", variableState)
+    variableState.inputInterfaces.forEach((inputInterface) => {
+      console.log("inputInterface: ", inputInterface)
+      /* big problem here */
+    })
+  })
   valueInterface?.setUpdateHandler(handleVariableValue)
 }
 
@@ -75,8 +86,9 @@ const handleEdit = () => {
   allowNameEdit.value = !allowNameEdit.value
 }
 
-const handleVariableValue = (value: any) => {
-  console.log(value)
+const handleVariableValue = (data: any) => {
+  props.node.currentVariable.value = data.value
+  console.log("value: ", data.value)
 }
 
 const handleVariableType = (type: any) => {
